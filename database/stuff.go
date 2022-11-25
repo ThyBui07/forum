@@ -16,6 +16,7 @@ import (
 	"log"
 	"net/http"
 	"net/http/cookiejar"
+	"os"
 	"strconv"
 	"time"
 
@@ -24,6 +25,14 @@ import (
 
 // Open database and  check for error
 func GetDB(database string) (db *sql.DB, err error) {
+	if _, err := os.Stat(database); err != nil {
+		_, err := os.Create(database)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+	db, err = sql.Open("sqlite3", database)
+	CheckErr(err)
 	switch {
 	case database == "users.db":
 		CreateUserTable(db)
@@ -35,8 +44,7 @@ func GetDB(database string) (db *sql.DB, err error) {
 		CreateCategoriesTable(db)
 
 	}
-	db, err = sql.Open("sqlite3", database)
-	CheckErr(err)
+
 	return db, err
 }
 
@@ -49,16 +57,13 @@ func CheckErr(err error) {
 
 // Checks if username exists in database
 func UserExists(db *sql.DB, username string, password string) bool {
-	rows, err := db.Query("SELECT id, username, email FROM users")
+	rows, err := db.Query("SELECT username, password FROM users")
 	CheckErr(err)
-	var id int
 	var u string
-	var email string
 	var p string
 	for rows.Next() {
-		rows.Scan(&id, &u, &email, &p)
+		rows.Scan(&u, &p)
 		if u == username && p == password {
-			fmt.Println(u, username)
 			return true
 		}
 	}
@@ -86,15 +91,16 @@ func InsertInUsers(database *sql.DB, u string, e string, p string) {
 
 // Go through the table and print content
 func PrintTable(database *sql.DB) {
-	rows, err := database.Query("SELECT id, username, email FROM users")
+	rows, err := database.Query("SELECT id, username, email, password FROM users")
 	CheckErr(err)
 
 	var id int
 	var username string
 	var email string
+	var password string
 	for rows.Next() {
-		rows.Scan(&id, &username, &email)
-		fmt.Println(strconv.Itoa(id) + ": " + username + " " + email)
+		rows.Scan(&id, &username, &email, &password)
+		fmt.Println(strconv.Itoa(id) + ": " + username + " " + email + " " + password)
 	}
 }
 

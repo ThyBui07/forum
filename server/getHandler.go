@@ -4,16 +4,33 @@ import (
 	"fmt"
 	d "forum/database"
 	"net/http"
+	"time"
 )
+
+type Data struct {
+	Logged     Logged
+	Categories []Category
+}
 
 type Logged struct {
 	Username string
-	LoggedIn bool
 }
 
-type Categories struct {
-	Title string
+type Category struct {
+	id       int
+	Title    string
+	NumPosts int
+	Posts    []Post
 }
+
+type Post struct {
+	id      int
+	Title   string
+	Content string
+}
+
+var Categories []Category
+var data Data
 
 func GetRequest(w http.ResponseWriter, r *http.Request) {
 
@@ -25,20 +42,11 @@ func GetRequest(w http.ResponseWriter, r *http.Request) {
 		errHandlers(w, r, http.StatusInternalServerError)
 		return
 	}
+	PopulateCategories()
 
-	/* 	c := []Categories{}
-	   	dbc, err := d.GetDB("categories.db")
-	   	time.Sleep(2 * time.Second)
-	   	d.InsertInCategories(dbc, "first", "62oz")
-	   	titles := d.GetCategories(dbc)
-	   	for i := range titles {
-	   		temp := Categories{}
-	   		temp.Title = titles[i]
-	   		c = append(c, temp)
-	   	}
-	   	d.CheckErr(err) */
-
-	tpl.ExecuteTemplate(w, "home.html", nil)
+	data.Categories = Categories
+	err := tpl.ExecuteTemplate(w, "home.html", data)
+	d.CheckErr(err)
 }
 
 func Login(w http.ResponseWriter, r *http.Request) {
@@ -52,7 +60,7 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 	tpl.ExecuteTemplate(w, "signup.html", nil)
 }
 
-func Home(w http.ResponseWriter, r *http.Request) {
+func HomeAfterSignup(w http.ResponseWriter, r *http.Request) {
 	username := r.PostFormValue("Susername")
 	fmt.Println("user", username)
 	email := r.PostFormValue("Semail")
@@ -65,7 +73,7 @@ func Home(w http.ResponseWriter, r *http.Request) {
 	tpl.ExecuteTemplate(w, "home.html", nil)
 }
 
-func HomeNew(w http.ResponseWriter, r *http.Request) {
+func HomeAfterLogin(w http.ResponseWriter, r *http.Request) {
 	//Login stuff
 	l := Logged{}
 	username := r.PostFormValue("Lusername")
@@ -81,10 +89,31 @@ func HomeNew(w http.ResponseWriter, r *http.Request) {
 	//Launching templates
 	if d.UserExists(db, username, password) {
 		l.Username = username
-		l.LoggedIn = true
-		tpl.ExecuteTemplate(w, "home.html", l)
+		tpl.ExecuteTemplate(w, "logged_home.html", l)
 	} else {
-		l.LoggedIn = false
 		tpl.ExecuteTemplate(w, "wronglogin.html", nil)
 	}
+}
+
+func ViewCategory(w http.ResponseWriter, r *http.Request) {
+
+	tpl.ExecuteTemplate(w, "category.html", Categories)
+
+}
+
+func PopulateCategories() {
+
+	dbc, err := d.GetDB("categories.db")
+	time.Sleep(2 * time.Second)
+	d.InsertInCategories(dbc, "first", "62oz")
+	titles := d.GetCategories(dbc)
+	for i := range titles {
+		temp := Category{}
+		temp.Title = titles[i]
+		temp.NumPosts = 0
+		temp.id = i
+		Categories = append(Categories, temp)
+	}
+	d.CheckErr(err)
+
 }

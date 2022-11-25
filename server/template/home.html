@@ -4,39 +4,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="static/home.css" type="text/css" rel="stylesheet" />
+    <!-- <link href="static/home.css" type="text/css" rel="stylesheet" /> -->
     <title>Forum</title>
 </head>
-<body>
+<body class="body">
     <!-- NAV BAR / HEADER -->
     <header>
-        <!-- {{ $logged := .loggedIn}} -->
         <div class="navbar">
             <!-- LOGO PIC: STILL NOT WORKING -->
             <a href="/">
                 <img src="https://document-export.canva.com/Z7HS4/DAFS5rZ7HS4/1/thumbnail/0001.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQYCGKMUHWDTJW6UD%2F20221124%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20221124T090554Z&X-Amz-Expires=53206&X-Amz-Signature=a281585d851133805fe5a1160205a63fade61f6f3f12d239b41004a8d7ea1b9a&X-Amz-SignedHeaders=host&response-expires=Thu%2C%2024%20Nov%202022%2023%3A52%3A40%20GMT" weight="50" height="50" alt="logo"/>
             </a>
-            <!-- IF LOGGED -->
-            {{if .LoggedIn}}
-            {{$user := .Username}}
-            LOGGED
-            <!-- IF LOGGED: SHOW USERNAME + LOGOUT BUTTON -->
-            <div class="logged">
-                <a href="/users/{{$user.ID}}" class="account">
-                    <span>{{$user.Name}}</span>
-                </a>
-                <a href="/logout" class="logout">
-                    <input type="button" class="btt" value="Log Out">
-                </a>
-            </div>
-            {{else}}
-            NOT LOGGED
-            <!-- ELSE -->
-            <!--<div class="searchbar">
-                <form action="/search/" autocomplete="off" method="GET" role="search">
-                    <input type="search" id="header-search-bar" placeholder="Search..." value>
-                </form>
-            </div>-->
+          
             <div class="notlogged">
                 <a href="/signup">
                     <input type="button" class="btt" value="Sign Up">
@@ -45,31 +24,17 @@
                     <input type="button" class="btt" value="Login">
                 </a>
             </div>
-            {{end}}
         </div>
     </header>
 
     <!-- MAIN FEED -->
     <main>
-    <!-- CATEGORIES -->
-    {{ $categories := .Categories }}
-    <div class="categories">
-        <p>Categories:</p>
-        <div>
-            <ul class="catlist">
-                {{if $categories}} {{range $category := $categories}}
-                <a href="/?f={{$category.ID}}">
-                    <span>
-                        {{$category.Title}}
-                    </span>
-                </a>
-                {{end}} {{else}}
-                <p style="color:white">It's empty. Log in to post!</p>
-                {{end}}
-            </ul>
-        </div>
-    </div>
-     <!-- POSTS -->
+        CATEGORIES:
+        {{ range .Categories }}
+        <a href="/category">
+            <p>Title: {{ .Title }}, N# posts: {{ .NumPosts }}</p>
+        </a>
+        {{ end }}
     </main>
 
     <!-- FOOTER -->

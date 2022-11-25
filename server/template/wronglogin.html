@@ -4,29 +4,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="static/login.css" type="text/css" rel="stylesheet" />
     <title>Login</title>
 </head>
 <body>
-    <form>
-        <img src ="">
-         
-        <div class ="input-container">
-            <i class ="icon"></i>
-            <input id="Lusername" class ="input-field" type ="text" placeholder ="Username">
-        </div>
-         
-        <div class ="input-container">
-            <i class ="icon"></i>
-            <input id="Lemail" class ="input-field" type ="text" placeholder ="Email">
-        </div>
-         
-        <div class ="input-container">
-            <i class ="icon"></i>
-            <input id="Lpassword" class ="input-field" type ="password" placeholder ="Password">
-        </div>
-        <button type ="submit" class ="btt"> Log In</button>
+    <form action="/homenew" method="POST" class="login">
+        <h1>LogIn</h1>
+        <input type="text" name="Lusername" id="Lusername" placeholder="Username" class="text-input">
+        <input type="password" name="Lpassword" id="Lemail" placeholder="Password" class="text-input">
+        <input type="submit" value="Login" class="btt">
     </form>
     WRONG USERNAME OR PASSWORD
-    </body>
+    <!--New to Reddit? Sign Up-->
+    <!--Return to main page-->
 </body>
 </html>
