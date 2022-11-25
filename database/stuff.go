@@ -112,7 +112,7 @@ func CreateTopicTable(database *sql.DB) {
 }
 
 func CreatePostsTable(database *sql.DB) {
-	statement, err := database.Prepare("CREATE TABLE IF NOT EXISTS posts (id INTEGER PRIMARY KEY, topic TEXT, username TEXT, content TEXT)")
+	statement, err := database.Prepare("CREATE TABLE IF NOT EXISTS posts (id INTEGER PRIMARY KEY, title TEXT, author TEXT, content TEXT, category TEXT)")
 	CheckErr(err)
 	statement.Exec()
 }
@@ -131,6 +131,14 @@ func InsertInCategories(database *sql.DB, title string, author string) {
 
 }
 
+func InsertInPosts(database *sql.DB, title string, author string, content string, category string) {
+
+	statement, err := database.Prepare("INSERT INTO posts (title, author, content, category) VALUES (?, ?, ?, ?)")
+	CheckErr(err)
+	statement.Exec(title, author, content, category)
+
+}
+
 func GetCategories(database *sql.DB) []string {
 	rows, err := database.Query("SELECT id, title, author FROM categories")
 	CheckErr(err)
@@ -144,6 +152,39 @@ func GetCategories(database *sql.DB) []string {
 		c = append(c, title)
 	}
 	return c
+}
+
+type Post struct {
+	Id       int
+	Title    string
+	Content  string
+	Author   string
+	Category string
+}
+
+func GetPostsOfCategory(database *sql.DB, category string) []Post {
+	rows, err := database.Query("SELECT id, title, author, content, category FROM categories")
+	CheckErr(err)
+
+	var ps []Post
+	var id int
+	var title string
+	var username string
+	var content string
+	var c string
+	for rows.Next() {
+		rows.Scan(&id, &title, &username, &content, &c)
+		if c == category {
+			var temp Post
+			temp.Content = content
+			temp.Id = id
+			temp.Title = title
+			temp.Author = username
+			temp.Category = c
+			ps = append(ps, temp)
+		}
+	}
+	return ps
 }
 
 type Cookie struct {

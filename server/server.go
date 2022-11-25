@@ -22,7 +22,7 @@ func Start() error {
 	http.HandleFunc("/home", HomeAfterSignup)
 	http.HandleFunc("/signup", Signup)
 	http.HandleFunc("/homenew", HomeAfterLogin)
-	http.HandleFunc("/category", ViewCategory)
+	http.HandleFunc("/category", GetCategoryById)
 	//open port- listen
 	log.Println("Starting server port 8080 (http://localhost:8080/)")
 	err := http.ListenAndServe(":8080", nil)

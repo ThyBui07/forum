@@ -7,15 +7,11 @@
     <title>Document</title>
 </head>
 <body>
-
-    <!-- SOMETHING LIKE THIS
-    {{ range . }}
-    {{ if id == id}}
-        {{range .}}
-            Post: {{}}
-        {{ end }}
-    {{ end }}
-    {{ end }} -->
+    CATEGORY: {{ .Title }}
+    POSTS IN THIS CATEGORY:
+    {{ range .Posts }}
+        <p> {{ .Title }} </p>
+    {{ end}}
     
 </body>
 </html>
