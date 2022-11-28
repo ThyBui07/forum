@@ -2,12 +2,10 @@ package main
 
 import (
 	. "forum/server"
-	"log"
+	u "forum/utils"
 )
 
 func main() {
 	err := Start()
-	if err != nil {
-		log.Fatal(err)
-	}
+	u.CheckErr(err)
 }

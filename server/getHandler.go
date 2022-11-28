@@ -3,34 +3,11 @@ package forum
 import (
 	"fmt"
 	d "forum/database"
+	u "forum/utils"
 	"net/http"
 )
 
-type Data struct {
-	Logged     Logged
-	Categories []Category
-}
-
-type Logged struct {
-	Username string
-}
-
-type Category struct {
-	Id       int
-	Title    string
-	NumPosts int
-	Posts    []d.Post
-}
-
-type Post struct {
-	Id      int
-	Title   string
-	Content string
-	Author  string
-}
-
 var Categories []Category
-var data Data
 
 func GetRequest(w http.ResponseWriter, r *http.Request) {
 
@@ -44,9 +21,8 @@ func GetRequest(w http.ResponseWriter, r *http.Request) {
 	}
 	PopulateCategories()
 
-	data.Categories = Categories
-	err := tpl.ExecuteTemplate(w, "home.html", data)
-	d.CheckErr(err)
+	err := tpl.ExecuteTemplate(w, "home.html", Categories)
+	u.CheckErr(err)
 }
 
 func Login(w http.ResponseWriter, r *http.Request) {
@@ -68,28 +44,28 @@ func HomeAfterSignup(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println("new user:", username)
 	db, err := d.GetDB("users.db")
-	d.CheckErr(err)
-	d.InsertInUsers(db, username, email, password)
+	u.CheckErr(err)
+	info := d.InsertInUsers(db, username, email, password)
+	fmt.Println(info)
 	tpl.ExecuteTemplate(w, "home.html", nil)
 }
 
 func HomeAfterLogin(w http.ResponseWriter, r *http.Request) {
 	//Login stuff
-	l := Logged{}
+	user := User{}
 	username := r.PostFormValue("Lusername")
 	password := r.PostFormValue("Lpassword")
-	fmt.Println("user", username)
 	db, err := d.GetDB("users.db")
-	d.CheckErr(err)
+	u.CheckErr(err)
 	d.PrintTable(db)
-	fmt.Println(d.UserExists(db, username, password))
+	fmt.Println(d.UserAuth(db, username, password))
 
 	//Loading Categories
 
 	//Launching templates
-	if d.UserExists(db, username, password) {
-		l.Username = username
-		tpl.ExecuteTemplate(w, "logged_home.html", l)
+	if d.UserAuth(db, username, password) {
+		user.Username = username
+		tpl.ExecuteTemplate(w, "logged_home.html", user)
 	} else {
 		tpl.ExecuteTemplate(w, "wronglogin.html", nil)
 	}
@@ -113,11 +89,11 @@ func PopulateCategories() {
 		temp.Id = i
 		Categories = append(Categories, temp)
 	}
-	d.CheckErr(err)
+	u.CheckErr(err)
 
 }
 
-var Posts []d.Post
+var Posts []Post
 
 func PopulatePosts(c Category) {
 
@@ -134,7 +110,7 @@ func PopulatePosts(c Category) {
 		}
 	}
 	fmt.Println(Categories)
-	d.CheckErr(err)
+	u.CheckErr(err)
 
 }
 
