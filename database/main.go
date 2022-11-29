@@ -12,13 +12,15 @@ package database
 
 import (
 	"database/sql"
+	"fmt"
 	u "forum/utils"
+	"log"
 
 	_ "github.com/mattn/go-sqlite3"
 )
 
 // Open database or creates it if it doesn't exist
-func GetDB(database string) (*sql.DB, error) {
+func GetDB(database string) *sql.DB {
 
 	db, err := sql.Open("sqlite3", database)
 	u.CheckErr(err)
@@ -71,7 +73,11 @@ func GetDB(database string) (*sql.DB, error) {
 		PostID INTEGER NOT NULL,
 		ImageURL TEXT NOT NULL,
 		FOREIGN KEY(PostID) REFERENCES POSTS(ID) ON DELETE CASCADE);`)
-	u.CheckErr(err)
+
+	if err != nil {
+		fmt.Println("Error creating database.")
+		log.Fatal(err)
+	}
 
 	_, err = db.Exec(`
 	INSERT INTO "main"."Categories" ("Name")
@@ -84,5 +90,10 @@ func GetDB(database string) (*sql.DB, error) {
 		("Raw is Law")
 		("Year-round holidays")
 	`)
-	return db, err
+
+	if err != nil {
+		fmt.Println("Error initialising categories.")
+		log.Fatal(err)
+	}
+	return db
 }

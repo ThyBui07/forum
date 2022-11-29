@@ -15,7 +15,14 @@
             <a href="/">
                 <img src="https://document-export.canva.com/Z7HS4/DAFS5rZ7HS4/1/thumbnail/0001.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQYCGKMUHWDTJW6UD%2F20221124%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20221124T090554Z&X-Amz-Expires=53206&X-Amz-Signature=a281585d851133805fe5a1160205a63fade61f6f3f12d239b41004a8d7ea1b9a&X-Amz-SignedHeaders=host&response-expires=Thu%2C%2024%20Nov%202022%2023%3A52%3A40%20GMT" weight="50" height="50" alt="logo"/>
             </a>
+
+            {{ if .Logged.Success}}
+            <div class="logged">
+                WELCOME <a href="/profile.html">{{ .Logged.User.Username }}</a>!
+            </div>
+            {{ end }}
           
+            {{ if not .Logged.Success }}
             <div class="notlogged">
                 <a href="/signup">
                     <input type="button" class="btt" value="Sign Up">
@@ -24,17 +31,26 @@
                     <input type="button" class="btt" value="Login">
                 </a>
             </div>
+            {{ end }}
         </div>
     </header>
 
     <!-- MAIN FEED -->
     <main>
-        CATEGORIES:
-        {{ range .Categories }}
-        <a href="/category">
-            <p>Title: {{ .Title }}, N# posts: {{ .NumPosts }}</p>
-        </a>
-        {{ end }}
+        <div class = "Categories">
+            CATEGORIES:
+            {{ range .Categories }}
+                <p>Title: {{ .Title }}, N# posts: {{ .NumPosts }}</p>
+            {{ end }}
+        </div>
+        <div class = "Posts">
+            POSTS:
+            {{ range .Posts }}
+                <p>Title: {{ .Title  }}</p>
+            {{ else }}
+                Zero posts currently.
+            {{ end }}
+        </div>
     </main>
 
     <!-- FOOTER -->

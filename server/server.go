@@ -1,15 +1,19 @@
-package forum
+package handlers
 
 import (
+	"database/sql"
+	d "forum/database"
 	"html/template"
 	"log"
 	"net/http"
 )
 
 var tpl *template.Template
+var Database *sql.DB
 
 func init() {
 	tpl = template.Must(template.ParseGlob("server/template/*.html"))
+	Database = d.GetDB("forum.db")
 }
 
 func Start() error {
@@ -19,10 +23,9 @@ func Start() error {
 	//get request
 	http.HandleFunc("/", GetRequest)
 	http.HandleFunc("/login", Login)
-	http.HandleFunc("/home", HomeAfterSignup)
+	http.HandleFunc("/home", SignUpRedirect)
 	http.HandleFunc("/signup", Signup)
-	http.HandleFunc("/homenew", HomeAfterLogin)
-	http.HandleFunc("/category", GetCategoryById)
+	http.HandleFunc("/home", LoginRedirect)
 	//open port- listen
 	log.Println("Starting server port 8080 (http://localhost:8080/)")
 	err := http.ListenAndServe(":8080", nil)

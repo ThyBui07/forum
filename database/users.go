@@ -51,19 +51,19 @@ func EmailExists(db *sql.DB, email string) bool {
 }
 
 // Inserts new username and email if they don't exist
-func InsertInUsers(database *sql.DB, username string, e string, p string) string {
+func InsertInUsers(database *sql.DB, username string, e string, p string) bool {
 	if !UserExists(database, username) && !EmailExists(database, e) {
 		statement, err := database.Prepare("INSERT INTO Users (username, email, password) VALUES (?, ?, ?)")
 		u.CheckErr(err)
 		statement.Exec(username, e, p)
-		return "New user added."
+		return true
 	}
-	return "Username/Email already registered."
+	return false
 }
 
 // Get all users
 func GetUsers(db *sql.DB) []u.User {
-	rows, err := db.Query(`SELECT ID, Username FROM Users`)
+	rows, err := db.Query(`SELECT ID, Username, Email, Password FROM Users`)
 	u.CheckErr(err)
 	defer rows.Close()
 
@@ -71,7 +71,7 @@ func GetUsers(db *sql.DB) []u.User {
 
 	for rows.Next() {
 		var user u.User
-		err = rows.Scan(&user.ID, &user.Username)
+		err = rows.Scan(&user.ID, &user.Username, &user.Email, &user.Password)
 		u.CheckErr(err)
 		AllUsers = append(AllUsers, user)
 	}
@@ -86,12 +86,12 @@ func GetUsers(db *sql.DB) []u.User {
 // Get user by ID
 func GetUserByID(db *sql.DB, UserID int) u.User {
 	var user u.User
-	rows, err := db.Query(`SELECT ID, Username FROM Users WHERE ID = ?`, UserID)
+	rows, err := db.Query(`SELECT ID, Username, Email, Password FROM Users WHERE ID = ?`, UserID)
 	u.CheckErr(err)
 	defer rows.Close()
 
 	if rows.Next() {
-		err = rows.Scan(&user.ID, &user.Username)
+		err = rows.Scan(&user.ID, &user.Username, &user.Email, &user.Password)
 		if err != nil {
 			fmt.Println("Get user by ID error (Scan):", err)
 			return user
@@ -100,6 +100,29 @@ func GetUserByID(db *sql.DB, UserID int) u.User {
 
 	if err = rows.Err(); err != nil {
 		fmt.Println("Get user by ID error:", err)
+		return user
+	}
+
+	return user
+}
+
+// Get user by Username
+func GetUserByUsername(db *sql.DB, Username string) u.User {
+	var user u.User
+	rows, err := db.Query(`SELECT ID, Username, Email, Password FROM Users WHERE Username = ?`, Username)
+	u.CheckErr(err)
+	defer rows.Close()
+
+	if rows.Next() {
+		err = rows.Scan(&user.ID, &user.Username, &user.Email, &user.Password)
+		if err != nil {
+			fmt.Println("Get user by Username error (Scan):", err)
+			return user
+		}
+	}
+
+	if err = rows.Err(); err != nil {
+		fmt.Println("Get user by Username error:", err)
 		return user
 	}
 
