@@ -1,0 +1,111 @@
+package database
+
+import (
+	"database/sql"
+	"fmt"
+	u "forum/server/utils"
+	"time"
+
+	uuid "github.com/gofrs/uuid"
+)
+
+// Insert Session
+func InsertSession(db *sql.DB, sesh u.Session) uuid.UUID {
+	var err error
+	sesh.UUID, err = uuid.NewV4()
+	if err != nil {
+		fmt.Println("Insert sesh uuid.NewV4 error:", err)
+		return sesh.UUID
+	}
+	sesh.ExpDate = time.Now().Add(time.Hour * 2).Unix()
+	statement, err := db.Prepare(`INSERT INTO Sessions (UserID, UUID, ExpDate) VALUES (?, ?, ?)`)
+	if err != nil {
+		fmt.Println("Insert session Prepare error:", err)
+		return sesh.UUID
+	}
+	defer statement.Close()
+
+	_, err = statement.Exec(sesh.UserID, sesh.UUID, sesh.ExpDate)
+	if err != nil {
+		fmt.Println("Insert session Exec error:", err)
+		return sesh.UUID
+	}
+	return sesh.UUID
+}
+
+// Update sesh
+func UpdateSession(db *sql.DB, sesh u.Session) {
+	statement, err := db.Prepare(`UPDATE Sessions SET UUID = ?, ExpDate = ? WHERE UserID = ?`)
+	if err != nil {
+		fmt.Println("Update session Prepare error:", err)
+		return
+	}
+	defer statement.Close()
+
+	_, err = statement.Exec(sesh.UUID, sesh.ExpDate, sesh.UserID)
+	if err != nil {
+		fmt.Println("Update session Exec rerror:", err)
+		return
+	}
+}
+
+// Update sesh time
+func UpdateSessionTime(db *sql.DB, sesh u.Session) {
+	statement, err := db.Prepare(`UPDATE Sessions SET ExpDate = ? WHERE UserID = ?`)
+	if err != nil {
+		fmt.Println("Update session Prepare error:", err)
+		return
+	}
+	defer statement.Close()
+
+	_, err = statement.Exec(sesh.ExpDate, sesh.UserID)
+	if err != nil {
+		fmt.Println("Update session Exec rerror:", err)
+		return
+	}
+}
+
+// Checks if session is expired
+func IsExpired(db *sql.DB, sesh u.Session) bool {
+	return sesh.ExpDate < time.Now().Unix()
+}
+
+// Get session
+func GetSession(db *sql.DB, UUID string) u.Session {
+	var session u.Session
+	rows, err := db.Query(`SELECT ID, UserID, UUID, ExpDate FROM Sessions WHERE UUID = ?`, UUID)
+	if err != nil {
+		fmt.Println("Get session Query error:", err)
+		return session
+	}
+	defer rows.Close()
+
+	if rows.Next() {
+		err = rows.Scan(&session.ID, &session.UserID, &session.UUID, &session.ExpDate)
+		if err != nil {
+			fmt.Println("Get session Scan error:", err)
+		}
+	}
+
+	if err = rows.Err(); err != nil {
+		fmt.Println("Get session rows error:", err)
+		return session
+	}
+	return session
+}
+
+// Delete session
+func DeleteSession(db *sql.DB, UUID string) {
+	statement, err := db.Prepare(`DELETE FROM Sessions WHERE UUID = ?`)
+	if err != nil {
+		fmt.Println("Delete session Prepare error:", err)
+		return
+	}
+	defer statement.Close()
+
+	_, err = statement.Exec(UUID)
+	if err != nil {
+		fmt.Println("Delete session Exec error:", err)
+		return
+	}
+}
