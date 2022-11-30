@@ -13,7 +13,7 @@ package database
 import (
 	"database/sql"
 	"fmt"
-	u "forum/utils"
+	u "forum/server/utils"
 	"log"
 
 	_ "github.com/mattn/go-sqlite3"

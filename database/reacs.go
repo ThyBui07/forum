@@ -3,7 +3,7 @@ package database
 import (
 	"database/sql"
 	"fmt"
-	u "forum/utils"
+	u "forum/server/utils"
 )
 
 // Count likes/dislikes (lord) of post (id)

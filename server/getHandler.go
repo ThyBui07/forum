@@ -1,15 +1,17 @@
 package handlers
 
 import (
+	"encoding/json"
+	"fmt"
 	d "forum/database"
-	u "forum/utils"
+	u "forum/server/utils"
 	"net/http"
 )
 
 type Data struct {
 	Categories []u.Category
 	Posts      []u.Post
-	Logged     Logged
+	/* Logged     Logged */
 }
 
 var Send Data
@@ -17,6 +19,12 @@ var Send Data
 func GetRequest(w http.ResponseWriter, r *http.Request) {
 
 	Categories := d.GetCategories(Database)
+	b, err := json.Marshal(Categories)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(string(b))
 	Posts := d.GetPosts(Database)
 
 	Send.Categories = Categories
@@ -27,12 +35,15 @@ func GetRequest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if tpl == nil {
+		fmt.Println("1")
 		errHandlers(w, r, http.StatusInternalServerError)
 		return
 	}
 
-	err := tpl.ExecuteTemplate(w, "home.html", Send)
+	err = tpl.ExecuteTemplate(w, "home.html", Send)
 	if err != nil {
+		fmt.Println("2")
+
 		errHandlers(w, r, http.StatusInternalServerError)
 	}
 }
