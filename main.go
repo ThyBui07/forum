@@ -2,7 +2,7 @@ package main
 
 import (
 	. "forum/server"
-	u "forum/utils"
+	u "forum/server/utils"
 )
 
 func main() {

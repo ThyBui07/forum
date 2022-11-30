@@ -1,8 +1,10 @@
 package handlers
 
 import (
+	"encoding/json"
+	"fmt"
 	d "forum/database"
-	u "forum/utils"
+	u "forum/server/utils"
 	"net/http"
 )
 
@@ -17,6 +19,12 @@ var Send Data
 func GetRequest(w http.ResponseWriter, r *http.Request) {
 
 	Categories := d.GetCategories(Database)
+	b, err := json.Marshal(Categories)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(string(b))
 	Posts := d.GetPosts(Database)
 
 	Send.Categories = Categories
@@ -31,7 +39,7 @@ func GetRequest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err := tpl.ExecuteTemplate(w, "home.html", Send)
+	err = tpl.ExecuteTemplate(w, "home.html", Send)
 	if err != nil {
 		errHandlers(w, r, http.StatusInternalServerError)
 	}

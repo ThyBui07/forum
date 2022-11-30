@@ -3,7 +3,7 @@ package handlers
 import (
 	"fmt"
 	d "forum/database"
-	u "forum/utils"
+	u "forum/server/utils"
 	"net/http"
 )
 

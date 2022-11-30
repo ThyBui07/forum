@@ -10,53 +10,53 @@ import (
 
 // User :)
 type User struct {
-	ID       int
-	Username string
-	Email    string
-	Password string
+	ID       int    `json:"id"`
+	Username string `json:"username"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
 }
 
 // Category :O
 type Category struct {
-	Id       int
-	Title    string
-	NumPosts int
-	Posts    []Post
+	Id       int    `json:"id"`
+	Title    string `json:"title"`
+	NumPosts int    `json:"numPosts"`
+	Posts    []Post `json:"posts"`
 }
 
 // Post :D
 type Post struct {
-	ID         int
-	AuthorID   int
-	Title      string
-	Content    string
-	CategoryID int
-	Date       string
-	ImageID    string
+	ID         int    `json:"id"`
+	AuthorID   int    `json:"author id"`
+	Title      string `json:"title"`
+	Content    string `json:"content"`
+	CategoryID int    `json:"category id"`
+	Date       string `json:"date"`
+	ImageURL   string `json:"image src"`
 }
 
 // Comment c:
 type Comment struct {
-	ID       int
-	AuthorID int
-	PostID   int
-	Content  string
+	ID       int    `json:"id"`
+	AuthorID int    `json:"author id"`
+	PostID   int    `json:"post id"`
+	Content  string `json:"content"`
 }
 
 // Like or Dislike >:(
 type Reac struct {
-	ID        int
-	LorD      int
-	AuthorID  int
-	PostID    int
-	CommentID int
+	ID        int `json:"id"`
+	LorD      int `json:"like or dislike"`
+	AuthorID  int `json:"author id"`
+	PostID    int `json:"post id"`
+	CommentID int `json:"comment id"`
 }
 
 // Image :$
 type Image struct {
-	ID       int
-	PostID   int
-	ImageURL string
+	ID       int    `json:"id"`
+	PostID   int    `json:"post id"`
+	ImageURL string `json:"image src"`
 }
 
 // >>>>>>>>>> Stuff I'm still figuring out
