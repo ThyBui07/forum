@@ -14,7 +14,9 @@ type Logged struct {
 
 // To login page
 func Login(w http.ResponseWriter, r *http.Request) {
-	err := tpl.ExecuteTemplate(w, "login.html", nil)
+	Send.Logged.Success = true
+
+	err := tpl.ExecuteTemplate(w, "login.html", Send)
 	if err != nil {
 		errHandlers(w, r, http.StatusInternalServerError)
 	}
@@ -72,6 +74,8 @@ func LoginRedirect(w http.ResponseWriter, r *http.Request) {
 		}
 	} else {
 		err := tpl.ExecuteTemplate(w, "login.html", nil)
+		l.Success = false
+		Send.Logged = l
 		if err != nil {
 			errHandlers(w, r, http.StatusInternalServerError)
 		}

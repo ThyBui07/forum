@@ -25,7 +25,8 @@ func Start() error {
 	http.HandleFunc("/login", Login)
 	http.HandleFunc("/home", SignUpRedirect)
 	http.HandleFunc("/signup", Signup)
-	http.HandleFunc("/home", LoginRedirect)
+	http.HandleFunc("/home_welcome", LoginRedirect)
+	http.HandleFunc("/create_post", CreatePost)
 	//open port- listen
 	log.Println("Starting server port 8080 (http://localhost:8080/)")
 	err := http.ListenAndServe(":8080", nil)

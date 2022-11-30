@@ -44,7 +44,7 @@ func GetDB(database string) *sql.DB {
 		Content BLOB NOT NULL,
 		Date TEXT NOT NULL,
 		CategoryID INTEGER NOT NULL,
-		FOREIGN KEY(CategoryID) REFERENCER Categories(ID) ON DELECTE CASCADE,
+		FOREIGN KEY(CategoryID) REFERENCES Categories(ID) ON DELETE CASCADE,
 		FOREIGN KEY(AuthorID) REFERENCES Users(ID) ON DELETE CASCADE);
 	CREATE TABLE IF NOT EXISTS Comments (
 		ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
@@ -80,15 +80,15 @@ func GetDB(database string) *sql.DB {
 	}
 
 	_, err = db.Exec(`
-	INSERT INTO "main"."Categories" ("Name")
+	INSERT OR IGNORE INTO "main"."Categories" ("Name")
 	VALUES
-		("Pasta everdyday")
-		("Meat lovers")
-		("Vegan delight")
-		("#HEALTHY")
-		("Sweet stuff")
-		("Raw is Law")
-		("Year-round holidays")
+		("Pasta everdyday"),
+		("Meat lovers"),
+		("Vegan delight"),
+		("#HEALTHY"),
+		("Sweet stuff"),
+		("Raw is Law"),
+		("Year-round holidays");
 	`)
 
 	if err != nil {

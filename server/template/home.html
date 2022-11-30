@@ -18,7 +18,10 @@
 
             {{ if .Logged.Success}}
             <div class="logged">
-                WELCOME <a href="/profile.html">{{ .Logged.User.Username }}</a>!
+                WELCOME <a href="/profile">{{ .Logged.User.Username }}</a>!
+            </div>
+            <div>
+                <a href="/create_post">Create post</a>
             </div>
             {{ end }}
           
@@ -48,11 +51,11 @@
             {{ range .Posts }}
                 <p>Title: {{ .Title  }}</p>
             {{ else }}
-                Zero posts currently.
+                <p>Zero posts currently.</p>
             {{ end }}
         </div>
     </main>
-
+    <br><br>
     <!-- FOOTER -->
     <footer>
         <div role="contentinfo">All rights reserved © 2022</div>
