@@ -24,7 +24,12 @@ func GetRequest(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 		return
 	}
+	fmt.Println("work")
 	fmt.Println(string(b))
+
+	//Fix the CORS
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Write(b)
 	Posts := d.GetPosts(Database)
 
 	Send.Categories = Categories
@@ -34,16 +39,15 @@ func GetRequest(w http.ResponseWriter, r *http.Request) {
 		errHandlers(w, r, http.StatusNotFound)
 		return
 	}
-	if tpl == nil {
-		fmt.Println("1")
-		errHandlers(w, r, http.StatusInternalServerError)
-		return
-	}
+	// if tpl == nil {
+	// 	fmt.Println("1")
+	// 	errHandlers(w, r, http.StatusInternalServerError)
+	// 	return
+	// }
 
-	err = tpl.ExecuteTemplate(w, "home.html", Send)
-	if err != nil {
-		fmt.Println("2")
-
-		errHandlers(w, r, http.StatusInternalServerError)
-	}
+	// err = tpl.ExecuteTemplate(w, "home.html", Send)
+	// if err != nil {
+	// 	fmt.Println("2")
+	// 	errHandlers(w, r, http.StatusInternalServerError)
+	// }
 }

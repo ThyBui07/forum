@@ -3,23 +3,22 @@ package handlers
 import (
 	"database/sql"
 	d "forum/database"
-	"html/template"
 	"log"
 	"net/http"
 )
 
-var tpl *template.Template
+//var tpl *template.Template
 var Database *sql.DB
 
 func init() {
-	tpl = template.Must(template.ParseGlob("server/template/*.html"))
+	//tpl = template.Must(template.ParseGlob("server/template/*.html"))
 	Database = d.GetDB("forum.db")
 }
 
 func Start() error {
 
 	//handle css from static directory
-	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./server/static/"))))
+	//http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./server/static/"))))
 	//get request
 	http.HandleFunc("/", GetRequest)
 	/* http.HandleFunc("/login", Login)
