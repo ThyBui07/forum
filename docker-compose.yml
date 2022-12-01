@@ -7,3 +7,6 @@ services:
       - "3000:3000"
     volumes:
       - ./forum.db:/forum.db
+      - type: bind
+        source: ./server/frontend
+        target: /app/server/frontend
