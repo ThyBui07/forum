@@ -82,7 +82,7 @@ func GetPostByID(db *sql.DB, id int) u.Post {
 // Insert post wohoo
 func InsertPost(db *sql.DB, p u.Post) {
 	t := time.Now().Unix()
-	statement, err := db.Prepare("INSERT INTO Posts (AuthorID, Title, Content, Date, CategoryID) VALUES (?, ?, ?, ?, ?)")
+	statement, err := db.Prepare("INSERT OR IGNORE INTO Posts (AuthorID, Title, Content, Date, CategoryID) VALUES (?, ?, ?, ?, ?)")
 	if err != nil {
 		fmt.Println("Insert post Prepare error:", err)
 		return

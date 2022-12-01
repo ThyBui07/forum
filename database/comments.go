@@ -36,7 +36,7 @@ func GetComs(db *sql.DB, id int) []u.Comment {
 
 // Insert comment
 func InsertCom(db *sql.DB, c u.Comment) {
-	statement, err := db.Prepare(`INSERT INTO Comments (AuthorID, PostID, Content) VALUES (?, ?, ?)`)
+	statement, err := db.Prepare(`INSERT OR IGNORE INTO Comments (AuthorID, PostID, Content) VALUES (?, ?, ?)`)
 	if err != nil {
 		fmt.Println("Insert comment Prepare error:", err)
 		return

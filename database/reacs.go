@@ -55,7 +55,7 @@ func CountReacsCom(db *sql.DB, lord int, id int) int {
 // Insert reaction
 func InsertReac(db *sql.DB, r u.Reac) {
 	if r.PostID == 0 {
-		statement, err := db.Prepare(`INSERT INTO Reacs (AuthorID, LorD, CommentID) VALUES (?, ?, ?)`)
+		statement, err := db.Prepare(`INSERT OR IGNORE INTO Reacs (AuthorID, LorD, CommentID) VALUES (?, ?, ?)`)
 		if err != nil {
 			fmt.Println("Insert reac com Prepare error:", err)
 			return

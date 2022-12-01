@@ -14,6 +14,7 @@ class Home extends Component {
     fetch("http://localhost:8080")
       .then((res) => res.json())
       .then((json) => {
+        console.log(json)
         this.setState({
           items: json,
           DataisLoaded: true,

@@ -26,21 +26,24 @@ type Category struct {
 
 // Post :D
 type Post struct {
-	ID         int    `json:"id"`
-	AuthorID   int    `json:"author id"`
-	Title      string `json:"title"`
-	Content    string `json:"content"`
-	CategoryID int    `json:"category id"`
-	Date       string `json:"date"`
-	ImageURL   string `json:"image src"`
+	ID         int       `json:"id"`
+	AuthorID   int       `json:"author id"`
+	Title      string    `json:"title"`
+	Content    string    `json:"content"`
+	CategoryID int       `json:"category id"`
+	Date       string    `json:"date"`
+	ImageURL   string    `json:"image src"`
+	Reactions  []Reac    `json:"reactions"`
+	Comments   []Comment `json:"comments"`
 }
 
 // Comment c:
 type Comment struct {
-	ID       int    `json:"id"`
-	AuthorID int    `json:"author id"`
-	PostID   int    `json:"post id"`
-	Content  string `json:"content"`
+	ID        int    `json:"id"`
+	AuthorID  int    `json:"author id"`
+	PostID    int    `json:"post id"`
+	Content   string `json:"content"`
+	Reactions []Reac `json:"reactions"`
 }
 
 // Like or Dislike >:(
