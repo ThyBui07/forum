@@ -34,8 +34,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Profile</title>
+    <title>My Account</title>
     <link rel="stylesheet" href="/static/css/globalprofile.css">
+    <link rel="stylesheet" href="/static/css/account.css">
+
     <!-- GOOGLE FONTS  -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -50,14 +52,28 @@
     <div class="flex-container">
         <!-- Left Col --->
         <div class="column" id="r1c1">
-           <button class="leftcol">Account</button><br>
-           <button class="leftcol">My Post</button><br>
-           <button class="leftcol">Liked Posts</button><br>
+           <button class="leftcol" id="accountbtn">Account</button><br>
+           <button class="leftcol" id="postbtn">My Post</button><br>
+           <button class="leftcol"id="likedpostbtn">Liked Posts</button><br>
         </div>
         <!-- Middle Col --->
         <div class="column" id="r1c2">
-            <h1 class="middlecol">UserName</h1>
-            <p class="middlecol">Joined since 1998<p>
+            <h1 class="middlecol">Account Settings</h1>
+            <div class="username">
+              <p>UserName: </p>
+              <p>hgwtra</p>
+            </div>
+            <div class="email">
+              <p>Email: </p>
+              <p>hello@gmail.com</p>
+            </div>
+            <div class="password">
+              <p>Password: </p>
+              <p>*****</p>
+            </div>
+          
+          
+
         </div>
           <!-- Right Col --->
         <div class="column" id="r1c3">
