@@ -1,4 +1,4 @@
-package handlers
+package forum
 
 import (
 	"html/template"
@@ -12,7 +12,7 @@ type errorData struct {
 }
 
 func errHandlers(w http.ResponseWriter, r *http.Request, err int) {
-	temp, er := template.ParseFiles("server/template/error.html")
+	temp, er := template.ParseFiles("static/template/error.html")
 	if er != nil {
 		log.Fatal(er)
 		return

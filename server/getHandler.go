@@ -1,53 +1,90 @@
-package handlers
+package forum
 
 import (
-	"encoding/json"
 	"fmt"
-	d "forum/database"
-	u "forum/server/utils"
+
+	//d "forum/database"
 	"net/http"
 )
 
-type Data struct {
-	Categories []u.Category
-	Posts      []u.Post
-	/* Logged     Logged */
+type Logged struct {
+	Username string
+	LoggedIn bool
 }
 
-var Send Data
+type Categories struct {
+	Title string
+}
 
 func GetRequest(w http.ResponseWriter, r *http.Request) {
-
-	Categories := d.GetCategories(Database)
-	b, err := json.Marshal(Categories)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Println("work")
-	fmt.Println(string(b))
-
-	//Fix the CORS
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Write(b)
-	Posts := d.GetPosts(Database)
-
-	Send.Categories = Categories
-	Send.Posts = Posts
-
 	if r.URL.Path != "/" {
 		errHandlers(w, r, http.StatusNotFound)
 		return
 	}
-	// if tpl == nil {
-	// 	fmt.Println("1")
-	// 	errHandlers(w, r, http.StatusInternalServerError)
-	// 	return
-	// }
+	/* if Tpl == nil {
+		errHandlers(w, r, http.StatusInternalServerError)
+		return
+	} */
 
-	// err = tpl.ExecuteTemplate(w, "home.html", Send)
-	// if err != nil {
-	// 	fmt.Println("2")
-	// 	errHandlers(w, r, http.StatusInternalServerError)
-	// }
+	/* 	c := []Categories{}
+	   	dbc, err := d.GetDB("categories.db")
+	   	time.Sleep(2 * time.Second)
+	   	d.InsertInCategories(dbc, "first", "62oz")
+	   	titles := d.GetCategories(dbc)
+	   	for i := range titles {
+	   		temp := Categories{}
+	   		temp.Title = titles[i]
+	   		c = append(c, temp)
+	   	}
+	   	d.CheckErr(err) */
+
+	Tpl.ExecuteTemplate(w, "home.html", nil)
+}
+
+func Login(w http.ResponseWriter, r *http.Request) {
+
+	Tpl.ExecuteTemplate(w, "login.html", nil)
+
+}
+
+func Signup(w http.ResponseWriter, r *http.Request) {
+
+	Tpl.ExecuteTemplate(w, "signup.html", nil)
+}
+
+func Home(w http.ResponseWriter, r *http.Request) {
+	username := r.PostFormValue("Susername")
+	fmt.Println("user", username)
+	//email := r.PostFormValue("Semail")
+	//password := r.PostFormValue("Spassword")
+
+	fmt.Println("new user:", username)
+	//	db, err := d.GetDB("users.db")
+	//	d.CheckErr(err)
+	//	d.InsertInUsers(db, username, email, password)
+	Tpl.ExecuteTemplate(w, "home.html", nil)
+}
+
+func HomeNew(w http.ResponseWriter, r *http.Request) {
+	//Login stuff
+	//l := Logged{}
+	//username := r.PostFormValue("Lusername")
+	//password := r.PostFormValue("Lpassword")
+	//fmt.Println("user", username)
+	//db, err := d.GetDB("users.db")
+	//d.CheckErr(err)
+	//d.PrintTable(db)
+	//fmt.Println(d.UserExists(db, username, password))
+
+	//Loading Categories
+
+	//Launching templates
+	//if d.UserExists(db, username, password) {
+	//	l.Username = username
+	//	l.LoggedIn = true
+	//	tpl.ExecuteTemplate(w, "logged_home.html", l)
+	//} else {
+	//	l.LoggedIn = false
+	//	tpl.ExecuteTemplate(w, "wronglogin.html", nil)
+	//}
 }

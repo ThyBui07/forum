@@ -1,31 +1,27 @@
-package handlers
+package forum
 
 import (
-	"database/sql"
-	d "forum/database"
+	"html/template"
 	"log"
 	"net/http"
 )
 
-//var tpl *template.Template
-var Database *sql.DB
+var Tpl *template.Template
 
 func init() {
-	//tpl = template.Must(template.ParseGlob("server/template/*.html"))
-	Database = d.GetDB("forum.db")
+	Tpl = template.Must(template.ParseGlob("static/template/*.html"))
 }
 
 func Start() error {
 
 	//handle css from static directory
-	//http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./server/static/"))))
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 	//get request
 	http.HandleFunc("/", GetRequest)
-	/* http.HandleFunc("/login", Login)
-	http.HandleFunc("/home", SignUpRedirect)
-	http.HandleFunc("/signup", Signup)
-	http.HandleFunc("/home_welcome", LoginRedirect)
-	http.HandleFunc("/create_post", CreatePost) */
+	/* 	http.HandleFunc("/login", Login)
+	   	http.HandleFunc("/home", Home)
+	   	http.HandleFunc("/signup", Signup)
+	   	http.HandleFunc("/homenew", HomeNew) */
 	//open port- listen
 	log.Println("Starting server port 8080 (http://localhost:8080/)")
 	err := http.ListenAndServe(":8080", nil)
