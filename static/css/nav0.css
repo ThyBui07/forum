@@ -3,13 +3,13 @@
 }
 
 body, html{
-    background: #030303;
+    background: white;
     text-align: center;
     font-family: 'Poppins', sans-serif;
     margin: 0;
 }
 #navbar{
-    background-color: grey;
+    background-color: #030303;
     display: flex;
     align-items: center;
     padding-left: 50px
