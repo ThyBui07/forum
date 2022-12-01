@@ -8,5 +8,5 @@ services:
     volumes:
       - ./forum.db:/forum.db
       - type: bind
-        source: ./server/frontend
-        target: /app/server/frontend
+        source: ./server/frontend/src
+        target: /app/server/frontend/src
