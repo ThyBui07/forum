@@ -28,7 +28,7 @@ class Home extends Component {
         {items.map((item) => (
           <ol key={item.id}>
             Title: {item.title}
-          </ol>
+          </ol> 
         ))}
       </div>
     );
