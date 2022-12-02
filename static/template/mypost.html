@@ -47,45 +47,28 @@
 <!-- Navigator from nav1.html --->
 <div w3-include-html="nav1.html"></div>
 
+<div id="settingsNav">
+  <button class="accountBtn">Account</button>
+  <button class="mypostBtn">My Posts</button>
+  <button class="likedpostBtn">Liked Post</button>
+</div>
+<h1 class="headertitle">My Posts</h1>
+<div class="flex-container">
+  <div class="column" id="r1c2">
+    <!-- UserName --->
+    <div class="mypost">
+      
+    </div>  
+ 
+</div>
+</div>
 
-<main>
-    <div class="flex-container">
-        <!-- Left Col --->
-        <div class="column" id="r1c1">
-           <button class="leftcol" id="accountbtn">Account</button><br>
-           <button class="leftcol" id="postbtn">My Post</button><br>
-           <button class="leftcol"id="likedpostbtn">Liked Posts</button><br>
-        </div>
-        <!-- Middle Col --->
-        <div class="column" id="r1c2">
-            <div class="mypostTitleDiv">
-                <h1 class="middlecol">My Posts</h1>
-                <p class="middlecolP">Here displays all the posts you have created:</p>   
-            </div>
-              <!-- Posts --->
-            <div class="postDiv">
-                <h4 class="middlecol">Username</h4>
-                <p class="middlecolP">Title: How to cook eggs?</p>
-                <p class="middlecolP"><span>in boiling water blablab bla bla balb alb alb alb alb alb dfsdfsdfsdf sdfdsfdsfdsf sdfsfs sdfdsf </span></p>
-                <img src="/static/img/likes.png" alt=""> <p>1</p>
-                <img src="/static/img/comments.png" alt=""><p>53</p>
-                <img src="/static/img/share.png" alt="">
 
-            </div>
-        </div>
-          <!-- Right Col --->
-        <div class="column" id="r1c3">
-           <button class="createpost">Create Post</button>
-           <p class="copyright">JANAG @ 2022. All rights reserved</p>
-        </div>
-    </div>
 
-  
-</main>
 
 <!-- Javascript to include nav1.html --->
 <script>
-    includeHTML();
+  includeHTML();
 </script>
 </body>
 

@@ -1,27 +1,47 @@
-#postbtn{
-    transform: skew(-15deg)
-}
 
-#r1c2{
-    padding-left: 0px;
-    padding-right: 1px;
-    margin-top: 28px;
-    margin-left: 18px;
-    background-color: #030303;
-    margin-right: -13px;
-}
+ .flex-container{
+    display:flex;
+    background-color: white;
+    margin-left: 4%;
+    margin-right: 4%;
+    flex-wrap: wrap;
+    flex-direction: column;
+  }
+  
+  .flex-container > div {
+    margin-left: 0%;
+    padding: 18px;
+  }
+  .subheader{
+    margin-top: -16px;
+    margin-left: -65%;
+  }
+  .headertitle{
+    color: black;
+    text-align: left;
+    margin-left: 51px;
+    margin-bottom: -13px;
 
-.postDiv, .mypostTitleDiv{
-    background-color: #454545;
-}
-.middlecol{
-    padding: 2%;
-}
-
-.middlecolP{
-    background-color: #454545;
-    margin-top: -23px;
-    padding: 2%;
-    color: white;
-    font-size: medium;
-}
+  }
+  
+  .column {
+    flex: 50%;
+  }
+    
+    #r1c2 {
+    text-align: left;
+    flex: 15;
+    }
+    
+   .accountBtn, .likedpostBtn{
+        background-color:#e2e0db;
+        color:rgb(97, 92, 92);
+        border: none;
+      }
+      
+      .mypostBtn {
+        color: black;
+        background-color:#e2e0db;
+        border: 2px solid #e2e0db;
+        border-bottom-color: black;
+      }
