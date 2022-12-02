@@ -1,0 +1,27 @@
+#postbtn{
+    transform: skew(-15deg)
+}
+
+#r1c2{
+    padding-left: 0px;
+    padding-right: 1px;
+    margin-top: 28px;
+    margin-left: 18px;
+    background-color: #030303;
+    margin-right: -13px;
+}
+
+.postDiv, .mypostTitleDiv{
+    background-color: #454545;
+}
+.middlecol{
+    padding: 2%;
+}
+
+.middlecolP{
+    background-color: #454545;
+    margin-top: -23px;
+    padding: 2%;
+    color: white;
+    font-size: medium;
+}

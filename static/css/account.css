@@ -1,37 +1,66 @@
-#accountbtn{
-    transform: skew(-15deg)
+
+ .flex-container{
+  display:flex;
+  background-color: white;
+  margin-left: 4%;
+  margin-right: 4%;
+  flex-wrap: wrap;
+  flex-direction: column;
 }
 
-.username, .email, .password{
-    display: flex;
-    flex-wrap: wrap;
-    padding: 15px 30px 9px 15px;
-    color: white;
+.flex-container > div {
+  margin-top: -5%;
+  margin-left: 0%;
+  padding: 18px;
+}
+.headertitle{
+  color: black;
+  text-align: left;
+  margin-left: 26px;
+  margin-top: 10px;
+}
+
+.column {
+  flex: 50%;
+}
+  
+  #r1c2 {
+  text-align: left;
+  flex: 15;
+  margin-bottom: -12%;
+  }
+  
+.username, .email, .password{  
+  padding: 18px 30px 9px 42px;
+    color: rgb(22, 21, 21);
     
   }
   
   .username > div {
-    flex: 1 0 21%; 
-    margin-top: -21%;
-    margin-left: 55%;
+       flex: 1 0 21%;
+       margin-top: -7%;
+    margin-left: 36%;
     padding: 20px;
-  }
+}
+  
   .email > div{
-    flex: 1 0 21%; 
-    margin-top: 1%;
-    margin-left: 27%;
+    flex: 1 0 21%;
+    margin-top: -7%;
+    margin-left: 36%;
+    padding: 20px;
   }
 
   .password > div{
     flex: 1 0 21%;
-    margin-top: 0%;
-    margin-left: 32%;
+    margin-top: -7%;
+    margin-left: 36%;
+    padding: 20px;
   }
 
   p span{
     display: block;
-    margin-top: -19px;
-    color: white;
+    margin-top: -10px;
+    color: rgb(18, 17, 17);
     font-weight: bold;
     font-size: large;
   }
@@ -54,3 +83,7 @@
     font-size: small;
  }
  
+
+
+
+

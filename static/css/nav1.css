@@ -2,87 +2,24 @@
   box-sizing: border-box;
 }
 
-body, html{
-  background: #030303;
-  text-align: center;
-  font-family: 'Poppins', sans-serif;
-  margin: 0;
-}
-#navbar{
-  background-color: grey;
-  display: flex;
-  align-items: center;
-  padding-left: 50px
-}
-
-#navbar h1{
-  margin-right: -115px;
-  color: white;
-  font-size: xx-large;
-}
-
-.logo{
-  float: left;
-  display: block;
-  margin: 0 auto;
-  width: 45%;
-  border-radius: 50%;
-  padding: 15px 0px 5px 5px;
-}
-
-#navbar button{
-  font-family: 'Poppins', sans-serif;
-  width:150px;
-  height: 50px;
-  font-weight: bold;
-  border-radius: 100px;
-  cursor: pointer;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  margin-left: 5px;
-  margin-right: 5px;
-}
-
-.navbarBtn{
-  padding-left: 50%;
-}
-
-.navbarLogo{
-  margin-right:5px;
-}
-
-.signupBtn{
-  border: 2px solid black;
-  background-color: black;
-  color: white;
-}
-
-.loginBtn{
-  border: 2px solid white;
-  border-bottom-color: white;
-  background-color: #737373;
-  color: white;
-}
-
-.signupBtn:hover{
-  border: 2px solid rgb(37, 37, 37);
-  background-color:rgb(37, 37, 37);
- 
-}
-
-.loginBtn:hover{
- background-color: #848282;;
-}
-
 .logoutBtn{
-  border: 2px solid white;
-  border-bottom-color: white;
-  background-color: #737373;
-  color: white;
+  border: 2px solid #D49A0D;
+    background-color: #D49A0D;
+    color: black;
 }
 
 .logoutBtn:hover{
- background-color: #848282;;
+  border: 2px solid rgb(37, 37, 37);
+  background-color:rgb(37, 37, 37);
+}
+
+
+.profileImg{
+  width: 50px;
+  height: 50px;
+  margin-top: 2%;
+  margin-right: 1%;
+  cursor: pointer;
 }
 
 .setting{
@@ -92,4 +29,16 @@ body, html{
   width: 20%;
   border-radius: 50%;
   padding: 15px 0px 5px 5px;
+}
+
+.createpostBtn{
+  background-color:  rgb(214, 210, 210);
+  color: black;
+  font-size: 15px;
+}
+
+.createpostBtn:hover{
+  border: 2px solid rgb(37, 37, 37);
+  background-color:rgb(37, 37, 37);
+  color: #F6E9CB;
 }
