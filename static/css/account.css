@@ -1,4 +1,3 @@
-
  .flex-container{
   display:flex;
   background-color: white;
@@ -16,8 +15,8 @@
 .headertitle{
   color: black;
   text-align: left;
-  margin-left: 51px;
-  margin-bottom: -13px;
+  margin-left: 58px;
+  margin-bottom: 15px;
 }
 
 .column {
@@ -31,6 +30,8 @@
   }
   
 .username, .email, .password{  
+  margin-top: 4%;
+  margin-bottom: -6%;
   padding: 18px 30px 9px 42px;
     color: rgb(22, 21, 21);
     

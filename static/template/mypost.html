@@ -35,7 +35,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Posts</title>
-    <link rel="stylesheet" href="/static/css/globalprofile.css">
+    <link rel="stylesheet" href="/static/css/sidenav.css">
     <link rel="stylesheet" href="/static/css/mypost.css">
 
     <!-- GOOGLE FONTS  -->
@@ -45,27 +45,26 @@
 </head>
 <body>
 <!-- Navigator from nav1.html --->
-<div w3-include-html="nav1.html"></div>
-
-<div id="settingsNav">
-  <button class="accountBtn">Account</button>
-  <button class="mypostBtn">My Posts</button>
-  <button class="likedpostBtn">Liked Post</button>
-</div>
+<div w3-include-html="sidenav.html"></div>
+  <!-- Header --->
 <h1 class="headertitle">My Posts</h1>
 <div class="flex-container">
   <div class="column" id="r1c2">
-    <!-- UserName --->
+    <!-- Post --->
     <div class="mypost">
-      
+      <h6>NafiRanta</h6>
+      <h4>Title: <span>Daim Frozen Cake Recipe</span></h4>
+      <p><span>How do we show the data here?</span></p>
+      <img class="socialicons" src="/static/img/dislikes.png" alt="">
+      <span>10</span><span> likes</span>
+      <img class="socialicons" src="/static/img/comments.png" alt="">
+      <span>100</span>
+      <span> comments</span>
+      <img class="socialicons" src="/static/img/share.png" alt="">
+      <span> Share</span>
     </div>  
- 
 </div>
 </div>
-
-
-
-
 <!-- Javascript to include nav1.html --->
 <script>
   includeHTML();
