@@ -1,0 +1,36 @@
+#settingsNav{
+  background-color: #e2e0db;
+  display: flex;
+  padding-left: 50px;
+  flex-wrap: wrap;
+  height: 49px;
+  margin-bottom: 2%;
+}
+
+#settingsNav button{
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  font-weight: bold;
+  height: 40px;
+  margin-right: 1%;
+  margin-left: 1%;
+}
+
+.mypostBtn, .likedpostBtn{
+  background-color:#e2e0db;
+  color:rgb(97, 92, 92);
+  border: none;
+}
+
+.accountBtn{
+  color: black;
+  background-color:#e2e0db;
+  border: 2px solid #e2e0db;
+  border-bottom-color: black;
+}
+
+#settingsNav button:hover{
+  color:black;
+}
+
+
