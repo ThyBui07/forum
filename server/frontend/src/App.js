@@ -1,13 +1,40 @@
 
 import React, { Component } from 'react'
 import './App.css';
+import { Switch, Route } from 'react-router-dom';
+
 import Home from './Pages/Home'
-import CreatePost from './Pages/CreatePost'
+import UserProfile from './Pages/MyAccountSettings'
+
+
 
 class App extends Component {
   render () {
     return (
-     <CreatePost />
+    //   <Layout>
+    //   <Switch>
+    //     <Route path='/' exact>
+    //       <HomePage />
+    //     </Route>
+    //     <Route path='/auth'>
+    //       <AuthPage />
+    //     </Route>
+    //     <Route path='/profile'>
+    //       <UserProfile />
+    //     </Route>
+    //   </Switch>
+    // </Layout>
+
+    <Layout>
+      <Switch>
+        <Route path="/" exact>
+          <Home />
+        </Route>
+        <Route path="/profile">
+          <UserProfile />
+        </Route>
+      </Switch>
+      </Layout>
     );
   }
 }
