@@ -42,7 +42,7 @@ class SinglePost extends Component {
           <div>
             <TopNav1 />
             <div className="main">
-              <h1 className="headertitle">My Posts</h1>
+              <h1 className="headertitle">Post</h1>
                   <div className="mypost">
                     <div className="postcontentArea">
                       <p className="postUsername"><UsernameField /></p>

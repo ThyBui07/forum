@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import SettingsNav from '../Components/SettingsNav'
 import TopNav1 from '../Components/TopNav1'
+import UsernameField from '../Components/UsernameField'
+import PostTitleField from '../Components/PostTitleField'
+import PostContentField from '../Components/PostContentField'
+import NoOfLikesField from '../Components/NoOfLikesField'
+import NoOfCommentField from '../Components/NoOfCommentField'
 import '../Components/css/MyPosts.css';
 import dislikesIcon from '../Components/img/dislikes.png'
 import commentsIcon from '../Components/img/comments.png'
@@ -37,24 +42,21 @@ class MyPosts extends Component {
             <TopNav1 />
             <SettingsNav/>
             <div className="main">
-              <h1 className="headertitle">My Posts</h1>
-              <div className="flex-container">
-                <div className="column" id="r1c2">
+              <h1 className="headertitle">My Post</h1>
                   <div className="mypost">
-                    <h6>NafiRanta</h6>
-                    <h4>Title: <span>Daim Frozen Cake Recipe</span></h4>
-                    <p><span>How do we show the data here?</span></p>
-                    <img className="socialicons" src={dislikesIcon} />
-                      <span>10</span><span> likes</span>
-                    <img className="socialicons" src={commentsIcon} />
-                      <span>100</span>
-                    <span> comments</span>
-                    <img class="socialicons" src={shareIcon} />
-                    <span> Share</span>
-                  </div>  
+                    <div className="postcontentArea">
+                      <p className="postUsername"><UsernameField /></p>
+                      <p className="postTitle" id="postTitleField">Title: <PostTitleField /></p>
+                      <p className="postContent" id="postContentField"> <PostContentField /></p>
+                   
+                      <div className="socialiconsArea">
+                        <img className="socialicons" src={dislikesIcon} /> <NoOfLikesField /><span> likes </span>
+                        <img className="socialicons" src={commentsIcon} /> <NoOfCommentField /><span> comments </span>
+                        <img class="socialicons" src={shareIcon} /><span> Share </span>
+                      </div>  
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
           </div> 
     );
   }
