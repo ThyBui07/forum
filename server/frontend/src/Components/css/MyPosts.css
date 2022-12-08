@@ -5,7 +5,7 @@ html{
   margin-left: 12%; /* Same as the width of the sidenav */
   padding-top: 6%;
 }
- .flex-container{
+ .mypost{
   display:flex;
   margin-top: 1%;
   margin-right: 4%;
@@ -14,14 +14,10 @@ html{
   flex-direction: column;
   }
   
-  .flex-container > div {
-    margin-top: -5%;
-    margin-left: 0%;
+  .mypost > div {
+    margin-left: -6%;
+    margin-right: 22%;
     padding: 9px 0px 0px 0px;
-  }
-
-  .mypost{
-    background-color: white;
   }
 
   .subheader{
@@ -47,9 +43,9 @@ html{
     margin-bottom: -17%;
     }
     
-    p span{
+    .postContent{
       display: inline;
-      margin-top: -8px;
+      margin-left: -61%;
       color: rgb(18, 17, 17);
       font-size: medium;
     }
@@ -64,3 +60,52 @@ html{
     .socialicons{
       width: 18px;
     }
+
+    .postcontentArea{
+      background-color: white;
+      flex: 50%;
+    }
+
+    .socialiconsArea{
+      margin-left: -63%;
+      margin-top: 2%;
+      flex: 50% 1;
+    }
+    .postUsername{
+      margin-left: -89%;
+      margin-top: 0%;
+    }
+
+    .postUsername{
+      color: darkgrey;
+      font-size: small;
+      font-weight: bold;
+      margin-left: -89%;
+      margin-top: -2%;
+    }
+
+    .postTitle{
+      font-weight: bold;
+      margin-left: -66%;
+      margin-top: -1%;
+    }
+
+ .commentArea{
+  margin-left: -76%;
+  margin-top: 1%;
+ }
+
+ .commentBtn{
+  font-family: 'Poppins', sans-serif;
+  background-color: black;
+  color: white;
+  font-weight: bold;
+  border-radius: 100px;
+  cursor: pointer;
+  border: none;
+  margin-top: 1%;
+  margin-left: -7%;
+  margin-bottom: 4%;
+ }
+
+ 

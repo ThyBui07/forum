@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import '../Components/css/TopNav1.css';
+import CreatepostBtn from "./CreatePostBtn";
+import LogoutBtn from "./LogoutBtn";
 import logoImg from '../Components/img/logo5.png'
 import profileImg from '../Components/img/settings.png'
 
-class TopNav extends Component {
+class TopNav1 extends Component {
     constructor(props) {
         super(props);
     }
@@ -18,12 +20,12 @@ class TopNav extends Component {
 
                 <div id="narbarBtn">
                     <img className="ProfileImg" src={profileImg} />
-                    <button className="CreatepostBtn">Create Post</button>
-                    <button className="LogoutBtn">Log Out</button>
+                    <CreatepostBtn />
+                    <LogoutBtn />
                 </div>
             </div>
           );
     }
 }
  
-export default TopNav;
+export default TopNav1;

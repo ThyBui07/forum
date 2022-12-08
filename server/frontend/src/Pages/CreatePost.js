@@ -1,5 +1,9 @@
 import React, { Component } from "react";
 import TopNav1 from '../Components/TopNav1'
+import PostTitleInput from '../Components/PostTitleInput'
+import TextEditor from "../Components/TextEditor";
+import DiscardBtn from  "../Components/DiscardBtn"
+import PostBtn from "../Components/PostBtn";
 import '../Components/css/CreatePost.css';
 
 
@@ -34,12 +38,18 @@ class CreatePost extends Component {
             <TopNav1 />
             <div className="main">
             <h1 className="headertitle">Create a post</h1>
-            <div className="textarea">
-              <textarea id="myTextarea">Type something</textarea>
+            <div className="contentArea">
+              <div className="titleArea">
+              <label className="postTitle">Title:</label> <PostTitleInput />
+              </div>
+              <div className="textarea">
+              <TextEditor />
             </div>
+            </div>
+           
             <div className="buttonarea">
-              <button class="discardBtn">Discard</button>
-              <button class="postBtn">Post</button>
+              <DiscardBtn />
+              <PostBtn />
             </div>
           </div> 
           </div> 

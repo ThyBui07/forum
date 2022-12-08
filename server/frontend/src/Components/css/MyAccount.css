@@ -75,6 +75,7 @@ html{
   }
 
   p span{
+    font-family: 'Poppins', sans-serif;
     display: block;
     margin-top: -10px;
     color: rgb(18, 17, 17);

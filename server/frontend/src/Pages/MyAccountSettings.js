@@ -1,6 +1,12 @@
 import React, { Component } from "react";
 import SettingsNav from '../Components/SettingsNav'
 import TopNav1 from '../Components/TopNav1'
+import UsernameField from "../Components/UsernameField";
+import EmailField from "../Components/EmailField";
+import PasswordField from "../Components/PasswordField";
+import ChangeUsernameBtn from '../Components/ChangeUsernameBtn'
+import ChangeEmailBtn from "../Components/ChangeEmailBtn";
+import ChangePasswordBtn from "../Components/ChangePasswordBtn";
 import '../Components/css/MyAccount.css';
 
 //import { useState, useEffect } from "react";
@@ -37,23 +43,23 @@ class AccountSettings extends Component {
                   <div className="column" id="r1c2">
                 
                     <div className="username">
-                      <p className="usernamesub"><span>UserName:</span>NafiRanta</p>
+                    <p><span>UserName:</span><UsernameField /></p>
                       <div className="usernamebtn">
-                        <button className="changebtn">Change</button>
+                        <ChangeUsernameBtn />
                       </div>
                     </div>  
                 
                   <div className="email">
-                    <p className="emailsub"><span>Email:</span>nafi@hello.com</p>
+                    <p><span>Email:</span><EmailField /></p>
                     <div className="emailbtn">
-                      <button className="changebtn">Change</button>
+                      <ChangeEmailBtn />
                     </div>
                   </div>  
               
                   <div className="password">
-                    <p className="passwordsub"><span>Password:</span>*****</p>
+                    <p><span>Password:</span><PasswordField /></p>
                       <div className="passwordbtn">
-                        <button className="changebtn">Change</button>
+                        <ChangePasswordBtn />
                       </div>
                   </div>
                 </div>
