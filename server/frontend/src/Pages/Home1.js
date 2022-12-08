@@ -1,8 +1,9 @@
 import React, { Component } from "react";
+import TopNav1 from '../Components/TopNav1'
 
 //import { useState, useEffect } from "react";
 
-class Home extends Component {
+class Home1 extends Component {
   constructor(props) {
     super(props);
 
@@ -26,16 +27,11 @@ class Home extends Component {
     const { items } = this.state;
     return (
       <div>
-     
-        <h1> Fetch datatabcdfdfdfd </h1>{" "}
-        {items.map((item) => (
-          <ol key={item.id}>
-            Title: {item.title}
-          </ol> 
-        ))}
+      <TopNav1/>
       </div>
+     
     );
   }
 }
 
-export default Home;
+export default Home1;
