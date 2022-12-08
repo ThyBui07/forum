@@ -13,14 +13,14 @@ class TopNav1 extends Component {
     render() { 
         return (
             <div id="navbar">
-                <div className="navbarLogo" >
+                <a href='/'><div className="navbarLogo" >
                     <img className="LogoImg" src={logoImg} />
                     <h1>Food Forum</h1> 
-                </div>
+                </div></a>
 
                 <div id="narbarBtn">
-                    <img className="ProfileImg" src={profileImg} />
-                    <CreatepostBtn />
+                    <a href='/Account'><img className="ProfileImg" src={profileImg} /></a>
+                    <a href='/CreatePost'><CreatepostBtn /></a>
                     <LogoutBtn />
                 </div>
             </div>

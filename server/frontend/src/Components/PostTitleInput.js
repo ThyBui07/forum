@@ -6,9 +6,10 @@ class PostTitleInput extends Component {
         super(props);
     }
     state = {  }
+    
     render() { 
         return (
-            <input type="text"></input>
+            <textarea className="titleTextArea" id="postTitle"></textarea>
            
           );
     }

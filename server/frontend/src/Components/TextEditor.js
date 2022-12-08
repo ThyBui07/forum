@@ -9,7 +9,7 @@ class TextEditor extends Component {
     state = {  }
     render() { 
         return (
-            <textarea id="myTextarea">Type something</textarea>
+            <textarea className="myTextarea" id="myTextarea" placeholder="Type something"></textarea>
           );
     }
 }

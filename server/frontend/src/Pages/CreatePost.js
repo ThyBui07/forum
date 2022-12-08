@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import TopNav1 from '../Components/TopNav1'
 import PostTitleInput from '../Components/PostTitleInput'
+import PostCategoryInput from "../Components/PostCategoryInput";
 import TextEditor from "../Components/TextEditor";
 import DiscardBtn from  "../Components/DiscardBtn"
 import PostBtn from "../Components/PostBtn";
@@ -16,21 +17,12 @@ class CreatePost extends Component {
     super(props);
 
     this.state = {
-      items: [],
-      DataisLoaded: false,
+      title: '',
+      content: '',
+      category: ''
     };
   }
-  componentDidMount() {
-    fetch("http://localhost:8080")
-      .then((res) => res.json())
-      .then((json) => {
-        console.log(json)
-        this.setState({
-          items: json,
-          DataisLoaded: true,
-        });
-      });
-  }
+ 
   render() {
     const { items } = this.state;
     return (
@@ -40,17 +32,21 @@ class CreatePost extends Component {
             <h1 className="headertitle">Create a post</h1>
             <div className="contentArea">
               <div className="titleArea">
-              <label className="postTitle">Title:</label> <PostTitleInput />
+              Title: <PostTitleInput />
+              </div>
+              <div className="categoryArea">
+                Category: <PostCategoryInput />
               </div>
               <div className="textarea">
               <TextEditor />
             </div>
-            </div>
-           
             <div className="buttonarea">
               <DiscardBtn />
               <PostBtn />
             </div>
+            </div>
+           
+           
           </div> 
           </div> 
     );

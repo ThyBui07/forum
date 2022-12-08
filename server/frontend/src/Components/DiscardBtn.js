@@ -8,7 +8,7 @@ class DiscardBtn extends Component {
     state = {  }
     render() { 
         return (
-            <button className="postBtn">Post</button>
+            <button className="discardBtn">Discard</button>
           );
     }
 }

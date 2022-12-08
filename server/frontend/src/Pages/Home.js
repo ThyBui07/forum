@@ -26,12 +26,9 @@ class Home extends Component {
     const { items } = this.state;
     return (
       <div>
-     
         <h1> Fetch datatabcdfdfdfd </h1>{" "}
         {items.map((item) => (
-          <ol key={item.id}>
-            Title: {item.title}
-          </ol> 
+          <ol className="categoriesList" key={item.id}>Title: {item.title}</ol> 
         ))}
       </div>
     );
