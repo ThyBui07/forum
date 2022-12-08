@@ -4,17 +4,19 @@
 }
 
 body, html{
-    text-align: center;
+    
     font-family: 'Poppins', sans-serif;
-    margin:0;
+    
 }
 
 #navbar{
     background-color: #030303;
     display: flex;
     flex-wrap: wrap;
+    top: 0%;
     position: fixed;
     width: 100%;
+    
     overflow: hidden;
 }
 
@@ -32,15 +34,12 @@ body, html{
 
 #navbar button{
     font-family: 'Poppins', sans-serif;
-    width:150px;
-    height: 50px;
+    width:10%;
+    height: 60%;
     font-weight: bold;
-    border-radius: 100px;
+    border-radius: 50px;
     cursor: pointer;
-    margin-top: 25px;
-    margin-bottom: 10px;
-    margin-left: 5px;
-    margin-right: 5px;
+    font-size: 100%;
     display: inline-block;
 }
 
@@ -67,6 +66,8 @@ body, html{
 }
 
 .ProfileImg{
+    margin-right:0px;
+    position: absolute;
     width: 50px;
     height: 50px;
     cursor: pointer;
@@ -83,19 +84,9 @@ body, html{
 }
 
 .CreatepostBtn{
-    background-color:  rgb(214, 210, 210);
-    color: black;
-    font-size: 15px;
-  }
-  
-  .CreatepostBtn:hover{
-    display: inline-block;
-    border: 2px solid rgb(37, 37, 37);
-    background-color:rgb(37, 37, 37);
-    color: #F6E9CB;
-  }
-
-  .CreatepostBtn{
+    right: 1%;
+    top: 20%;
+    position: absolute;
     background-color:  rgb(214, 210, 210);
     color: black;
     font-size: 15px;
@@ -109,6 +100,9 @@ body, html{
   }
 
   .LogoutBtn{
+    right: 15%;
+    top: 20%;
+    position: absolute;
     border: 2px solid #D49A0D;
       background-color: #D49A0D;
       color: black;
@@ -119,6 +113,3 @@ body, html{
     background-color:rgb(37, 37, 37);
   }
   
-  .CategoryTitles{
-
-  }

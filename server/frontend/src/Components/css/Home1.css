@@ -1,4 +1,8 @@
-.CategoryTitles{
-    margin-left: 0%;
+.CategoryList{
+    margin-top: 10%;
     border: 10px;
+    border-radius: 50px;
+}
+.fcats{
+    margin-top: 5%;
 }

@@ -37,7 +37,7 @@ class CreatePost extends Component {
               <div className="categoryArea">
                 Category: <PostCategoryInput />
               </div>
-              <div className="textarea">
+              <div>
               <TextEditor />
             </div>
             <div className="buttonarea">
