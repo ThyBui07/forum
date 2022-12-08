@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-//var tpl *template.Template
+// var tpl *template.Template
 var Database *sql.DB
 
 func init() {

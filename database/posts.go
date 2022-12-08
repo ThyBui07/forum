@@ -95,3 +95,19 @@ func InsertPost(db *sql.DB, p u.Post) {
 		return
 	}
 }
+
+// Delete post
+func DeletePost(db *sql.DB, pID int) {
+	statement, err := db.Prepare("DELETE FROM Posts WHERE ID = ?")
+	if err != nil {
+		fmt.Println("Delete post prepapre error:", err)
+		return
+	}
+	defer statement.Close()
+
+	_, err = statement.Exec(pID)
+	if err != nil {
+		fmt.Println("Delete post Execute stmt error:", err)
+		return
+	}
+}
