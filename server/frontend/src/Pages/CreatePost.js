@@ -13,14 +13,15 @@ import '../Components/css/CreatePost.css';
 //import { useState, useEffect } from "react";
 
 class CreatePost extends Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      title: '',
-      content: '',
-      category: ''
-    };
+  handleSubmit(event) {
+    let np_content = document.getElementById("postContent")
+    let np_title = document.getElementById("postTitle")
+    let np_categoryid = document.getElementById("postCategoryId")
+    let post = {title: {np_title}, content: {np_content}, categoryId: {np_categoryid}}
+    JSON.stringify(post)
+    event.preventDefault();
+    
   }
  
   render() {
@@ -31,6 +32,7 @@ class CreatePost extends Component {
             <div className="main">
             <h1 className="headertitle">Create a post</h1>
             <div className="contentArea">
+              <form action="/post-success" method="POST" id="addpost" onSubmit="preppost()">
               <div className="titleArea">
               Title: <PostTitleInput />
               </div>
@@ -41,9 +43,10 @@ class CreatePost extends Component {
               <TextEditor />
             </div>
             <div className="buttonarea">
+            <a href="/post-success"><PostBtn /></a>
               <DiscardBtn />
-              <PostBtn />
             </div>
+            </form>
             </div>
            
            

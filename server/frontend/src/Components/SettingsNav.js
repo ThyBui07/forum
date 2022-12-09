@@ -3,10 +3,7 @@ import '../Components/css/SettingsNav.css';
 
 
 class SettingsNav extends Component {
-    constructor(props) {
-        super(props);
-    }
-    state = {  }
+ 
     render() { 
         return (
             <div className="sidenav">

@@ -2,13 +2,9 @@ import React, { Component } from "react";
 import '../Components/css/CreatePost.css';
 
 class PostBtn extends Component {
-    constructor(props) {
-        super(props);
-    }
-    state = {  }
     render() { 
         return (
-            <button className="postBtn">Post</button>
+            <input type="submit" form_id="1" value="" className="postBtn">Post</input>
           );
     }
 }

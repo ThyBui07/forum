@@ -6,10 +6,7 @@ import logoImg from '../Components/img/logo5.png'
 import profileImg from '../Components/img/settings.png'
 
 class TopNav1 extends Component {
-    constructor(props) {
-        super(props);
-    }
-    state = {  }
+ 
     render() { 
         return (
             <div id="navbar">
@@ -20,7 +17,7 @@ class TopNav1 extends Component {
 
                 <div id="narbarBtn">
                     <a href='/Account'><img className="ProfileImg" src={profileImg} /></a>
-                    <a href='/CreatePost'><CreatepostBtn /></a>
+                    <a href='/create-post'><CreatepostBtn /></a>
                     <LogoutBtn />
                 </div>
             </div>

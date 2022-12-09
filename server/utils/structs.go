@@ -27,10 +27,10 @@ type Category struct {
 // Post :D
 type Post struct {
 	ID         int       `json:"id"`
-	AuthorID   int       `json:"author id"`
+	AuthorID   int       `json:"authorId"`
 	Title      string    `json:"title"`
 	Content    string    `json:"content"`
-	CategoryID int       `json:"category id"`
+	CategoryID int       `json:"categoryId"`
 	Date       string    `json:"date"`
 	ImageURL   string    `json:"image src"`
 	Reactions  []Reac    `json:"reactions"`
@@ -40,8 +40,8 @@ type Post struct {
 // Comment c:
 type Comment struct {
 	ID        int    `json:"id"`
-	AuthorID  int    `json:"author id"`
-	PostID    int    `json:"post id"`
+	AuthorID  int    `json:"authorId"`
+	PostID    int    `json:"postId"`
 	Content   string `json:"content"`
 	Reactions []Reac `json:"reactions"`
 }
@@ -49,17 +49,17 @@ type Comment struct {
 // Like or Dislike >:(
 type Reac struct {
 	ID        int `json:"id"`
-	LorD      int `json:"like or dislike"`
-	AuthorID  int `json:"author id"`
-	PostID    int `json:"post id"`
-	CommentID int `json:"comment id"`
+	LorD      int `json:"likeOrDislike"`
+	AuthorID  int `json:"authorId"`
+	PostID    int `json:"postId"`
+	CommentID int `json:"commentId"`
 }
 
 // Image :$
 type Image struct {
 	ID       int    `json:"id"`
-	PostID   int    `json:"post id"`
-	ImageURL string `json:"image src"`
+	PostID   int    `json:"postId"`
+	ImageURL string `json:"imagerc"`
 }
 
 // >>>>>>>>>> Stuff I'm still figuring out

@@ -7,7 +7,6 @@ class CatList extends Component {
         this.state = {
             items: [],
             DataisLoaded: false,
-            selected: true,
           };
     }
 
@@ -19,23 +18,27 @@ class CatList extends Component {
             this.setState({
               items: json,
               DataisLoaded: true,
-              selected: true,
             });
           });
       }
+
+
     render() { 
         const { items } = this.state;
         return (
             <div className="CategoryList">
             <fieldset>
             <legend>Choose categories:</legend>
-              {items.map((item) => (
-                    <div>
-                      <input type="checkbox" id={ item.id }></input>
-                    <label for="{ item.id }"> { item.title } </label>
+            <div>
+            {items.map((item) => (
+                    <div key="{item.id}">
+                      <input value="{item.id}" type="checkbox" />
+                      <span>{item.title}</span>
                     </div>
                     
              ))}
+            </div>
+              
   
           </fieldset>
           </div>

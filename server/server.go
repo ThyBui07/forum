@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-//var tpl *template.Template
+// var tpl *template.Template
 var Database *sql.DB
 
 func init() {
@@ -25,7 +25,7 @@ func Start() error {
 	http.HandleFunc("/home", SignUpRedirect)
 	http.HandleFunc("/signup", Signup)
 	http.HandleFunc("/home_welcome", LoginRedirect)
-	http.HandleFunc("/create_post", CreatePost) */
+	*/ //http.HandleFunc("/post-success", ReceivePost)
 	//open port- listen
 	log.Println("Starting server port 8080 (http://localhost:8080/)")
 	err := http.ListenAndServe(":8080", nil)

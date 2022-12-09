@@ -26,10 +26,10 @@ class PostCategoryInput extends Component {
     render() { 
         const { items } = this.state;
         return (
-            <select className="categorySelect" id="postCategory">
+            <select className="categorySelect" id="postCategoryId">
 
 {items.map((item) => (
-          <option key={item.id}>{item.title}</option> 
+          <option value={item.id} key={item.id}>{item.title}</option> 
         ))}
             </select>
            

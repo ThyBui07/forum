@@ -3,13 +3,10 @@ import '../Components/css/TopNav1.css';
 import '../Components/css/CreatePost.css';
 
 class TextEditor extends Component {
-    constructor(props) {
-        super(props);
-    }
-    state = {  }
+ 
     render() { 
         return (
-            <textarea className="myTextarea" id="myTextarea" placeholder="Type something"></textarea>
+            <textarea className="postContent" id="myTextarea" placeholder="Type something"></textarea>
           );
     }
 }
