@@ -10,24 +10,30 @@ import (
 
 type Data struct {
 	Categories []u.Category `json:"categories"`
-	//Posts      []u.Post     `json:"posts"`
-	//Logged     Logged
+	Posts      []u.Post     `json:"posts"`
+	Logged     Logged       `json:"logged"`
 }
 
 var Send Data
+var Receive Data
 
 func GetRequest(w http.ResponseWriter, r *http.Request) {
 	Categories := d.GetCategories(Database)
-	/* //Posts := d.GetPosts(Database)
-	var dataToSend Data
-	dataToSend.Categories = Categories
-	//dataToSend.Posts = Posts */
-	b, err := json.Marshal(Categories)
+	Posts := d.GetPosts(Database)
+	Send.Categories = Categories
+	Send.Posts = Posts
+	var l Logged
+	l.LoggedIn = 0
+	Send.Logged = l
+
+	b, err := json.Marshal(Send)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Header().Set("Content-Type", "application/json")
 	w.Write(b)
 
 }
@@ -43,6 +49,7 @@ func ReceivePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "application/json")
 	w.Write(b)
 
 	err = json.NewDecoder(r.Body).Decode(&new_post)

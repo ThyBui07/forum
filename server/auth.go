@@ -1,37 +1,18 @@
 package handlers
 
-/*
 import (
+	"encoding/json"
 	"fmt"
-	d "forum/database"
 	u "forum/server/utils"
 	"net/http"
 )
 
 type Logged struct {
-	User    u.User
-	Success bool
+	User     u.User `json:"user"`
+	LoggedIn int    `json"loggedin"`
 }
 
-// To login page
-func Login(w http.ResponseWriter, r *http.Request) {
-	Send.Logged.Success = true
-
-	err := tpl.ExecuteTemplate(w, "login.html", Send)
-	if err != nil {
-		errHandlers(w, r, http.StatusInternalServerError)
-	}
-}
-
-// To registration page
-func Signup(w http.ResponseWriter, r *http.Request) {
-	err := tpl.ExecuteTemplate(w, "signup.html", nil)
-	if err != nil {
-		errHandlers(w, r, http.StatusInternalServerError)
-	}
-}
-
-// Register handler
+/* // Register handler
 func SignUpRedirect(w http.ResponseWriter, r *http.Request) {
 	// Getting registration info
 	username := r.PostFormValue("Susername")
@@ -54,32 +35,43 @@ func SignUpRedirect(w http.ResponseWriter, r *http.Request) {
 			errHandlers(w, r, http.StatusInternalServerError)
 		}
 	}
-}
+} */
 
 // Login handler
 func LoginRedirect(w http.ResponseWriter, r *http.Request) {
 	// Getting login info
-	l := Logged{}
-	username := r.PostFormValue("Lusername")
-	password := r.PostFormValue("Lpassword")
-
-	log_success := d.UserAuth(Database, username, password)
-	// If username and password match -> home with success message
-	if log_success {
-		l.User = d.GetUserByUsername(Database, username)
-		l.Success = true
-		Send.Logged = l
-		err := tpl.ExecuteTemplate(w, "home.html", Send)
-		if err != nil {
-			errHandlers(w, r, http.StatusInternalServerError)
-		}
-	} else {
-		err := tpl.ExecuteTemplate(w, "login.html", nil)
-		l.Success = false
-		Send.Logged = l
-		if err != nil {
-			errHandlers(w, r, http.StatusInternalServerError)
-		}
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000/loginredirect")
+	switch r.Method {
+	case "OPTIONS":
+		w.Header().Set("Access-Control-Allow-Headers", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+		return
 	}
+	var LUser u.User
+
+	LUser.Username = ""
+	LUser.Password = ""
+
+	if r.Method == "POST" {
+		fmt.Println("he")
+		err := json.NewDecoder(r.Body).Decode(&LUser)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+		fmt.Println("received:", LUser)
+	}
+
+	/* 	log_success := d.UserAuth(Database, lUser.Username, lUser.Password)
+	   	// If username and password match -> home with success message
+	   	if log_success {
+	   		lUser = d.GetUserByUsername(Database, lUser.Username)
+	   		Send.Logged = l
+
+	   	} else {
+	   		l.LoggedIn = 0
+	   		Send.Logged = l
+
+	   	} */
+
 }
-*/

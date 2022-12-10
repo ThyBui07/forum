@@ -8,7 +8,9 @@ class PostTitleInput extends Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
+    
     handleChange(e) {
+
         this.setState({title: e.target.value});
     }
 

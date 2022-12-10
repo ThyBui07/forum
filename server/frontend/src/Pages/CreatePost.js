@@ -1,10 +1,9 @@
 import React, { Component } from "react";
-import TopNav1 from '../Components/TopNav1'
 import PostTitleInput from '../Components/PostTitleInput'
 import PostCategoryInput from "../Components/PostCategoryInput";
 import TextEditor from "../Components/TextEditor";
 import DiscardBtn from  "../Components/DiscardBtn"
-import PostBtn from "../Components/PostBtn";
+
 import '../Components/css/CreatePost.css';
 
 
@@ -14,25 +13,38 @@ import '../Components/css/CreatePost.css';
 
 class CreatePost extends Component {
 
-  handleSubmit(event) {
+ 
+  onSubmit = (e) => {
+    e.preventDefault();
+    // get form data out of state
     let np_content = document.getElementById("postContent")
     let np_title = document.getElementById("postTitle")
     let np_categoryid = document.getElementById("postCategoryId")
     let post = {title: {np_title}, content: {np_content}, categoryId: {np_categoryid}}
-    JSON.stringify(post)
-    event.preventDefault();
-    
-  }
+
+        fetch('http://localhost:8000' , {
+          method: "POST",
+          headers: {
+          'Content-type': 'application/json'
+          },
+          body: JSON.stringify(post)
+        })
+      .then((res) => res.json())
+      .then((result) => {
+        
+        console.log(result)
+      })
+}
  
   render() {
-    const { items } = this.state;
+    //const { items } = this.state;
     return (
           <div>
-            <TopNav1 />
+            {/* <TopNav1 /> */}
             <div className="main">
             <h1 className="headertitle">Create a post</h1>
             <div className="contentArea">
-              <form action="/post-success" method="POST" id="addpost" onSubmit="preppost()">
+              <form action="/post-success" method="POST" id="addpost">
               <div className="titleArea">
               Title: <PostTitleInput />
               </div>
@@ -43,7 +55,7 @@ class CreatePost extends Component {
               <TextEditor />
             </div>
             <div className="buttonarea">
-            <a href="/post-success"><PostBtn /></a>
+              {/* <PostBtn /> */}
               <DiscardBtn />
             </div>
             </form>

@@ -24,6 +24,7 @@ func GetCategories(db *sql.DB) []u.Category {
 			fmt.Println("Get cats Scan error:", err)
 			continue
 		}
+		category.Checked = true
 		c = append(c, category)
 	}
 

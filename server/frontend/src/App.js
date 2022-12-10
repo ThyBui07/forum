@@ -7,6 +7,8 @@ import Home1 from './Pages/Home1'
 import AccountSettings from './Pages/MyAccountSettings'
 import CreatePost from './Pages/CreatePost';
 import PostSuccess from './Pages/post-success';
+import LoginRedirect from './Pages/LoginRedirect'
+import Login from './Pages/login';
 
 class App extends Component {
   render () {
@@ -17,6 +19,8 @@ class App extends Component {
           <Route exact path='/Account' element={<AccountSettings/>} />
           <Route exact path='/create-post' element={<CreatePost/>} />
           <Route exact path='/post-success' element={<PostSuccess/>} />
+          <Route exact path='/loginredirect' element={<LoginRedirect/>} />
+          <Route exact path='/login' element={<Login/>} />
         </Routes>
       </Router>
     );

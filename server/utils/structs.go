@@ -20,6 +20,7 @@ type User struct {
 type Category struct {
 	Id       int    `json:"id"`
 	Title    string `json:"title"`
+	Checked  bool   `json:"cheked"`
 	NumPosts int    `json:"numPosts"`
 	Posts    []Post `json:"posts"`
 }

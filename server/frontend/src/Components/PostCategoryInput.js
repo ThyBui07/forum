@@ -6,8 +6,7 @@ class PostCategoryInput extends Component {
         super(props);
 
         this.state = {
-            items: [],
-            DataisLoaded: false,
+            categories: [],
           };
     }
     
@@ -17,18 +16,17 @@ class PostCategoryInput extends Component {
         .then((json) => {
           console.log(json)
           this.setState({
-            items: json,
-            DataisLoaded: true,
+            categories: json,
           });
         });
     }
 
     render() { 
-        const { items } = this.state;
+        const { categories } = this.state;
         return (
             <select className="categorySelect" id="postCategoryId">
 
-{items.map((item) => (
+{categories.map((item) => (
           <option value={item.id} key={item.id}>{item.title}</option> 
         ))}
             </select>

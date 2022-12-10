@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import SettingsNav from '../Components/SettingsNav'
-import TopNav1 from '../Components/TopNav1'
 import UsernameField from "../Components/UsernameField";
 import EmailField from "../Components/EmailField";
 import PasswordField from "../Components/PasswordField";
@@ -35,13 +34,14 @@ class AccountSettings extends Component {
     const { items } = this.state;
     return (
           <div>
-            <TopNav1 />
+            {/* <TopNav1 /> */}
             <SettingsNav/>
             <div className="main">
             <h1 className="headertitle">Account Settings</h1>
                 <div className="flex-container">
                   <div className="column" id="r1c2">
                 
+
                     <div className="username">
                     <p><span>UserName:</span><UsernameField /></p>
                       <div className="usernamebtn">

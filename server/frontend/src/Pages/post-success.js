@@ -12,7 +12,7 @@ class PostSuccess extends Component {
           };
     }
     componentDidMount() {
-        fetch("http://localhost:8080")
+        fetch("http://localhost:8080/post-sucess")
           .then((res) => res.json())
           .then((json) => {
             console.log(json)
