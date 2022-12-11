@@ -21,6 +21,8 @@ class App extends Component {
           <Route exact path='/post-success' element={<PostSuccess/>} />
           <Route exact path='/loginredirect' element={<LoginRedirect/>} />
           <Route exact path='/login' element={<Login/>} />
+
+{/*       <Route path="*" element={<Error/>} />*/}
         </Routes>
       </Router>
     );

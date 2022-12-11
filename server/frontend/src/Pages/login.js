@@ -29,10 +29,12 @@ handleChange(e) {
 
   onSubmit = (e) => {
     e.preventDefault();
+      
 
-       const result = fetch('http://localhost:8080/loginredirect' , {
+       const result = fetch('http://localhost:8080/login' , {
           method: "POST",
           headers: {
+            'Accept': 'application/json',
           'Content-type': 'application/json'
           },
           body: JSON.stringify(this.state)
@@ -50,7 +52,7 @@ handleChange(e) {
             <div className="main">
             <h1 className="headertitle">Login</h1>
             <div className="contentArea">
-            <form action='/loginredirect' method="POST" id="login">
+            <form method="POST" id="login">
               <div>
               <label htmlFor="usernameInput">Username:</label>
                   <input type="text" id="usernameInput" onChange={this.handleChange} />
@@ -64,9 +66,9 @@ handleChange(e) {
 
               <div className="buttonarea">
                 <input type="submit" form_id="2" className="loginBtn" value="LogIn"></input>
-                <button action="/register" className="registerBtn">Register</button>
               </div>
             </form>
+            <a href="/register"><button className="registerBtn">Register</button></a>
             </div>
            
            

@@ -22,10 +22,11 @@ func Start() error {
 	//get request
 	http.HandleFunc("/", GetRequest)
 	http.HandleFunc("/loginredirect", LoginRedirect)
-	/* http.HandleFunc("/login", Login)
-	http.HandleFunc("/home", SignUpRedirect)
-	http.HandleFunc("/signup", Signup)
-	http.HandleFunc("/home_welcome", LoginRedirect)*/
+	http.HandleFunc("/login", Login)
+	/*
+		http.HandleFunc("/home", SignUpRedirect)
+		http.HandleFunc("/signup", Signup)
+		http.HandleFunc("/home_welcome", LoginRedirect)*/
 	http.HandleFunc("/post-success", ReceivePost)
 	//open port- listen
 	log.Println("Starting server port 8080 (http://localhost:8080/)")

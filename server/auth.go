@@ -39,20 +39,18 @@ func SignUpRedirect(w http.ResponseWriter, r *http.Request) {
 
 // Login handler
 func LoginRedirect(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("loginrediret0")
+
+	var LUser u.User
+
 	// Getting login info
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000/loginredirect")
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 	switch r.Method {
 	case "OPTIONS":
 		w.Header().Set("Access-Control-Allow-Headers", "*")
 		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
 		return
-	}
-	var LUser u.User
-
-	LUser.Username = ""
-	LUser.Password = ""
-
-	if r.Method == "POST" {
+	case "POST":
 		fmt.Println("he")
 		err := json.NewDecoder(r.Body).Decode(&LUser)
 		if err != nil {
@@ -74,4 +72,29 @@ func LoginRedirect(w http.ResponseWriter, r *http.Request) {
 
 	   	} */
 
+}
+
+func Login(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("loginrediret0")
+
+	var LUser u.User
+
+	// Getting login info
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000/login")
+	switch r.Method {
+	case "OPTIONS":
+		w.Header().Set("Access-Control-Allow-Headers", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+		return
+	}
+	if r.Method == "POST" {
+		fmt.Println("he")
+		err := json.NewDecoder(r.Body).Decode(&LUser)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			fmt.Println("herrr")
+			return
+		}
+		fmt.Println("received:", LUser)
+	}
 }
