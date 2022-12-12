@@ -4,11 +4,12 @@ import '../Components/css/MyAccount.css';
 class ChangeEmailBtn extends Component {
     constructor(props) {
         super(props);
+        console.log(props)
     }
     state = {  }
     render() { 
         return (
-            <button className="changebtn" id="changeEmailBtn">Change</button>
+            <button className="changebtn" id="changeEmailBtn">{this.props.data}</button>
           );
     }
 }

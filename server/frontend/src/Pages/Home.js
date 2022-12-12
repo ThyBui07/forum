@@ -1,7 +1,8 @@
 import React, { Component } from "react";
+import ChangeEmailBtn from '../Components/ChangeEmailBtn'
 
 //import { useState, useEffect } from "react";
-
+const user = {id: 1, Username: "gin", email: "gin.com", password: "abc123"}
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -15,7 +16,7 @@ class Home extends Component {
     fetch("http://localhost:8080")
       .then((res) => res.json())
       .then((json) => {
-        console.log(json)
+        //console.log(json)
         this.setState({
           items: json,
           DataisLoaded: true,
@@ -30,6 +31,15 @@ class Home extends Component {
         {items.map((item) => (
           <ol className="categoriesList" key={item.id}>Title: {item.title}</ol> 
         ))}
+     
+
+     
+
+      <ChangeEmailBtn data={user.Username}/>
+      <ChangeEmailBtn />
+      <ChangeEmailBtn />
+
+
       </div>
     );
   }
