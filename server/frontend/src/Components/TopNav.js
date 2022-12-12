@@ -20,14 +20,14 @@ class TopNav extends Component {
                     <h1 className="navbarTitle">Food Forum</h1> 
                 </div>
                 <div className="navbarBtn">
-                    {!isLogged && (
+                    {isLogged && (
                         <div>
                             <CreatePostBtn />
                             <LogoutBtn />
                             <img className="ProfileImg" src={profileImg} />
                         </div>
                     )}
-                    {isLogged && (
+                    {!isLogged && (
                         <div >
                             <LoginBtn />
                             <SignupBtn />
