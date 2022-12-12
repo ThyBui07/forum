@@ -2,7 +2,7 @@
 FROM golang:1.18-bullseye
 
 # install npm and nodejs
-RUN apt-get update -y && apt-get install npm -y 
+RUN apt-get update -y && apt-get install npm -y  && apt-get install sqlite3
 RUN npm cache clean -f
 RUN npm install node latest
 

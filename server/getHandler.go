@@ -17,6 +17,10 @@ type Data struct {
 var Send Data
 
 func GetRequest(w http.ResponseWriter, r *http.Request) {
+	// var post u.Post
+	// post.Content = "first post"
+	// fmt.Println(post)
+	fmt.Println("hello1")
 	Categories := d.GetCategories(Database)
 	b, err := json.Marshal(Categories)
 	if err != nil {
