@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import '../Components/css/Buttons.scss';
-import '../Components/css/TopNav.scss';
+import '../Components/css/Nav.scss';
 import logoImg from '../Components/img/logo5.png'
 import profileImg from '../Components/img/settings.png'
 import {useState} from 'react'
 
-
-const isLogged = true
+const isLogged = false
 
 class TopNav extends Component {
     constructor(props) {
@@ -21,14 +20,14 @@ class TopNav extends Component {
                     <h1 className="navbarTitle">Food Forum</h1> 
                 </div>
                 <div className="navbarBtn">
-                    {isLogged && (
+                    {!isLogged && (
                         <div>
                             <CreatePostBtn />
                             <LogoutBtn />
                             <img className="ProfileImg" src={profileImg} />
                         </div>
                     )}
-                    {!isLogged && (
+                    {isLogged && (
                         <div >
                             <LoginBtn />
                             <SignupBtn />

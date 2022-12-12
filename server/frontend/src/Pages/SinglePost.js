@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import TopNav from '../Components/TopNav'
-//import '../Components/css/MyPosts.css';
 import UsernameField from '../Components/UsernameField'
 import PostTitleField from '../Components/PostTitleField'
 import PostContentField from '../Components/PostContentField'

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import '../Components/css/SettingsNav.css';
+import '../Components/css/Nav.scss';
 
 
 class SettingsNav extends Component {
@@ -9,7 +9,7 @@ class SettingsNav extends Component {
     state = {  }
     render() { 
         return (
-            <div className="sidenav">
+          <div className="sidenav">
             <div className="sidelinks">
               <a href={'../Pages/MyAccountSettings'}>Account</a>
               <a href="/static/template/mypost.html">My Posts</a>

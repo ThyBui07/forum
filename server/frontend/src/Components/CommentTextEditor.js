@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import '../Components/css/TopNav.scss';
+import '../Components/css/Nav.scss';
 //import '../Components/css/MyPosts.css';
 
 class CommentTextEditor extends Component {

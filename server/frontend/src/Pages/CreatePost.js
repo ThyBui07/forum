@@ -1,14 +1,6 @@
 import React, { Component } from "react";
 import TopNav from '../Components/TopNav'
-import PostTitleInput from '../Components/PostTitleInput'
-import PostCategoryInput from "../Components/PostCategoryInput";
-import TextEditor from "../Components/TextEditor";
-import DiscardBtn from  "../Components/DiscardBtn"
-import PostBtn from "../Components/PostBtn";
 import '../Components/css/CreatePost.css';
-
-
-
 
 //import { useState, useEffect } from "react";
 
@@ -54,3 +46,23 @@ class CreatePost extends Component {
 }
 
 export default CreatePost;
+
+function PostTitleInput() {
+  return  <textarea className="titleTextArea" id="postTitle"></textarea>
+}
+
+function PostCategoryInput() {
+  return  <textarea className="titleTextArea" id="postTitle"></textarea>
+}
+
+function TextEditor() {
+  return   <textarea className="myTextarea" id="myTextarea" placeholder="Type something"></textarea>
+}
+
+function PostBtn() {
+  return <button className="postBtn">Post</button>
+}
+
+function DiscardBtn() {
+  return <button className="discardBtn">Discard</button>
+}

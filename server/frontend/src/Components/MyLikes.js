@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import '../Components/css/MyAccount.scss';
 import dislikesIcon from '../Components/img/dislikes.png'
 import commentsIcon from '../Components/img/comments.png'
 import shareIcon from '../Components/img/share.png'
+import '../Components/css/MyAccount.scss';
 
 //import { useState, useEffect } from "react";
 const user = [
