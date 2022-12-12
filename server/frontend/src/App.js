@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import Home from './Pages/Home'
 import MyAccountPage from './Pages/MyAccountPage'
-import Signin from './Pages/Sigin'
+import Signin from './Pages/Sigin-copy'
 import CreatePost from './Pages/CreatePost';
 import MyLikes from './Components/MyLikes';
 //import MyPosts from './Pages/MyPosts';
