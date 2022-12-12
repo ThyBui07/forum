@@ -21,6 +21,7 @@ func Start() error {
 	//http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./server/static/"))))
 	//get request
 	http.HandleFunc("/", GetRequest)
+	http.HandleFunc("/login", Signin1)
 	/* http.HandleFunc("/login", Login)
 	http.HandleFunc("/home", SignUpRedirect)
 	http.HandleFunc("/signup", Signup)
