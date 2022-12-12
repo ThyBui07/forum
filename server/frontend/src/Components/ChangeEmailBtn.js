@@ -1,16 +1,17 @@
 import React, { Component } from "react";
 import '../Components/css/MyAccount.scss';
 
-class PasswordField extends Component {
+class ChangeEmailBtn extends Component {
     constructor(props) {
         super(props);
+        console.log(props)
     }
     state = {  }
     render() { 
         return (
-            <p className="passwordsub" id="passwordField">*****</p>
+            <button className="changebtn" id="changeEmailBtn">{this.props.data}</button>
           );
     }
 }
  
-export default PasswordField;
+export default ChangeEmailBtn;

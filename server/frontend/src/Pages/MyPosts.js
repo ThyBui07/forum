@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import SettingsNav from '../Components/SettingsNav'
-import TopNav1 from '../Components/TopNav1'
+import TopNav from '../Components/TopNav'
 import UsernameField from '../Components/UsernameField'
 import PostTitleField from '../Components/PostTitleField'
 import PostContentField from '../Components/PostContentField'
 import NoOfLikesField from '../Components/NoOfLikesField'
 import NoOfCommentField from '../Components/NoOfCommentField'
-import '../Components/css/MyPosts.css';
+//import '../Components/css/MyPosts.css';
 import dislikesIcon from '../Components/img/dislikes.png'
 import commentsIcon from '../Components/img/comments.png'
 import shareIcon from '../Components/img/share.png'
@@ -39,7 +39,7 @@ class MyPosts extends Component {
     const { items } = this.state;
     return (
           <div>
-            <TopNav1 />
+            <TopNav />
             <SettingsNav/>
             <div className="main">
               <h1 className="headertitle">My Post</h1>

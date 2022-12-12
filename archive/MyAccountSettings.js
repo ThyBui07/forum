@@ -8,7 +8,7 @@ import PasswordField from "./PasswordField";
 import ChangeUsernameBtn from '../../../../archive/Components/ChangeUsernameBtn'
 import ChangeEmailBtn from "./ChangeEmailBtn";
 import ChangePasswordBtn from "./ChangePasswordBtn";
-import '../Components/css/MyAccount.css';
+import '../Components/css/MyAccount.scss';
 
 //import { useState, useEffect } from "react";
 

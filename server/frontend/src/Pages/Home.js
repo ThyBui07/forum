@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import ChangeEmailBtn from '../Components/ChangeEmailBtn'
+import TopNav from "../Components/TopNav";
 
 //import { useState, useEffect } from "react";
-const user = {id: 1, Username: "gin", email: "gin.com", password: "abc123"}
+
+const user = {id: 1, Username: "gin", email: "gin.com", password: "abc123", isLogged: true}
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -27,12 +29,12 @@ class Home extends Component {
     const { items } = this.state;
     return (
       <div>
+     <TopNav />
+
         <h1> Fetch datatabcdfdfdfd </h1>{" "}
         {items.map((item) => (
           <ol className="categoriesList" key={item.id}>Title: {item.title}</ol> 
         ))}
-     
-
      
 
       <ChangeEmailBtn data={user.Username}/>

@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import '../Components/css/Buttons.scss';
-import '../Components/css/TopNav1.scss';
+import '../Components/css/TopNav.scss';
 import logoImg from '../Components/img/logo5.png'
 import profileImg from '../Components/img/settings.png'
 import {useState} from 'react'
+
+
 const isLogged = true
 
-class TopNav1 extends Component {
+class TopNav extends Component {
     constructor(props) {
         super(props);
     }
@@ -21,9 +23,9 @@ class TopNav1 extends Component {
                 <div className="navbarBtn">
                     {isLogged && (
                         <div>
-                            <img className="ProfileImg" src={profileImg} />
                             <CreatePostBtn />
                             <LogoutBtn />
+                            <img className="ProfileImg" src={profileImg} />
                         </div>
                     )}
                     {!isLogged && (
@@ -37,7 +39,7 @@ class TopNav1 extends Component {
           );
     }
 }
-export default TopNav1;
+export default TopNav;
 
   function CreatePostBtn() {
     return <button className="CreatepostBtn">Create Post</button>;

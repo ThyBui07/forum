@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import TopNav1 from '../Components/TopNav1'
+import TopNav from '../Components/TopNav'
 import '../Components/css/Home1.css';
 
 
@@ -31,7 +31,7 @@ class Home1 extends Component {
       <main>
         <header>
         <div>
-          <TopNav1/>
+          <TopNav />
         </div>
       </header>
       <body>
