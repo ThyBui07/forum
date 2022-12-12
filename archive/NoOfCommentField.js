@@ -1,16 +1,16 @@
 import React, { Component } from "react";
-import '../Components/css/MyPosts.css';
+import '../Components/css/MyAccount.scss';
 
-class NoOfLikesField extends Component {
+class NoOfCommentField  extends Component {
     constructor(props) {
         super(props);
     }
     state = {  }
     render() { 
         return (
-            <span>11</span>
+            <span>101</span>
           );
     }
 }
  
-export default NoOfLikesField;
+export default NoOfCommentField;

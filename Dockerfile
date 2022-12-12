@@ -2,9 +2,11 @@
 FROM golang:1.18-bullseye
 
 # install npm and nodejs
-RUN apt-get update -y && apt-get install npm -y
+RUN apt-get update -y && apt-get install npm -y 
 RUN npm cache clean -f
 RUN npm install node latest
+
+
 
 # Creates an app directory to hold your app’s source code
 WORKDIR /app
@@ -20,7 +22,7 @@ WORKDIR /app/server/frontend
 
 #install node_modules
 RUN npm install
-
+RUN npm install react-responsive --save
 # Builds your app with optional configuration
 WORKDIR /app
 

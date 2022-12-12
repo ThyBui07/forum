@@ -1,16 +1,16 @@
 import React, { Component } from "react";
-import '../Components/css/MyPosts.css';
+import '../Components/css/MyAccount.scss'
 
-class NoOfCommentField  extends Component {
+class PostTitleField extends Component {
     constructor(props) {
         super(props);
     }
     state = {  }
     render() { 
         return (
-            <span>101</span>
+            <span>Daim Frozen Cake Recipes</span>
           );
     }
 }
  
-export default NoOfCommentField;
+export default PostTitleField;

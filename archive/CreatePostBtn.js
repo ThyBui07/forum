@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import '../Components/css/TopNav1.css';
+import '../Components/css/Buttons.scss';
 
 class CreatepostBtn extends Component {
     constructor(props) {
@@ -8,7 +8,7 @@ class CreatepostBtn extends Component {
     state = {  }
     render() { 
         return (
-         <button className="CreatepostBtn">Create Post</button>
+         <button className="CreatepostBtn">Create </button>
           );
     }
 }

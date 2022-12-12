@@ -1,0 +1,32 @@
+@import 'variables';
+@import 'mixins';
+
+.CreatepostBtn, .LoginBtn{
+  @include nav-rounded-btn;
+  background-color:  $primary-background-color;
+  color: black;
+  font-size: 15px;
+}
+  
+.CreatepostBtn:hover, .LoginBtn:hover{
+  @include nav-rounded-btn;
+  border: 2px solid $nav-bar-button-orange-hover-bg;
+  background-color: $nav-bar-button-orange-hover-bg;
+  color: $nav-bar-button-orange-hover-text;
+  display: inline-block;
+}
+
+.LogoutBtn, .SignupBtn{
+  @include nav-rounded-btn;
+  border: 2px solid $nav-bar-button-orange;
+  background-color: $nav-bar-button-orange;
+  color: black;
+}
+  
+.LogoutBtn:hover, .SignupBtn:hover{
+  @include nav-rounded-btn;
+  border: 2px solid $nav-bar-button-orange-hover-bg;
+  background-color:$nav-bar-button-orange-hover-bg;
+  color: $nav-bar-button-orange-hover-text;
+}
+  

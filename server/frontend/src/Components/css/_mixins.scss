@@ -1,0 +1,70 @@
+@mixin nav-rounded-btn {
+    font-family: $fonts;
+    width:150px;
+    height: 50px;
+    font-weight: bold;
+    border-radius: 100px;
+    cursor: pointer;
+    display: inline-block;
+  }
+
+
+  @mixin settings-rec-btn{
+        font-family: 'Poppins', sans-serif;
+        background-color: #454545;
+        border: 1px solid white;
+        border-bottom-color: white;
+        color: white;
+        cursor: pointer;
+        width: 111px;
+        height: 30px;
+        font-size: x-small;
+        font-weight: bold;
+  }
+
+  @mixin accounts-settings-content-area{
+    html{
+      background-color:$primary-background-color;
+      font-family: $fonts;
+    }
+    
+    .main {
+      font-size: 28px; /* Increased text to enable scrolling */
+      margin-left: 12%; /* Same as the width of the sidenav */
+      padding-top: 6%;
+    }
+    
+    .headertitle{
+      color: black;
+      margin-top: 2%;
+      margin-left: 3%;
+      margin-bottom: 1%;
+      text-align: left;
+    }
+    
+    .settings-flex-container, .mylikedpost-flex-container{
+      background-color: $content-background-color;
+      height: auto;
+      display:flex;
+      flex-wrap: wrap;
+      flex-direction: column;
+      margin: 1% 4% 17% 4%;
+    }
+    
+    .settings-flex-container > div {
+      margin-top: -5%;
+      margin-left: 0%;
+      padding: 9px 0px 0px 0px;
+    }
+    
+    .settings-column, .mylikedpost-column {
+      flex: 50%;
+      flex: 15;
+      margin-bottom: -17%;
+      text-align: left;
+    }
+
+    .mylikedpost-column{
+      background-color: white;
+    }
+  }

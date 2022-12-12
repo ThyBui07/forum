@@ -1,73 +1,62 @@
 import React, { Component } from "react";
-import SettingsNav from '../Components/SettingsNav'
-import TopNav1 from '../Components/TopNav1'
-import UsernameField from "../Components/UsernameField";
-import EmailField from "../Components/EmailField";
-import PasswordField from "../Components/PasswordField";
-import ChangeUsernameBtn from '../Components/ChangeUsernameBtn'
-import ChangeEmailBtn from "../Components/ChangeEmailBtn";
-import ChangePasswordBtn from "../Components/ChangePasswordBtn";
-import '../Components/css/MyAccount.css';
+import '../Components/css/Buttons.scss'
+import '../Components/css/MyAccount.scss';
 
+const user = {id: 1, Username: "gin", email: "gin.com", password: "abc123"}
 //import { useState, useEffect } from "react";
 
 class AccountSettings extends Component {
   constructor(props) {
     super(props);
+  }
 
-    this.state = {
-      items: [],
-      DataisLoaded: false,
-    };
-  }
-  componentDidMount() {
-    fetch("http://localhost:8080")
-      .then((res) => res.json())
-      .then((json) => {
-        console.log(json)
-        this.setState({
-          items: json,
-          DataisLoaded: true,
-        });
-      });
-  }
   render() {
-    const { items } = this.state;
     return (
           <div>
-            <TopNav1 />
-            <SettingsNav/>
-            <div className="main">
-            <h1 className="headertitle">Account Settings</h1>
-                <div className="flex-container">
-                  <div className="column" id="r1c2">
-                
+              <div className="main">
+                <h1 className="headertitle">Account Settings</h1>
+                <div className="settings-flex-container">
+                  <div className="settings-column">
+                    
                     <div className="username">
-                    <p><span>UserName:</span><UsernameField /></p>
+                      <p><span>UserName:</span> <p className="usernamesub" id="usernameField">{user.Username}</p></p>
                       <div className="usernamebtn">
                         <ChangeUsernameBtn />
                       </div>
-                    </div>  
-                
-                  <div className="email">
-                    <p><span>Email:</span><EmailField /></p>
-                    <div className="emailbtn">
-                      <ChangeEmailBtn />
                     </div>
-                  </div>  
-              
-                  <div className="password">
-                    <p><span>Password:</span><PasswordField /></p>
-                      <div className="passwordbtn">
+                  
+                    <div className="email">
+                      <p><span>Email:</span> <p className="emailsub" id="emailField">{user.email}</p></p>
+                      <div className="usernamebtn">
+                        <ChangeEmailBtn />
+                      </div>
+                    </div> 
+
+                    <div className="password">
+                      <p><span>Email:</span> <p className="passwordsub" id="passwordField">{user.password}</p></p>
+                      <div className="usernamebtn">
                         <ChangePasswordBtn />
                       </div>
+                    </div>
+
                   </div>
                 </div>
               </div>
-              </div>
-      </div> 
-    );
-  }
+            </div>
+      );
+    }
 }
 
 export default AccountSettings;
+
+function ChangeUsernameBtn() {
+  return <button className="changebtn" id="changeUsernameBtn">Change</button>;
+}
+
+function ChangeEmailBtn() {
+  return <button className="changebtn" id="changeEmailBtn">Change</button>;
+}
+
+function ChangePasswordBtn() {
+ return <button className="changebtn" id = "changePasswordBtn">Change</button>;
+}
