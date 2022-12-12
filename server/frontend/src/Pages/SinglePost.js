@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import TopNav1 from '../Components/TopNav1'
-import '../Components/css/MyPosts.css';
+import TopNav from '../Components/TopNav'
+//import '../Components/css/MyPosts.css';
 import UsernameField from '../Components/UsernameField'
 import PostTitleField from '../Components/PostTitleField'
 import PostContentField from '../Components/PostContentField'
@@ -40,7 +40,7 @@ class SinglePost extends Component {
     const { items } = this.state;
     return (
           <div>
-            <TopNav1 />
+            <TopNav />
             <div className="main">
               <h1 className="headertitle">Post</h1>
                   <div className="mypost">

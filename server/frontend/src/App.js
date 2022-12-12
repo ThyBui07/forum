@@ -7,6 +7,11 @@ import Home from './Pages/Home'
 import AccountSettings from './Pages/MyAccountSettings'
 import Signin from './Pages/Sigin'
 import CreatePost from './Pages/CreatePost';
+import MyLikes from './Pages/MyLikes';
+//import MyPosts from './Pages/MyPosts';
+//import SinglePost from './Pages/SinglePost';
+
+
 
 class App extends Component {
   render () {
@@ -14,9 +19,15 @@ class App extends Component {
       <Router>
         <Routes>
           <Route exact path='/' element={<Home/>} />
-          <Route exact path='/Account' element={<AccountSettings/>} />
-          <Route exact path='/Signin' element={<Signin/>} />
-          <Route exact path='/CreatePost' element={<CreatePost/>} />
+          <Route exact path='/account' element={<AccountSettings/>} />
+          <Route exact path='/signin' element={<Signin/>} />
+          <Route exact path='/create-post' element={<CreatePost/>} />
+          <Route exact path='/my-likes' element={<MyLikes/>} />
+{/*           
+          <Route exact path='/my-posts' element={<MyPosts/>} />
+          
+          <Route exact path='/single-post' element={<SinglePost/>} /> */}
+          
         </Routes>
       </Router>
     );

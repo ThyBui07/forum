@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import '../Components/css/TopNav1.css';
+import '../Components/css/TopNav.scss';
 
 class LogoutBtn extends Component {
     constructor(props) {

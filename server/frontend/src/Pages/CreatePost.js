@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import TopNav1 from '../Components/TopNav1'
+import TopNav from '../Components/TopNav'
 import PostTitleInput from '../Components/PostTitleInput'
 import PostCategoryInput from "../Components/PostCategoryInput";
 import TextEditor from "../Components/TextEditor";
@@ -27,7 +27,7 @@ class CreatePost extends Component {
     const { items } = this.state;
     return (
           <div>
-            <TopNav1 />
+            <TopNav />
             <div className="main">
             <h1 className="headertitle">Create a post</h1>
             <div className="contentArea">

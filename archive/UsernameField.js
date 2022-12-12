@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import '../Components/css/MyPosts.css';
+//import '../Components/css/MyPosts.css';
 
 class UsernameField extends Component {
     constructor(props) {
