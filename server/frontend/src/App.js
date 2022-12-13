@@ -19,7 +19,8 @@ class App extends Component {
     return (
       <Router>
         <Routes>
-          <Route exact path='/' element={<LogIn/>} />
+          <Route exact path='/login' element={<LogIn />} /> 
+          <Route exact path='/' element={<Home/>} />
           <Route exact path='/account' element={<MyAccountPage/>} />
           <Route exact path='/signin' element={<Signin/>} />
           <Route exact path='/create-post' element={<CreatePost/>} />

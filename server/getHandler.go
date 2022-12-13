@@ -9,9 +9,9 @@ import (
 )
 
 type Data struct {
-	Categories []u.Category
-	Posts      []u.Post
-	//Logged     Logged
+	Categories []u.Category `json:"categories"`
+	Posts      []u.Post     `json:"posts"`
+	Logged     Logged       `json:"logged"`
 }
 
 var Send Data

@@ -2,28 +2,53 @@ import { useState } from "react";
 import '../Components/css/popuplogin.scss'
 import '../Components/css/Buttons.scss'
 import forumImg from '../Components/img/signin.png'
+import { useNavigate } from "react-router-dom";
+
+
 
 function Signin() {
-    const [name, setName] = useState("");
+ 
+  
+  
+    const [username, setName] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
+    const navigate = useNavigate();
+
+    let HandleAuth = async(e) => {
+      fetch("http://localhost:8080/login")
+        .then((res) => res.json())
+        .then((json) => {
+          console.log(json)
+          if (json === true) {
+            sessionStorage.setItem("loggedIn", true);
+            navigate('/', { replace: true });
+          console.log("Login successful")
+          } else {
+            sessionStorage.setItem("loggedIn", false);
+            setMessage("Username or password incorrect");
+            console.log("U or P incorrect")
+          }
+        });
+
+    }
    
-    let handleSubmit = async (e) => {
+    let HandleSubmit = async (e) => {
         e.preventDefault();
         try {
-          let res = await fetch("http://localhost:8080/login", {
+          let response = await fetch("http://localhost:8080/login", {
             method: "POST",
             headers:{
                 'Content-Type': 'text/plain'
             },
             body: JSON.stringify({
-              name: name,
+              username: username,
               password: password,
             }),
-          }).then((res) => res.json())
+          }).then((response) => response.json())
           .then((json)=> console.log(json));
           
-          if (res.status === 200) {
+          if (response.status === 200) {
            
             setName("");
             setPassword("");
@@ -34,6 +59,7 @@ function Signin() {
         } catch (err) {
           console.log(err);
         }
+        HandleAuth();
       };
     return (
       <div >
@@ -46,11 +72,11 @@ function Signin() {
               <h1 className="heading-title">Login</h1>
             </div>   
             <div className="form-area">
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={HandleSubmit}>
                 <h3 className="username-title">Username</h3>
                 <input
                   type="text"
-                  value={name}
+                  value={username}
                   onChange={(e) => setName(e.target.value)}
                 />
                 <h3 className="password-title">Password</h3>

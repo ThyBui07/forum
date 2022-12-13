@@ -4,15 +4,20 @@ import '../Components/css/Nav.scss';
 import logoImg from '../Components/img/logo5.png'
 import profileImg from '../Components/img/settings.png'
 import {useState} from 'react'
+import { useNavigate } from "react-router-dom";
 
-const isLogged = false
+
 
 class TopNav extends Component {
     constructor(props) {
         super(props);
+
+        
     }
  
     render() { 
+      let isLogged = sessionStorage.getItem("loggedIn")
+        console.log(isLogged)
         return (
             <div className="navbar">
                 <div className="navbarLogo" >
@@ -45,11 +50,12 @@ export default TopNav;
   }
 
   function LogoutBtn() {
-    return <button className="LogoutBtn">Logout</button>;
+    sessionStorage.setItem("loggedIn", false)
+    return <a href='/'><button className="LogoutBtn">Logout</button></a>;
   }
 
   function LoginBtn() {
-    return <button className="LoginBtn">Log in</button>;
+    return <a href="/login"><button className="LoginBtn">Log in</button></a>;
   }
 
   function SignupBtn() {
