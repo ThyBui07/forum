@@ -30,3 +30,21 @@
   color: $nav-bar-button-orange-hover-text;
 }
   
+.loginpageBtn{
+  background-color: $login-button;
+  border: 2px solid $login-button;
+  color:white;
+  cursor: pointer;
+  font-family: $fonts;
+  font-size:medium;
+  font-weight: bold;
+  width: 166px;
+}
+
+.loginpageBtn:hover{
+  background-color: white ;
+  border: 2px solid $login-button;
+  color: $login-button;
+  font-weight: bold;
+}
+ 

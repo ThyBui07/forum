@@ -8,6 +8,7 @@ import MyAccountPage from './Pages/MyAccountPage'
 import Signin from './Pages/Sigin-copy'
 import CreatePost from './Pages/CreatePost';
 import MyLikes from './Components/MyLikes';
+import LogIn from './Pages/LogIn'
 //import MyPosts from './Pages/MyPosts';
 //import SinglePost from './Pages/SinglePost';
 
@@ -18,7 +19,7 @@ class App extends Component {
     return (
       <Router>
         <Routes>
-          <Route exact path='/' element={<Home/>} />
+          <Route exact path='/' element={<LogIn/>} />
           <Route exact path='/account' element={<MyAccountPage/>} />
           <Route exact path='/signin' element={<Signin/>} />
           <Route exact path='/create-post' element={<CreatePost/>} />
