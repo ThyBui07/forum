@@ -29,7 +29,7 @@ type Post struct {
 	ID         int       `json:"id"`
 	AuthorID   int       `json:"author id"`
 	Title      string    `json:"title"`
-	Content    string    `json:"content"`
+	Content    []byte    `json:"content"`
 	CategoryID int       `json:"category id"`
 	Date       string    `json:"date"`
 	ImageURL   string    `json:"image src"`

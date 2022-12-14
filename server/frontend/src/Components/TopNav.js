@@ -3,25 +3,18 @@ import '../Components/css/Buttons.scss';
 import '../Components/css/Nav.scss';
 import logoImg from '../Components/img/logo5.png'
 import profileImg from '../Components/img/settings.png'
-import {useState} from 'react'
-import { useNavigate } from "react-router-dom";
 
 
 
 class TopNav extends Component {
-    constructor(props) {
-        super(props);
-
-        
-    }
  
     render() { 
       let isLogged = sessionStorage.getItem("loggedIn")
-        console.log(isLogged)
+        //console.log(isLogged)
         return (
             <div className="navbar">
                 <div className="navbarLogo" >
-                    <img className="LogoImg" src={logoImg} />
+                    <img alt="logo" className="LogoImg" src={logoImg} />
                     <h1 className="navbarTitle">Food Forum</h1> 
                 </div>
                 <div className="navbarBtn">
@@ -29,7 +22,7 @@ class TopNav extends Component {
                         <div>
                             <CreatePostBtn />
                             <LogoutBtn />
-                            <img className="ProfileImg" src={profileImg} />
+                            <img alt="prof" className="ProfileImg" src={profileImg} />
                         </div>
                     )}
                     {!isLogged && (
@@ -46,7 +39,7 @@ class TopNav extends Component {
 export default TopNav;
 
   function CreatePostBtn() {
-    return <button className="CreatepostBtn">Create Post</button>;
+    return <a href='/create-post'><button className="CreatepostBtn">Create Post</button></a>;
   }
 
   function LogoutBtn() {

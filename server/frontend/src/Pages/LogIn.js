@@ -7,8 +7,6 @@ import { useNavigate } from "react-router-dom";
 
 
 function Signin() {
- 
-  
   
     const [username, setName] = useState("");
     const [password, setPassword] = useState("");
@@ -30,7 +28,6 @@ function Signin() {
             console.log("U or P incorrect")
           }
         });
-
     }
    
     let HandleSubmit = async (e) => {
