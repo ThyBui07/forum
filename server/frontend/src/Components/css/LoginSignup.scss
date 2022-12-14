@@ -1,0 +1,33 @@
+@import 'variables';
+@import 'mixins';
+
+@include loginSignup;
+
+.username-title, .password-title, .email-title, .mobilenumber-title{
+  margin-bottom: 0%;
+  text-align: center;
+}
+
+.username-title{
+  margin-top: 7%;
+}
+
+.password-title{
+  margin-top: 10%;
+}
+
+.email-title{
+  margin-top: 8%;
+}
+
+.mobilenumber-title{
+  margin-top: 11%;
+}
+
+#heading-title-signup{
+  margin-top: 4%
+}
+
+#heading-title-login{
+  margin-top: 15%;
+}

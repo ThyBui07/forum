@@ -11,7 +11,7 @@
 
   @mixin settings-rec-btn{
         font-family: 'Poppins', sans-serif;
-        background-color: #454545;
+        background-color: #0F797B;
         border: 1px solid white;
         border-bottom-color: white;
         color: white;
@@ -38,7 +38,7 @@
     .headertitle{
       color: black;
       margin-top: 2%;
-      margin-left: 3%;
+      margin-left: 5%;
       margin-bottom: 1%;
       text-align: left;
     }
@@ -49,8 +49,9 @@
       display:flex;
       flex-wrap: wrap;
       flex-direction: column;
-      margin: 1% 4% 17% 4%;
+      margin: 0% 4% 0% 5%;
     }
+    
     
     .settings-flex-container > div {
       margin-top: -5%;
@@ -61,11 +62,83 @@
     .settings-column, .mylikedpost-column {
       flex: 50%;
       flex: 15;
-      margin-bottom: -17%;
+      margin-bottom: -25%;
       text-align: left;
     }
 
+    .mylikedpost-column {
+      margin-bottom: -17%;
+  }
     .mylikedpost-column{
       background-color: white;
+    }
+  }
+
+  @mixin loginSignup {
+    body{
+      font-family: $fonts;
+    }
+    
+    .heading{
+      margin-bottom: 1%;
+    }
+    
+    .heading-title{
+      color: #0F797B;
+      text-align: center;
+      margin-bottom: 4%;
+    }
+    
+    .forumImg{
+      width: 430px;
+      height: 100%;
+      border-top-left-radius: 25px;
+      border-bottom-left-radius: 25px;
+    }
+    
+    input{
+      background-color: #F3F3F3;
+      border: none;
+      height: 26px;
+    }
+    
+    .form-area{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      margin-top: -3%;
+    }
+
+    .login-flex-container{
+      background-color: $content-background-color;
+      border-radius: 25px;
+      display:flex;
+      flex-wrap: nowrap;
+      flex-direction: row;
+      height: auto;
+      margin: 2% 4% 1% 15%;
+      width:70%
+    }
+    
+    .login-flex-container > div {
+      margin-top: 0%;
+      margin-left: 0%;
+    }
+    
+    .login-column {
+      flex: 50%;
+      flex: 15;
+      margin-bottom: 0%;
+      text-align: left;
+    }
+    
+    .btn-area{
+      margin-top: 17%;
+      margin-bottom: 14%;
+    }
+    
+    h5{
+      margin:0;
+      text-align:center;
     }
   }

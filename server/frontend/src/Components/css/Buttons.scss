@@ -3,7 +3,7 @@
 
 .CreatepostBtn, .LoginBtn{
   @include nav-rounded-btn;
-  background-color:  $primary-background-color;
+  background-color: #189693;
   color: black;
   font-size: 15px;
 }
@@ -18,8 +18,8 @@
 
 .LogoutBtn, .SignupBtn{
   @include nav-rounded-btn;
-  border: 2px solid $nav-bar-button-orange;
-  background-color: $nav-bar-button-orange;
+  border: 2px solid $primary-background-color;
+  background-color: $primary-background-color;
   color: black;
 }
   

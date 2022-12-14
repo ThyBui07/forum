@@ -1,8 +1,13 @@
 import React, { Component } from "react";
 import '../Components/css/Buttons.scss';
 import '../Components/css/Nav.scss';
-import logoImg from '../Components/img/logo5.png'
+import logoImg from '../Components/img/logo6.png'
 import profileImg from '../Components/img/settings.png'
+<<<<<<< Updated upstream
+=======
+import SettingsNav from '../Components/SettingsNav'
+import {useState} from 'react'
+>>>>>>> Stashed changes
 
 
 
