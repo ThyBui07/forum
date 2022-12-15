@@ -6,14 +6,8 @@ import { useNavigate } from "react-router-dom";
 
 
 
-<<<<<<< Updated upstream
-function Signin() {
-  
-    const [username, setName] = useState("");
-=======
 function Login() {
-    const [name, setName] = useState("");
->>>>>>> Stashed changes
+    const [username, setName] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
     const navigate = useNavigate();
@@ -67,7 +61,7 @@ function Login() {
       <div >
         <div className="login-flex-container">
           <div className="login-column" id="right">
-            <img className="forumImg" src={forumImg} />
+            <img alt="forum img" className="forumImg" src={forumImg} />
           </div>
           <div className="login-column" id="left">
             <div className="heading">
@@ -93,7 +87,7 @@ function Login() {
                 </div>
                 <div>
                  <h5>Not a member?</h5>
-                 <a href=""><h5>Sign Up</h5></a>
+                 <a href="/signup"><h5>Sign Up</h5></a>
                 </div>
                 
                 <div className="message">{message ? <p>{message}</p> : null}</div>

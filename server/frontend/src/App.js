@@ -7,11 +7,9 @@ import Home from './Pages/Home'
 import MyAccountPage from './Pages/MyAccountPage'
 import Signin from './Pages/Sigin-copy'
 import CreatePost from './Pages/CreatePost'
-import MyPosts from './Components/MyPosts';
 import MyLikes from './Components/MyLikes';
-import Login from './Pages/LogIn'
+import LogIn from './Pages/LogIn'
 import Signup from './Pages/Signup'
-import TopNav from './Components/TopNav'
 //import MyPosts from './Pages/MyPosts';
 //import SinglePost from './Pages/SinglePost';
 
@@ -22,10 +20,9 @@ class App extends Component {
     return (
       <Router>
         <Routes>
-<<<<<<< Updated upstream
           <Route exact path='/login' element={<LogIn />} /> 
-=======
->>>>>>> Stashed changes
+          <Route exact path='/signup' element={<Signup />} /> 
+
           <Route exact path='/' element={<Home/>} />
           <Route exact path='/account' element={<MyAccountPage/>} />
           <Route exact path='/signin' element={<Signin/>} />

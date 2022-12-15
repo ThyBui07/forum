@@ -3,12 +3,6 @@ import '../Components/css/Buttons.scss';
 import '../Components/css/Nav.scss';
 import logoImg from '../Components/img/logo6.png'
 import profileImg from '../Components/img/settings.png'
-<<<<<<< Updated upstream
-=======
-import SettingsNav from '../Components/SettingsNav'
-import {useState} from 'react'
->>>>>>> Stashed changes
-
 
 
 class TopNav extends Component {
@@ -57,5 +51,5 @@ export default TopNav;
   }
 
   function SignupBtn() {
-    return <button className="SignupBtn">Sign up</button>;
+    return <a href="/signup"><button className="SignupBtn">Sign up</button></a>;
   }

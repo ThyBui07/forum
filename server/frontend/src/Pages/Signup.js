@@ -1,27 +1,30 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import '../Components/css/LoginSignup.scss'
 import '../Components/css/Buttons.scss'
 import forumImg from '../Components/img/signin.png'
 
 function Signup() {
-    const [name, setName] = useState("");
+    const [username, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [mobileNumber, setMobileNumber] = useState("");
     const [message, setMessage] = useState("");
+    const navigate = useNavigate();
    
     let handleSubmit = async (e) => {
         e.preventDefault();
         try {
-          let res = await fetch("http://localhost:8080/login", {
+          let res = await fetch("http://localhost:8080/signup", {
             method: "POST",
             headers:{
                 'Content-Type': 'text/plain'
             },
             body: JSON.stringify({
-              name: name,
+              username: username,
+              email: email,
               password: password,
-              mobileNumber: mobileNumber,
+              //mobileNumber: mobileNumber,
             }),
           }).then((res) => res.json())
           .then((json)=> console.log(json));
@@ -38,12 +41,29 @@ function Signup() {
         } catch (err) {
           console.log(err);
         }
+        HandleSignup();
       };
+
+      let HandleSignup = async(e) => {
+        fetch("http://localhost:8080/signup")
+          .then((res) => res.json())
+          .then((json) => {
+            console.log(json)
+            if (json === true) {
+              navigate('/', { replace: true });
+            console.log("Signup successful")
+            } else {
+              setMessage("Something went wrong");
+              console.log("Something went wrong")
+            }
+          });
+      }
+
     return (
       <div >
         <div className="login-flex-container">
           <div className="login-column" id="right">
-            <img className="forumImg" src={forumImg} />
+            <img alt="forum img" className="forumImg" src={forumImg} />
           </div>
           <div className="login-column" id="left">
             <div className="heading">
@@ -54,7 +74,7 @@ function Signup() {
                 <h3 className="username-title">Username</h3>
                 <input
                   type="text"
-                  value={name}
+                  value={username}
                   onChange={(e) => setName(e.target.value)}
                 />
                 <h3 className="email-title">Email</h3>
@@ -81,7 +101,7 @@ function Signup() {
                 </div>
                 <div>
                  <h5>Already a member?</h5>
-                 <a href=""><h5>Login In</h5></a>
+                 <a href="/login"><h5>Log In</h5></a>
                 </div>
                 
                 <div className="message">{message ? <p>{message}</p> : null}</div>
