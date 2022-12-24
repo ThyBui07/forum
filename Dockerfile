@@ -6,8 +6,6 @@ RUN apt-get update -y && apt-get install npm -y  && apt-get install sqlite3
 RUN npm cache clean -f
 RUN npm install node latest
 
-
-
 # Creates an app directory to hold your app’s source code
 WORKDIR /app
  

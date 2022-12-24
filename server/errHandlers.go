@@ -11,7 +11,7 @@ type errorData struct {
 	Text string
 }
 
-func errHandlers(w http.ResponseWriter, r *http.Request, err int) {
+func ErrHandlers(w http.ResponseWriter, r *http.Request, err int) {
 	temp, er := template.ParseFiles("server/template/error.html")
 	if er != nil {
 		log.Fatal(er)

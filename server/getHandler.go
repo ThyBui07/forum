@@ -42,7 +42,7 @@ func GetPosts(w http.ResponseWriter, r *http.Request) {
 	Posts := d.GetPosts(Database)
 
 	if r.URL.Path != "/" {
-		errHandlers(w, r, http.StatusNotFound)
+		ErrHandlers(w, r, http.StatusNotFound)
 		return
 	}
 
