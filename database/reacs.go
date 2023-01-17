@@ -172,7 +172,7 @@ func DeleteReaction(db *sql.DB, reac u.Reac) {
 func GetLikedPostsIDs(db *sql.DB, id int) []u.Post {
 	var LikedPosts []u.Post
 	rows, err := db.Query(`
-	SELECT Posts.ID, Posts.AuthorID, Posts.Title, Posts.Content, Posts.Date, Posts.CategoryID, 
+	SELECT Posts.ID, Posts.AuthorID, Posts.Title, Posts.Content, Posts.Date, Posts.CategoryIDs, Posts.Categories, 
 	Reacs.PostID, Reacs.AuthorID FROM Posts 
 	INNER JOIN Reacs ON Posts.ID = Reacs.PostID && Posts.AuthorID = Reacs.AuthorID`)
 	if err != nil {
@@ -183,7 +183,7 @@ func GetLikedPostsIDs(db *sql.DB, id int) []u.Post {
 
 	for rows.Next() {
 		var p u.Post
-		err = rows.Scan(&p.ID, &p.AuthorID, &p.Title, &p.Content, &p.CategoryID)
+		err = rows.Scan(&p.ID, &p.AuthorID, &p.Title, &p.Content, &p.CategoryIDs, &p.Categories)
 		if err != nil {
 			fmt.Println("Get posts reacted to by author Scan error:", err)
 			continue

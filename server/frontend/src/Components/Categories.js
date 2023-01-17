@@ -17,7 +17,7 @@ class Categories extends Component {
         .then((json) => {
           console.log(json)
           this.setState({
-            items: json,
+            items: json.categories,
             DataisLoaded: true,
           });
         });

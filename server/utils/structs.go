@@ -26,15 +26,16 @@ type Category struct {
 
 // Post :D
 type Post struct {
-	ID         int       `json:"id"`
-	AuthorID   int       `json:"author id"`
-	Title      string    `json:"title"`
-	Content    []byte    `json:"content"`
-	CategoryID int       `json:"category id"`
-	Date       string    `json:"date"`
-	ImageURL   string    `json:"image src"`
-	Reactions  []Reac    `json:"reactions"`
-	Comments   []Comment `json:"comments"`
+	ID          int       `json:"id"`
+	AuthorID    int       `json:"author id"`
+	Title       string    `json:"title"`
+	Content     []byte    `json:"content"`
+	CategoryIDs string    `json:"category ids"`
+	Categories  string    `json:"categories"`
+	Date        string    `json:"date"`
+	ImageURL    string    `json:"image src"`
+	Reactions   []Reac    `json:"reactions"`
+	Comments    []Comment `json:"comments"`
 }
 
 // Comment c:

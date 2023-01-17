@@ -16,7 +16,7 @@ const post = [
   {id: 3, authorId:2, title: "Yoghurt Muesli", content: "mix yoghurt and muesli with honey and nuts", Date: "02 July 2022", CategoryID: "appetizer" },
   {id: 4, authorId:1, title: "Pasta Salad", content: "Cut cucumber, cherry tomatoes. Add mini mozarella, salad and cooked pasta. Mix with pesto sauce. Season with pepper and salt", Date: "02 November 2022", CategoryID: "appetizer" },
 ]
-const comments = [
+/* const comments = [
   {id: 1, authorId: 1, postId: 1, content: "Forgot to mention that once cake is ready, put to the fridge overnight"},
   {id: 2, authorId: 2, postId: 2, content: "Cool, will try it for breakfast tomorrow"},
 ]
@@ -25,18 +25,36 @@ const reacs = [
   {id:2, LorD: 1, authorId: 1, postId: 2, commentId:0},
   {id:3, LorD: 1, authorId: 2, postId: 2, commentId:0},
   {id:4, LorD: 1, authorId: 1, postId: 3, commentId:0},
-]
+] */
 // loggedinUser
 const userId = 1;
-const loggedinUser = user.find(user => user.id === userId);
+user.find(user => user.id === userId);
 
 // all of user's posts
 
 class AllPosts extends Component {
   constructor(props) {
     super(props);
-  }
+    
+  this.state = {
+    items: [],
+    DataisLoaded: false,
+  };
+}
+componentDidMount() {
+  fetch("http://localhost:8080")
+    .then((res) => res.json())
+    .then((json) => {
+      console.log(json)
+      this.setState({
+        items: json.posts,
+        DataisLoaded: true,
+      });
+    });
+}
   render() {
+    const { items } = this.state;
+
     return (
           <div>
             <div className="main">
@@ -48,14 +66,29 @@ class AllPosts extends Component {
                    <p className="postContent" id="postContentField"> {posts.content}</p>
                 
                    <div className="socialiconsArea"> 
-                     <img className="socialicons" src={dislikesIcon} /> 1<span> likes </span>
-                     <img className="socialicons" src={commentsIcon} /> 1<span> comments </span>
-                     <img className="socialicons" src={shareIcon} /><span> Share </span>
+                     <img className="socialicons" src={dislikesIcon} alt="hi" /> 1<span> likes </span>
+                     <img className="socialicons" src={commentsIcon} alt="hi" /> 1<span> comments </span>
+                     <img className="socialicons" src={shareIcon} alt="hi" /><span> Share </span>
                    </div>  
                  </div>      
                   </div>
              )}
                 </div>
+                {items.map((item) => (
+              <div className="allpost-flex-container">
+              <div className="mylikedpost-column">
+              <p className="usernamePost" id="usernameField">{item.authorId}</p>
+              <p className="postTitle" id="postTitleField">Title: {item.title}</p>
+              <p className="postContent" id="postContentField"> {item.content}</p>
+           
+              <div className="socialiconsArea"> 
+                <img className="socialicons" src={dislikesIcon} alt="hi" /> 1<span> likes </span>
+                <img className="socialicons" src={commentsIcon} alt="hi" /> 1<span> comments </span>
+                <img className="socialicons" src={shareIcon} alt="hi" /><span> Share </span>
+              </div>  
+            </div>      
+             </div>
+            ))}
           </div>
     );
   }

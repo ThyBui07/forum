@@ -48,7 +48,7 @@ function CreatePost() {
       await fetch("http://localhost:8080/create-post", {
         method: "POST",
         headers:{
-            'Content-Type': 'text/plain'
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           title: title,
@@ -88,7 +88,7 @@ function CreatePost() {
             </div>
             <div className="buttonarea">
               <DiscardBtn />
-              <button className="postBtn" onSubmit={(HandleSubmit)}>Post</button>
+              <button className="postBtn" onClick={HandleSubmit}>Post</button>
             </div>
             <div className="message">{message ? <p>{message}</p> : null}</div>
             </div>

@@ -20,9 +20,14 @@ var Send Data
 
 func GetRequest(w http.ResponseWriter, r *http.Request) {
 
-	fmt.Println("hello1")
 	Categories := d.GetCategories(Database)
-	b, err := json.Marshal(Categories)
+	Posts := d.GetPosts(Database)
+
+	data := make(map[string]interface{})
+	data["categories"] = Categories
+	data["posts"] = Posts
+
+	b, err := json.Marshal(data)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -61,7 +66,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("creating post")
 
 	// Getting login info
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000/create-post")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	switch r.Method {
 	case "OPTIONS":
 		w.Header().Set("Access-Control-Allow-Headers", "*")
@@ -69,11 +74,9 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if r.Method == "POST" {
-		fmt.Println("hehe")
 		err := json.NewDecoder(r.Body).Decode(&NPost)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
-			fmt.Println("herrr")
 			return
 		}
 		fmt.Println("received:", NPost)
@@ -88,6 +91,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(valid_post)
 
 	//ADDING TO DATABASE
+	d.InsertPost(Database, NPost)
 
 	b, err := json.Marshal(valid_post)
 	if err != nil {
