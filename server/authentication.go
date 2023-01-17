@@ -62,7 +62,7 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("signing up")
 
 	// Getting login info
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000/login")
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000/signup")
 	switch r.Method {
 	case "OPTIONS":
 		w.Header().Set("Access-Control-Allow-Headers", "*")
@@ -95,6 +95,8 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 		return
 	}
+
+	fmt.Println(string(b))
 
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")

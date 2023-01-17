@@ -19,9 +19,7 @@ var NPost u.Post
 var Send Data
 
 func GetRequest(w http.ResponseWriter, r *http.Request) {
-	// var post u.Post
-	// post.Content = "first post"
-	// fmt.Println(post)
+
 	fmt.Println("hello1")
 	Categories := d.GetCategories(Database)
 	b, err := json.Marshal(Categories)
@@ -30,12 +28,8 @@ func GetRequest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-	// w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-
-	// w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
 
 	w.Write(b)
-
 }
 
 func GetPosts(w http.ResponseWriter, r *http.Request) {
