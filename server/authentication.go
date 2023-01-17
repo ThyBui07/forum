@@ -6,43 +6,44 @@ import (
 	d "forum/database"
 	u "forum/server/utils"
 	"net/http"
+	"time"
 )
 
 type Logged struct {
-	User    u.User
-	Success bool
+	User    u.User `json:"user"`
+	Success bool   `json:"success"`
 }
 
 var LUser u.User
 
-func Signin1(w http.ResponseWriter, r *http.Request) {
+func Login(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println("loginrediret0")
+	var logged Logged
 
 	// Getting login info
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000/login")
-	switch r.Method {
-	case "OPTIONS":
-		w.Header().Set("Access-Control-Allow-Headers", "*")
-		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-		return
-	}
+
 	if r.Method == "POST" {
-		fmt.Println("he")
 		err := json.NewDecoder(r.Body).Decode(&LUser)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
-			fmt.Println("herrr")
 			return
 		}
 		fmt.Println("received:", LUser)
 	}
 
-	log_success := d.UserAuth(Database, LUser.Username, LUser.Password)
+	// Checking if credentials correct from database
+	log_success, uuid := d.UserAuth(Database, LUser.Username, LUser.Password, w)
 
+	if log_success {
+		logged.Success = true
+		logged.User = LUser
+	} else {
+		logged.Success = false
+	}
 	fmt.Println(log_success)
 
-	b, err := json.Marshal(log_success)
+	b, err := json.Marshal(logged)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -51,8 +52,21 @@ func Signin1(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-
+	// Write to the client the status of login success
 	w.Write(b)
+
+	if log_success {
+		// Set the cookie with the session ID and expiration date
+		expiration := time.Now().Add(time.Minute * 20)
+
+		cookie := &http.Cookie{
+			Name:    "sessionID",
+			Value:   uuid.String(),
+			Expires: expiration,
+		}
+		http.SetCookie(w, cookie)
+		fmt.Println("cooookieeees")
+	}
 }
 
 var success = false
@@ -80,7 +94,7 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("received:", LUser)
 	}
 
-	user_exists := d.UserAuth(Database, LUser.Username, LUser.Password)
+	user_exists, _ := d.UserAuth(Database, LUser.Username, LUser.Password, w)
 
 	if !user_exists /* && other conditions */ {
 		fmt.Println("User doesn't exist yet")

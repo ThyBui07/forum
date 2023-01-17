@@ -12,27 +12,13 @@ function Login() {
     const [message, setMessage] = useState("");
     const navigate = useNavigate();
 
-    let HandleAuth = async(e) => {
-      fetch("http://localhost:8080/login")
-        .then((res) => res.json())
-        .then((json) => {
-          console.log(json)
-          if (json === true) {
-            sessionStorage.setItem("loggedIn", true);
-            navigate('/', { replace: true });
-          console.log("Login successful")
-          } else {
-            sessionStorage.setItem("loggedIn", false);
-            setMessage("Username or password incorrect");
-            console.log("U or P incorrect")
-          }
-        });
-    }
+    
    
     let HandleSubmit = async (e) => {
         e.preventDefault();
         try {
-          let response = await fetch("http://localhost:8080/login", {
+          console.log(1)
+          await fetch("http://localhost:8080/login", {
             method: "POST",
             headers:{
                 'Content-Type': 'text/plain'
@@ -41,21 +27,21 @@ function Login() {
               username: username,
               password: password,
             }),
-          }).then((response) => response.json())
-          .then((json)=> console.log(json));
-          
-          if (response.status === 200) {
-           
-            setName("");
-            setPassword("");
-            setMessage("User logged in successfully");
+          }).then(res => res.json())
+          .then(data =>  { console.log(data); if (data.success === true) {
+            sessionStorage.setItem("loggedIn", true);
+            navigate('/', { replace: true });
+          console.log("Login successful")
           } else {
-            setMessage("Some error occured");
-          }
+            sessionStorage.setItem("loggedIn", false);
+            setMessage("Username or password incorrect");
+            console.log("U or P incorrect")
+          }}
+          )
         } catch (err) {
           console.log(err);
         }
-        HandleAuth();
+        
       };
     return (
       <div >

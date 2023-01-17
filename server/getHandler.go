@@ -33,32 +33,8 @@ func GetRequest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-
-	w.Write(b)
-}
-
-func GetPosts(w http.ResponseWriter, r *http.Request) {
-	Posts := d.GetPosts(Database)
-
-	if r.URL.Path != "/" {
-		errHandlers(w, r, http.StatusNotFound)
-		return
-	}
-
-	b, err := json.Marshal(Posts)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Println("work")
-	fmt.Println(string(b))
-
-	//Fix the CORS
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-
 	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-
 	w.Write(b)
 }
 

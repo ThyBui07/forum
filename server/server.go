@@ -21,9 +21,10 @@ func Start() error {
 	//http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./server/static/"))))
 	//get request
 	http.HandleFunc("/", GetRequest)
-	http.HandleFunc("/login", Signin1)
+	http.HandleFunc("/login", Login)
 	http.HandleFunc("/signup", Signup)
 	http.HandleFunc("/create-post", CreatePost)
+	http.HandleFunc("/check-session", CheckSession)
 	//open port- listen
 	log.Println("Starting server port 8080 (http://localhost:8080/)")
 	err := http.ListenAndServe(":8080", nil)

@@ -34,8 +34,8 @@ func InsertSession(db *sql.DB, sesh u.Session) uuid.UUID {
 }
 
 // Update sesh
-func UpdateSession(db *sql.DB, sesh u.Session) {
-	statement, err := db.Prepare(`UPDATE Sessions SET UUID = ?, ExpDate = ? WHERE UserID = ?`)
+func UpdateSession(db *sql.DB, sesh u.Session, tx *sql.Tx) {
+	statement, err := tx.Prepare(`UPDATE Sessions SET UUID = ?, ExpDate = ? WHERE UserID = ?`)
 	if err != nil {
 		fmt.Println("Update session Prepare error:", err)
 		return
@@ -92,6 +92,30 @@ func GetSession(db *sql.DB, UUID string) u.Session {
 		return session
 	}
 	return session
+}
+
+// Get session
+func UserIDHasSession(db *sql.DB, UserID int, tx *sql.Tx) bool {
+	var session u.Session
+	rows, err := tx.Query(`SELECT ID, UserID, UUID, ExpDate FROM Sessions WHERE UserID = ?`, UserID)
+	if err != nil {
+		fmt.Println("UserIDHasSesh Query error:", err)
+		return false
+	}
+	defer rows.Close()
+
+	if rows.Next() {
+		err = rows.Scan(&session.ID, &session.UserID, &session.UUID, &session.ExpDate)
+		if err != nil {
+			return false
+		}
+	}
+
+	if err = rows.Err(); err != nil {
+		fmt.Println("Get session rows error:", err)
+		return false
+	}
+	return true
 }
 
 // Delete session

@@ -4,22 +4,77 @@ import (
 	"database/sql"
 	"fmt"
 	u "forum/server/utils"
+	"log"
+	"net/http"
 	"strconv"
+	"time"
+
+	uuid "github.com/gofrs/uuid"
 )
 
 // Checks if username and password match an entry in the database
-func UserAuth(db *sql.DB, username string, password string) bool {
-	rows, err := db.Query("SELECT username, password FROM Users")
-	u.CheckErr(err)
-	var u string
+func UserAuth(db *sql.DB, username string, password string, w http.ResponseWriter) (bool, uuid.UUID) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	// Start a new transaction
+	tx, err := db.Begin()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return false, uuid.Nil
+	}
+	// Check the credentials
+	var un string
+	var ui int
 	var p string
-	for rows.Next() {
-		rows.Scan(&u, &p)
-		if u == username && p == password {
-			return true
+
+	err = tx.QueryRow("SELECT ID, username, password FROM users WHERE username = ?", username).Scan(&ui, &un, &p)
+	if err != nil {
+		tx.Rollback()
+		return false, uuid.Nil
+	}
+	if p != password {
+		tx.Rollback()
+		return false, uuid.Nil
+	}
+
+	// Credentials correct -> Add new session
+
+	var sesh u.Session
+
+	sesh.UserID = ui
+	sesh.UUID, err = uuid.NewV4()
+	if err != nil {
+		fmt.Println("Insert sesh uuid.NewV4 error:", err)
+		return true, sesh.UUID
+	}
+	// Set the session expiration date
+	expiration := time.Now().Add(time.Minute * 20)
+	sesh.ExpDate = expiration.Unix()
+
+	//Check if user already in sessions database
+	if UserIDHasSession(db, ui, tx) {
+		UpdateSession(db, sesh, tx)
+	} else {
+		statement, err := tx.Prepare(`INSERT INTO Sessions (UserID, UUID, ExpDate) VALUES (?, ?, ?)`)
+		if err != nil {
+			fmt.Println("Insert session Prepare error:", err)
+			return true, sesh.UUID
+		}
+		defer statement.Close()
+
+		_, err = statement.Exec(sesh.UserID, sesh.UUID, sesh.ExpDate)
+		if err != nil {
+			fmt.Println("Insert session Exec error:", err)
+			return true, sesh.UUID
 		}
 	}
-	return false
+
+	err = tx.Commit()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return true, sesh.UUID
 }
 
 // Checks if username exists
@@ -147,7 +202,7 @@ func PrintTable(database *sql.DB) {
 // >>>>>>>>>>>
 
 // Get user by session ?_?
-func GetUserIDBySesh(db *sql.DB, UUID string) int {
+func GetUserIDBySesh(db *sql.DB, UUID uuid.UUID) int {
 	var id int
 	rows, err := db.Query(`SELECT UserID FROM Sessions WHERE UUID = ?`, UUID)
 	if err != nil {

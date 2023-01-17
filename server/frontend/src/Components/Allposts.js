@@ -45,7 +45,6 @@ componentDidMount() {
   fetch("http://localhost:8080")
     .then((res) => res.json())
     .then((json) => {
-      console.log(json)
       this.setState({
         items: json.posts,
         DataisLoaded: true,
@@ -59,7 +58,7 @@ componentDidMount() {
           <div>
             <div className="main">
               {post.map((posts) => 
-                  <div className="allpost-flex-container">
+                  <div className="allpost-flex-container" key={posts.id}>
                    <div className="mylikedpost-column">
                    <p className="usernamePost" id="usernameField">{posts.authorId}</p>
                    <p className="postTitle" id="postTitleField">Title: {posts.title}</p>
@@ -75,7 +74,7 @@ componentDidMount() {
              )}
                 </div>
                 {items.map((item) => (
-              <div className="allpost-flex-container">
+              <div className="allpost-flex-container" key={item.id}>
               <div className="mylikedpost-column">
               <p className="usernamePost" id="usernameField">{item.authorId}</p>
               <p className="postTitle" id="postTitleField">Title: {item.title}</p>
