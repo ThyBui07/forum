@@ -15,6 +15,7 @@ type User struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 	Mobile   string `json:"mobile"`
+	Logout   bool   `json:"logout"`
 }
 
 // Category :O
@@ -27,8 +28,11 @@ type Category struct {
 
 // Post :D
 type Post struct {
-	ID          int       `json:"id"`
-	AuthorID    int       `json:"author id"`
+	ID       int `json:"id"`
+	AuthorID int `json:"author id"`
+	//ADD AUTHOR NAME/////
+	/////
+	///////
 	Title       string    `json:"title"`
 	Content     []byte    `json:"content"`
 	CategoryIDs string    `json:"category ids"`

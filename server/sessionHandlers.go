@@ -64,7 +64,9 @@ func CheckSession(w http.ResponseWriter, r *http.Request) {
 			Name:     "sessionID",
 			Value:    sesh.UUID.String(),
 			Expires:  expiration,
-			SameSite: http.SameSiteLaxMode,
+			SameSite: http.SameSiteNoneMode,
+			Secure:   false,
+			Path:     "/",
 		}
 		w.Header().Add("Set-Cookie", cookie.String())
 		http.SetCookie(w, cookie)
@@ -79,5 +81,7 @@ func CheckSession(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Credentials", "true")
+
 	w.Write(b)
 }

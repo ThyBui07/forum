@@ -8,6 +8,7 @@ class TopNav extends Component {
   render () {
     let isLogged = this.props.isLoggedIn
     console.log('topnav', isLogged)
+    console.log('after', document.cookie)
     return (
       <div className='navbar'>
         <div className='navbarLogo'>
@@ -43,12 +44,31 @@ function CreatePostBtn () {
   )
 }
 
+//FIX (deletes cookie)
+
 function LogoutBtn () {
-  document.cookie = 'sessionID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+  const handleClick = () => {
+    fetch('http://localhost:8080/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ Logout: true })
+    })
+      .then(() => {
+        // Delete the cookie
+        document.cookie =
+          'sessionID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; SameSite=None; path=/;Secure=false'
+      })
+      .then(() => {
+        window.location.href = '/'
+      })
+  }
+
   return (
-    <a href='/'>
-      <button className='LogoutBtn'>Logout</button>
-    </a>
+    <button className='LogoutBtn' onClick={handleClick}>
+      Logout
+    </button>
   )
 }
 

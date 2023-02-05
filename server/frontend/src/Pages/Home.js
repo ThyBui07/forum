@@ -29,14 +29,36 @@ class Home extends Component {
   }
 
   async getCookie (name) {
-    var value = '; ' + document.cookie
-    var parts = value.split('; ' + name + '=')
-    if (parts.length === 2) return parts.pop().split(';').shift()
+    var value = document.cookie
+    var parts = value.split('=')
+    if (parts.length === 2) return parts[1]
   }
 
   async checkSession () {
-    const sessionID = await this.getCookie('sessionID')
+    let sessionID = await this.getCookie('sessionID')
+    console.log('Getting cookie')
     console.log('sessionID', sessionID)
+    if (sessionID === undefined) {
+      fetch('http://localhost:8080/login', {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success === true) {
+            this.setState({ isLoggedIn: true })
+          }
+          console.log('aaaa1', data)
+          console.log('aaa2', document.cookie)
+        })
+        .catch(error => {
+          // Handle any errors
+          console.error(error)
+        })
+    }
     if (sessionID !== undefined) {
       const res = await fetch('http://localhost:8080/check-session', {
         method: 'POST',
@@ -46,10 +68,7 @@ class Home extends Component {
         },
         body: JSON.stringify({ sessionID })
       })
-      console.log('yooo')
-
       const data = await res.json()
-      console.log('hee', data)
       console.log(data.status)
       if (data.status === 'success') {
         this.setState({ isLoggedIn: true })
@@ -59,6 +78,8 @@ class Home extends Component {
   }
 
   render () {
+    console.log('render', document.cookie)
+
     const { isLoggedIn } = this.state
     return (
       <div>

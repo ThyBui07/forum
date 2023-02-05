@@ -83,13 +83,18 @@ func GetDB(database string) *sql.DB {
 	_, err = db.Exec(`
 	INSERT OR IGNORE INTO "main"."Categories" ("Name")
 	VALUES
-		("Pasta everdyday"),
-		("Meat lovers"),
-		("Vegan delight"),
-		("#HEALTHY"),
-		("Sweet stuff"),
-		("Raw is Law"),
-		("Year-round holidays");
+		("Apetizer"),
+		("Beverage"),
+		("Breakfast"),
+		("Comfort food"),
+		("Lunch"),
+		("Salad"),
+		("Smothie"),
+		("Snack"),
+		("Soup"),
+		("Vegan"),
+		("Savoury"),
+		("Sweet");
 	`)
 
 	if err != nil {
