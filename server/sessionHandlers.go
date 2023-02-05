@@ -37,19 +37,21 @@ func CheckSession(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
-		sessionID, err := uuid.FromString(temp.SessionIDstr)
+		sessionID, err = uuid.FromString(temp.SessionIDstr)
 		if err != nil {
 			log.Printf("Error converting session ID to UUID: %v", err)
 			http.Error(w, "Invalid session ID", http.StatusBadRequest)
 			return
 		}
 
-		fmt.Println("seshID:", sessionID)
+		fmt.Println("seshID check:", sessionID)
 	}
 
 	userID := d.GetUserIDBySesh(Database, sessionID)
 	var a ActiveSession
 	a.Status = "failed"
+	fmt.Println(sessionID)
+	fmt.Println(userID)
 	if userID != 0 {
 		a.Status = "success"
 	}

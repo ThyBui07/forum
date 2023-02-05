@@ -15,6 +15,7 @@ type Logged struct {
 }
 
 var LUser u.User
+var sesh u.Session
 
 func Login(w http.ResponseWriter, r *http.Request) {
 
@@ -49,24 +50,33 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-	// Write to the client the status of login success
-	w.Write(b)
+	w.Header().Set("Access-Control-Allow-Credentials", "true")
 
 	if log_success {
 		// Set the cookie with the session ID and expiration date
 		expiration := time.Now().Add(time.Minute * 20)
 
 		cookie := &http.Cookie{
-			Name:    "sessionID",
-			Value:   uuid.String(),
-			Expires: expiration,
+			Name:     "sessionID",
+			Value:    uuid.String(),
+			Expires:  expiration,
+			SameSite: http.SameSiteLaxMode,
 		}
+		w.Header().Add("Set-Cookie", cookie.String())
 		http.SetCookie(w, cookie)
+
+		sesh.UUID = uuid
+		sesh.UserID = LUser.ID
+		sesh.ExpDate = expiration.Unix()
+		d.InsertSession(Database, sesh)
 		fmt.Println("cooookieeees")
 	}
+
+	// Write to the client the status of login success
+	w.Write(b)
 }
 
 var success = false
