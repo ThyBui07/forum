@@ -7,6 +7,8 @@ import (
 	u "forum/server/utils"
 	"net/http"
 	"time"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 type Logged struct {
@@ -35,6 +37,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 	// Checking if credentials correct from database
 	log_success, uuid := d.UserAuth(Database, LUser.Username, LUser.Password, w)
+	LUser.ID = d.GetUserByUsername(Database, LUser.Username).ID
 
 	if log_success {
 		logged.Success = true
@@ -71,6 +74,9 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		sesh.UUID = uuid
 		sesh.UserID = LUser.ID
 		sesh.ExpDate = expiration.Unix()
+
+		fmt.Println("Session ID (cookie):", uuid.String())
+		fmt.Println("Sesh to insert in Database:", sesh)
 		d.InsertSession(Database, sesh)
 		fmt.Println("cooookieeees")
 	}
@@ -108,7 +114,12 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 
 	if !user_exists /* && other conditions */ {
 		fmt.Println("User doesn't exist yet")
-		if d.InsertInUsers(Database, LUser.Username, LUser.Email, LUser.Password) {
+		hashedPassword, err := bcrypt.GenerateFromPassword([]byte(LUser.Password), bcrypt.DefaultCost)
+		if err != nil {
+			fmt.Println("Error hashing the password:", err)
+			return
+		}
+		if d.InsertInUsers(Database, LUser.Username, LUser.Email, string(hashedPassword), LUser.Email) {
 			fmt.Println("Successfully added user to database.")
 			success = true
 		}

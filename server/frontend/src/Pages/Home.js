@@ -53,10 +53,9 @@ class Home extends Component {
       console.log(data.status)
       if (data.status === 'success') {
         this.setState({ isLoggedIn: true })
-      } else {
-        this.setState({ isLoggedIn: false })
       }
     }
+    console.log(this.state.isLoggedIn)
   }
 
   render () {
