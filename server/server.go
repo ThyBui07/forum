@@ -17,6 +17,7 @@ func init() {
 
 func Start() error {
 
+	PostTemp()
 	//handle css from static directory
 	//http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./server/static/"))))
 	//get request

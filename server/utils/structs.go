@@ -33,10 +33,10 @@ type Post struct {
 	Author      string    `json:"author"`
 	Session     uuid.UUID `json:"session"`
 	Title       string    `json:"title"`
-	Content     []byte    `json:"content"`
+	Content     string    `json:"content"`
 	CategoryIDs string    `json:"category ids"`
 	Categories  string    `json:"categories"`
-	Date        string    `json:"date"`
+	Date        int64     `json:"date"`
 	ImageURL    string    `json:"image src"`
 	Likes       []Reac    `json:"Likes"`
 	Dislikes    []Reac    `json:"Dislike"`
@@ -47,6 +47,7 @@ type Post struct {
 type Comment struct {
 	ID       int    `json:"id"`
 	AuthorID int    `json:"author id"`
+	Author   string `json:"author"`
 	PostID   int    `json:"post id"`
 	Content  string `json:"content"`
 	Likes    []Reac `json:"likes"`

@@ -42,7 +42,7 @@ func GetDB(database string) *sql.DB {
 		ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
 		AuthorID INTEGER NOT NULL,
 		Title TEXT NOT NULL,
-		Content BLOB NOT NULL,
+		Content TEXT NOT NULL,
 		Date TEXT NOT NULL,
 		CategoryIDs TEXT NOT NULL,
 		Categories TEXT NOT NULL,
