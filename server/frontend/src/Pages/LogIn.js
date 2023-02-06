@@ -88,6 +88,7 @@ function Login () {
     e.preventDefault()
     try {
       console.log(1)
+
       await fetch('http://localhost:8080/login', {
         method: 'POST',
         headers: {

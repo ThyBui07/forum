@@ -83,7 +83,7 @@ func InsertReac(db *sql.DB, r u.Reac) {
 
 // Get reacs (lord) of post (id)
 func GetReacsPost(db *sql.DB, lord int, id int) []u.Reac {
-	rows, err := db.Query(`SELECT ID, LorD, AuthorID, PostID, CommentID FROM Reacs WHERE PostID = ? AND LorD = ?`, id, lord)
+	rows, err := db.Query(`SELECT ID, LorD, AuthorID, PostID FROM Reacs WHERE PostID = ? AND LorD = ?`, id, lord)
 	if err != nil {
 		fmt.Println("Get reacs post Query error:", err)
 		return nil
@@ -94,7 +94,7 @@ func GetReacsPost(db *sql.DB, lord int, id int) []u.Reac {
 
 	for rows.Next() {
 		var c u.Reac
-		err = rows.Scan(&c.ID, &c.LorD, &c.AuthorID, &c.PostID, &c.CommentID)
+		err = rows.Scan(&c.ID, &c.LorD, &c.AuthorID, &c.PostID)
 		if err != nil {
 			fmt.Println("Get reacs post Scan error:", err)
 			continue

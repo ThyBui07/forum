@@ -35,17 +35,17 @@ type Post struct {
 	Date        int64     `json:"date"`
 	ImageURL    string    `json:"image src"`
 	Likes       []Reac    `json:"Likes"`
-	Dislikes    []Reac    `json:"Dislike"`
+	Dislikes    []Reac    `json:"Dislikes"`
 	Comments    []Comment `json:"comments"`
 }
 
 // Comment c:
 type Comment struct {
 	ID       int       `json:"id"`
-	AuthorID int       `json:"author id"`
+	AuthorID int       `json:"authorId"`
 	Author   string    `json:"author"`
 	Session  uuid.UUID `json:"session"`
-	PostID   int       `json:"post id"`
+	PostID   int       `json:"postId"`
 	Content  string    `json:"content"`
 	Likes    []Reac    `json:"likes"`
 	Dislikes []Reac    `json:"dislikes"`
@@ -55,11 +55,11 @@ type Comment struct {
 type Reac struct {
 	ID        int       `json:"id"`
 	LorD      int       `json:"likeOrDislike"`
-	AuthorID  int       `json:"author id"`
+	AuthorID  int       `json:"authorId"`
 	Author    string    `json:"author"`
 	Session   uuid.UUID `json:"session"`
-	PostID    int       `json:"post id"`
-	CommentID int       `json:"comment id"`
+	PostID    int       `json:"postId"`
+	CommentID int       `json:"commentId"`
 }
 
 // Image :$

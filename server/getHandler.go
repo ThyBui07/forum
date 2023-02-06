@@ -24,6 +24,7 @@ func GetRequest(w http.ResponseWriter, r *http.Request) {
 	Posts := d.GetPosts(Database)
 	//Load post comments
 	for i := 0; i < len(Posts); i++ {
+		Posts[i].Author = d.GetUserByID(Database, Posts[i].AuthorID).Username
 		Posts[i].Comments = d.GetComs(Database, Posts[i].ID)
 		//Load comments likes and dislikes
 		for j := 0; j < len(Posts[i].Comments); j++ {
@@ -32,6 +33,7 @@ func GetRequest(w http.ResponseWriter, r *http.Request) {
 		}
 		//Load post likes and dislikes
 		Posts[i].Likes = d.GetReacsPost(Database, 1, Posts[i].ID)
+		fmt.Println("Got likes", Posts[i].Likes)
 		Posts[i].Dislikes = d.GetReacsPost(Database, -1, Posts[i].ID)
 	}
 
@@ -165,7 +167,13 @@ func AddReaction(w http.ResponseWriter, r *http.Request) {
 		}
 		NReac.AuthorID = d.GetUserIDBySesh(Database, NReac.Session)
 		NReac.Author = d.GetUserByID(Database, NReac.AuthorID).Username
-		fmt.Println("received:", NReac)
+		fmt.Println("received reaction:", NReac)
+	}
+	if NReac.PostID != 0 {
+		NReac.CommentID = 0
+	}
+	if NReac.CommentID != 0 {
+		NReac.PostID = 0
 	}
 
 	//ADDING TO DATABASE
