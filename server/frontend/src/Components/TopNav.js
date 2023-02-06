@@ -113,5 +113,5 @@ function Signup () {
 }
 
 function Profile () {
-  window.location.href = '/profile'
+  window.location.href = '/account'
 }
