@@ -2,6 +2,9 @@
 
 import React, { Component } from 'react'
 import TopNav from '../Components/TopNav'
+import Votes from '../Components/Votes'
+import Comment from '../Components/Comment'
+
 
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
@@ -9,6 +12,12 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import { PlusLg } from "react-bootstrap-icons";
+
+const image = {
+  width: '5%',
+  height: '4vw',
+  objectFit: 'cover'
+}
 
 class Article extends Component {
     render() {
@@ -30,7 +39,27 @@ class Article extends Component {
 <li>Third list item to close it out</li>
 </ul>
 <p>This is some additional paragraph placeholder content. It's a slightly shorter version of the other highly repetitive body text used throughout.</p>
+<Votes />
 </article>
+<hr />
+<Card className='mb-3'>
+<Card.Body>
+                <div className='d-flex mb-3'>
+                <Card.Img style={image} src="http://bootdey.com/img/Content/user_1.jpg"  alt="user profile image" className='me-2' />
+                <div class="input-group">
+                  <textarea class="form-control" aria-label="With textarea"></textarea>
+                </div>
+                </div>
+                <div className='d-flex flex-row-reverse'>
+                  <Button variant="outline-dark">Comment</Button>
+                </div>
+                </Card.Body>
+</Card>
+<Comment />
+<Comment />
+<Comment />
+
+
           </Col>
 
           <Col lg={2} md={1} className="d-none d-lg-block d-md-block"></Col>

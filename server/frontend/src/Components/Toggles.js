@@ -29,10 +29,9 @@ class Toggles extends Component {
         //const { categories } = this.state;
         return (
             <div className="d-flex flex-wrap no-gutters mb-4 pr-0 pl-0">
-                {categories.map((item) => (
-                    <Form className="me-2">
+                {categories.map((item, index) => (
+                    <Form key={index} className="me-2">
                         <Form.Check 
-                        key={item.id}
                         type="switch"
                         id="custom-switch"
                         label={item}
