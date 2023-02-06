@@ -3,14 +3,13 @@ import TopNav from '../Components/TopNav'
 import Toggles from '../Components/Toggles'
 import PostCards from '../Components/PostCards'
 
-import Card from 'react-bootstrap/Card';
-import Container from 'react-bootstrap/Container';
-import Button from 'react-bootstrap/Button';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
-import { PlusLg } from "react-bootstrap-icons";
-
+import Card from 'react-bootstrap/Card'
+import Container from 'react-bootstrap/Container'
+import Button from 'react-bootstrap/Button'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Form from 'react-bootstrap/Form'
+import { PlusLg } from 'react-bootstrap-icons'
 
 /* import { useState, useEffect } from "react";
  */
@@ -92,49 +91,49 @@ class Home extends Component {
 
     const { isLoggedIn } = this.state
     return (
-      // <div>
-      //   <TopNav isLoggedIn={isLoggedIn} />
-      //   <Categories isLoggedIn={isLoggedIn} />
-      //   <AllPosts isLoggedIn={isLoggedIn} />
-      // </div>
-     <Container fluid>
+      <Container fluid>
         <Row>
-          <Col lg={2} md={1} className="d-none d-lg-block d-md-block"></Col>  
+          <Col lg={2} md={1} className='d-none d-lg-block d-md-block'></Col>
           <Col lg={8} md={10} xs={12}>
             <TopNav isLoggedIn={isLoggedIn} />
             <Toggles />
-            <div className="text-end mb-4">
-              <Button variant="outline-primary">
-                <PlusLg /> Create Post
-              </Button>
-            </div>
+            {isLoggedIn && (
+              <div className='text-end mb-4'>
+                <Button variant='outline-primary' onClick={CreatePost}>
+                  <PlusLg /> Create Post
+                </Button>
+              </div>
+            )}
             <Row>
-              <Col lg={3} className="mb-4">
-                <Card bg={'light'} className="mb-4">
+              <Col lg={3} className='mb-4'>
+                <Card bg={'light'} className='mb-4'>
                   <Card.Body>
                     <Card.Title>About</Card.Title>
                     <Card.Text>
-                    This blog is a place to share food recipes. Made by Ali, Jacob, Gin, Nafi and Ashley.
+                      This blog is a place to share food recipes. Made by Ali,
+                      Jacob, Gin, Nafi and Ashley.
                     </Card.Text>
                   </Card.Body>
                 </Card>
 
-                <Card border="dark">
-                  <Card.Body>
-                    <Form>
-                      <Form.Check 
-                      type="switch"
-                      id="custom-switch"
-                      label="My Liked Posts"
-                      />
-                      <Form.Check 
-                      type="switch"
-                      id="custom-switch"
-                      label="My Commented Posts"
-                      />
-                    </Form>
-                  </Card.Body>
-                </Card>
+                {isLoggedIn && (
+                  <Card border='dark'>
+                    <Card.Body>
+                      <Form>
+                        <Form.Check
+                          type='switch'
+                          id='custom-switch'
+                          label='My Liked Posts'
+                        />
+                        <Form.Check
+                          type='switch'
+                          id='custom-switch'
+                          label='My Commented Posts'
+                        />
+                      </Form>
+                    </Card.Body>
+                  </Card>
+                )}
               </Col>
               <Col lg={9} xs={12} md={12}>
                 <PostCards />
@@ -142,11 +141,15 @@ class Home extends Component {
             </Row>
           </Col>
 
-          <Col lg={2} md={1} className="d-none d-lg-block d-md-block"></Col>
+          <Col lg={2} md={1} className='d-none d-lg-block d-md-block'></Col>
         </Row>
-     </Container>
+      </Container>
     )
   }
 }
 
 export default Home
+
+function CreatePost () {
+  window.location.href = '/create-post'
+}

@@ -1,10 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import TopNav from '../Components/TopNav'
 import Login from './LogIn'
 //import '../Components/css/CreatePost.css';
-
-//import { useState, useEffect } from "react";
 
 async function getCookie (name) {
   var value = '; ' + document.cookie
@@ -46,7 +44,6 @@ function CreatePost () {
   //CHECKING IF ALREADY LOGGED IN --> THEN REDIRECT TO HOME
   useEffect(() => {
     async function checkSessionAndNavigate () {
-      Home
       if (await checkSession()) {
         setIsLoggedIn(true)
       }
