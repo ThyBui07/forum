@@ -33,7 +33,8 @@ func GetDB(database string) *sql.DB {
 		ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
 		Username TEXT NOT NULL UNIQUE,
 		Email TEXT NOT NULL UNIQUE,
-		Password TEXT NOT NULL);
+		Password TEXT NOT NULL,
+		Info TEXT NOT NULL);
 	CREATE TABLE IF NOT EXISTS Categories (
 		ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
 		Name TEXT NOT NULL UNIQUE);
@@ -64,7 +65,7 @@ func GetDB(database string) *sql.DB {
 		FOREIGN KEY(CommentID) REFERENCES Comments(ID) ON DELETE CASCADE);
 	CREATE TABLE IF NOT EXISTS Sessions (
 		ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-		UserID INTEGER NOT NULL UNIQUE,
+		UserID INTEGER NOT NULL,
 		UUID TEXT NOT NULL UNIQUE,
 		ExpDate TEXT NOT NULL,
 		FOREIGN KEY(UserID) REFERENCES Users(ID) ON DELETE CASCADE);
@@ -82,13 +83,18 @@ func GetDB(database string) *sql.DB {
 	_, err = db.Exec(`
 	INSERT OR IGNORE INTO "main"."Categories" ("Name")
 	VALUES
-		("Pasta everdyday"),
-		("Meat lovers"),
-		("Vegan delight"),
-		("#HEALTHY"),
-		("Sweet stuff"),
-		("Raw is Law"),
-		("Year-round holidays");
+		("Apetizer"),
+		("Beverage"),
+		("Breakfast"),
+		("Comfort food"),
+		("Lunch"),
+		("Salad"),
+		("Smothie"),
+		("Snack"),
+		("Soup"),
+		("Vegan"),
+		("Savoury"),
+		("Sweet");
 	`)
 
 	if err != nil {

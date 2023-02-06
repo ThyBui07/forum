@@ -14,6 +14,8 @@ type User struct {
 	Username string `json:"username"`
 	Email    string `json:"email"`
 	Password string `json:"password"`
+	Mobile   string `json:"mobile"`
+	Logout   bool   `json:"logout"`
 }
 
 // Category :O
@@ -28,23 +30,27 @@ type Category struct {
 type Post struct {
 	ID          int       `json:"id"`
 	AuthorID    int       `json:"author id"`
+	Author      string    `json:"author"`
+	Session     uuid.UUID `json:"session"`
 	Title       string    `json:"title"`
 	Content     []byte    `json:"content"`
 	CategoryIDs string    `json:"category ids"`
 	Categories  string    `json:"categories"`
 	Date        string    `json:"date"`
 	ImageURL    string    `json:"image src"`
-	Reactions   []Reac    `json:"reactions"`
+	Likes       []Reac    `json:"Likes"`
+	Dislikes    []Reac    `json:"Dislike"`
 	Comments    []Comment `json:"comments"`
 }
 
 // Comment c:
 type Comment struct {
-	ID        int    `json:"id"`
-	AuthorID  int    `json:"author id"`
-	PostID    int    `json:"post id"`
-	Content   string `json:"content"`
-	Reactions []Reac `json:"reactions"`
+	ID       int    `json:"id"`
+	AuthorID int    `json:"author id"`
+	PostID   int    `json:"post id"`
+	Content  string `json:"content"`
+	Likes    []Reac `json:"likes"`
+	Dislikes []Reac `json:"dislikes"`
 }
 
 // Like or Dislike >:(

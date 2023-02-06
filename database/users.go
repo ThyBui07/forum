@@ -10,6 +10,7 @@ import (
 	"time"
 
 	uuid "github.com/gofrs/uuid"
+	"golang.org/x/crypto/bcrypt"
 )
 
 // Checks if username and password match an entry in the database
@@ -25,14 +26,16 @@ func UserAuth(db *sql.DB, username string, password string, w http.ResponseWrite
 	// Check the credentials
 	var un string
 	var ui int
-	var p string
+	var p []byte
 
 	err = tx.QueryRow("SELECT ID, username, password FROM users WHERE username = ?", username).Scan(&ui, &un, &p)
 	if err != nil {
 		tx.Rollback()
 		return false, uuid.Nil
 	}
-	if p != password {
+	err = bcrypt.CompareHashAndPassword(p, []byte(password))
+
+	if err != nil {
 		tx.Rollback()
 		return false, uuid.Nil
 	}
@@ -53,7 +56,7 @@ func UserAuth(db *sql.DB, username string, password string, w http.ResponseWrite
 
 	//Check if user already in sessions database
 	if UserIDHasSession(db, ui, tx) {
-		UpdateSession(db, sesh, tx)
+		UpdateSessionTime(db, sesh, tx)
 	} else {
 		statement, err := tx.Prepare(`INSERT INTO Sessions (UserID, UUID, ExpDate) VALUES (?, ?, ?)`)
 		if err != nil {
@@ -106,11 +109,12 @@ func EmailExists(db *sql.DB, email string) bool {
 }
 
 // Inserts new username and email if they don't exist
-func InsertInUsers(database *sql.DB, username string, e string, p string) bool {
+func InsertInUsers(database *sql.DB, username string, e string, p string, m string) bool {
 	if !UserExists(database, username) && !EmailExists(database, e) {
-		statement, err := database.Prepare("INSERT INTO Users (username, email, password) VALUES (?, ?, ?)")
+		m = "mobile: " + m + ";"
+		statement, err := database.Prepare("INSERT INTO Users (username, email, password, info) VALUES (?, ?, ?, ?)")
 		u.CheckErr(err)
-		statement.Exec(username, e, p)
+		statement.Exec(username, e, p, m)
 		return true
 	}
 	return false

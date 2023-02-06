@@ -22,6 +22,18 @@ func GetRequest(w http.ResponseWriter, r *http.Request) {
 
 	Categories := d.GetCategories(Database)
 	Posts := d.GetPosts(Database)
+	//Load post comments
+	for i := 0; i < len(Posts); i++ {
+		Posts[i].Comments = d.GetComs(Database, Posts[i].ID)
+		//Load comments likes and dislikes
+		for j := 0; j < len(Posts[i].Comments); j++ {
+			Posts[i].Comments[j].Likes = d.GetReacsCom(Database, 1, Posts[i].Comments[j].ID)
+			Posts[i].Comments[j].Dislikes = d.GetReacsCom(Database, -1, Posts[i].Comments[j].ID)
+		}
+		//Load post likes and dislikes
+		Posts[i].Likes = d.GetReacsPost(Database, 1, Posts[i].ID)
+		Posts[i].Dislikes = d.GetReacsPost(Database, -1, Posts[i].ID)
+	}
 
 	data := make(map[string]interface{})
 	data["categories"] = Categories
@@ -57,6 +69,8 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
+		NPost.AuthorID = d.GetUserIDBySesh(Database, NPost.Session)
+		NPost.Author = d.GetUserByID(Database, NPost.AuthorID).Username
 		fmt.Println("received:", NPost)
 	}
 
@@ -64,12 +78,11 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	//CHECKING POST VALIDITY
 	if len(NPost.Content) > 0 && len(NPost.Title) > 0 {
 		valid_post = true
+		//ADDING TO DATABASE
+		d.InsertPost(Database, NPost)
 	}
 
 	fmt.Println(valid_post)
-
-	//ADDING TO DATABASE
-	d.InsertPost(Database, NPost)
 
 	b, err := json.Marshal(valid_post)
 	if err != nil {

@@ -12,12 +12,6 @@ import (
 // Insert Session
 func InsertSession(db *sql.DB, sesh u.Session) uuid.UUID {
 	var err error
-	sesh.UUID, err = uuid.NewV4()
-	if err != nil {
-		fmt.Println("Insert sesh uuid.NewV4 error:", err)
-		return sesh.UUID
-	}
-	sesh.ExpDate = time.Now().Add(time.Hour * 2).Unix()
 	statement, err := db.Prepare(`INSERT INTO Sessions (UserID, UUID, ExpDate) VALUES (?, ?, ?)`)
 	if err != nil {
 		fmt.Println("Insert session Prepare error:", err)
@@ -30,6 +24,7 @@ func InsertSession(db *sql.DB, sesh u.Session) uuid.UUID {
 		fmt.Println("Insert session Exec error:", err)
 		return sesh.UUID
 	}
+	fmt.Println("Inserted in database the session:", sesh)
 	return sesh.UUID
 }
 
@@ -50,8 +45,8 @@ func UpdateSession(db *sql.DB, sesh u.Session, tx *sql.Tx) {
 }
 
 // Update sesh time
-func UpdateSessionTime(db *sql.DB, sesh u.Session) {
-	statement, err := db.Prepare(`UPDATE Sessions SET ExpDate = ? WHERE UserID = ?`)
+func UpdateSessionTime(db *sql.DB, sesh u.Session, tx *sql.Tx) {
+	statement, err := tx.Prepare(`UPDATE Sessions SET ExpDate = ? WHERE UserID = ?`)
 	if err != nil {
 		fmt.Println("Update session Prepare error:", err)
 		return
@@ -70,8 +65,8 @@ func IsExpired(db *sql.DB, sesh u.Session) bool {
 	return sesh.ExpDate < time.Now().Unix()
 }
 
-// Get session
-func GetSession(db *sql.DB, UUID string) u.Session {
+// Get session info from uuid
+func GetSession(db *sql.DB, UUID uuid.UUID) u.Session {
 	var session u.Session
 	rows, err := db.Query(`SELECT ID, UserID, UUID, ExpDate FROM Sessions WHERE UUID = ?`, UUID)
 	if err != nil {
@@ -119,7 +114,7 @@ func UserIDHasSession(db *sql.DB, UserID int, tx *sql.Tx) bool {
 }
 
 // Delete session
-func DeleteSession(db *sql.DB, UUID string) {
+func DeleteSession(db *sql.DB, UUID uuid.UUID) {
 	statement, err := db.Prepare(`DELETE FROM Sessions WHERE UUID = ?`)
 	if err != nil {
 		fmt.Println("Delete session Prepare error:", err)

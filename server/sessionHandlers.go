@@ -4,8 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 	d "forum/database"
+	u "forum/server/utils"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/gofrs/uuid"
 )
@@ -47,12 +49,27 @@ func CheckSession(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("seshID check:", sessionID)
 	}
 
-	userID := d.GetUserIDBySesh(Database, sessionID)
+	sesh := d.GetSession(Database, sessionID)
+
 	var a ActiveSession
 	a.Status = "failed"
-	fmt.Println(sessionID)
-	fmt.Println(userID)
-	if userID != 0 {
+	fmt.Println("Sesh found in database:", sesh)
+
+	//Check if session not empty (i.e. it was found in the DB)
+	if sesh != (u.Session{}) {
+		//Send success and update cookie expiration time
+		expiration := time.Now().Add(time.Minute * 20)
+
+		cookie := &http.Cookie{
+			Name:     "sessionID",
+			Value:    sesh.UUID.String(),
+			Expires:  expiration,
+			SameSite: http.SameSiteNoneMode,
+			Secure:   false,
+			Path:     "/",
+		}
+		w.Header().Add("Set-Cookie", cookie.String())
+		http.SetCookie(w, cookie)
 		a.Status = "success"
 	}
 	b, err := json.Marshal(a)
@@ -64,5 +81,7 @@ func CheckSession(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Credentials", "true")
+
 	w.Write(b)
 }
