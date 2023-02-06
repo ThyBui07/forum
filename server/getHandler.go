@@ -96,3 +96,90 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 
 	w.Write(b)
 }
+
+var NCom u.Comment
+
+func CreateComment(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("creating comment")
+
+	// Getting login info
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	switch r.Method {
+	case "OPTIONS":
+		w.Header().Set("Access-Control-Allow-Headers", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+		return
+	}
+	if r.Method == "POST" {
+		err := json.NewDecoder(r.Body).Decode(&NCom)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+		NCom.AuthorID = d.GetUserIDBySesh(Database, NCom.Session)
+		NCom.Author = d.GetUserByID(Database, NCom.AuthorID).Username
+		fmt.Println("received:", NCom)
+	}
+
+	valid_com := false
+	//CHECKING POST VALIDITY
+	if len(NCom.Content) > 0 {
+		valid_com = true
+		//ADDING TO DATABASE
+		d.InsertCom(Database, NCom)
+	}
+
+	fmt.Println(valid_com)
+
+	b, err := json.Marshal(valid_com)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+
+	w.Write(b)
+}
+
+var NReac u.Reac
+
+func AddReaction(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("adding reaction")
+
+	// Getting login info
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	switch r.Method {
+	case "OPTIONS":
+		w.Header().Set("Access-Control-Allow-Headers", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+		return
+	}
+	if r.Method == "POST" {
+		err := json.NewDecoder(r.Body).Decode(&NReac)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+		NReac.AuthorID = d.GetUserIDBySesh(Database, NReac.Session)
+		NReac.Author = d.GetUserByID(Database, NReac.AuthorID).Username
+		fmt.Println("received:", NReac)
+	}
+
+	//ADDING TO DATABASE
+	d.InsertReac(Database, NReac)
+
+	b, err := json.Marshal(true)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+
+	w.Write(b)
+}

@@ -1,10 +1,6 @@
 package utils
 
 import (
-	"net/http"
-	"net/http/cookiejar"
-	"time"
-
 	"github.com/gofrs/uuid"
 )
 
@@ -45,22 +41,25 @@ type Post struct {
 
 // Comment c:
 type Comment struct {
-	ID       int    `json:"id"`
-	AuthorID int    `json:"author id"`
-	Author   string `json:"author"`
-	PostID   int    `json:"post id"`
-	Content  string `json:"content"`
-	Likes    []Reac `json:"likes"`
-	Dislikes []Reac `json:"dislikes"`
+	ID       int       `json:"id"`
+	AuthorID int       `json:"author id"`
+	Author   string    `json:"author"`
+	Session  uuid.UUID `json:"session"`
+	PostID   int       `json:"post id"`
+	Content  string    `json:"content"`
+	Likes    []Reac    `json:"likes"`
+	Dislikes []Reac    `json:"dislikes"`
 }
 
 // Like or Dislike >:(
 type Reac struct {
-	ID        int `json:"id"`
-	LorD      int `json:"like or dislike"`
-	AuthorID  int `json:"author id"`
-	PostID    int `json:"post id"`
-	CommentID int `json:"comment id"`
+	ID        int       `json:"id"`
+	LorD      int       `json:"likeOrDislike"`
+	AuthorID  int       `json:"author id"`
+	Author    string    `json:"author"`
+	Session   uuid.UUID `json:"session"`
+	PostID    int       `json:"post id"`
+	CommentID int       `json:"comment id"`
 }
 
 // Image :$
@@ -80,7 +79,7 @@ type Session struct {
 	ExpDate int64
 }
 
-// Cooookieeeees :P
+/* // Cooookieeeees :P
 type Cookie struct {
 	Name    string
 	Value   string
@@ -121,3 +120,4 @@ func Cookies() {
 	CheckErr(err)
 	defer resp.Body.Close()
 }
+*/

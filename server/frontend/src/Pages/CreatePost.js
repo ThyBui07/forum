@@ -60,21 +60,6 @@ function CreatePost () {
       setCats(json)
     })
 
-  let HandlePostCreation = async e => {
-    fetch('http://localhost:8080/create-post')
-      .then(res => res.json())
-      .then(json => {
-        console.log(json)
-        if (json === true) {
-          navigate('/', { replace: true })
-          console.log('Post successful')
-        } else {
-          setMessage('Invalid Post')
-          console.log('Error with posting post.')
-        }
-      })
-  }
-
   let HandleSubmit = async e => {
     e.preventDefault()
     try {
@@ -91,11 +76,18 @@ function CreatePost () {
         })
       })
         .then(response => response.json())
-        .then(json => console.log(json))
+        .then(json => {
+          if (json === true) {
+            navigate('/', { replace: true })
+            console.log('Post successful')
+          } else {
+            setMessage('Invalid Post')
+            console.log('Error with posting post.')
+          }
+        })
     } catch (err) {
       console.log(err)
     }
-    HandlePostCreation()
   }
 
   return isLoggedIn ? (

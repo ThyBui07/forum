@@ -136,7 +136,7 @@ class Home extends Component {
                 )}
               </Col>
               <Col lg={9} xs={12} md={12}>
-                <PostCards />
+                <PostCards isLoggedIn={isLoggedIn} />
               </Col>
             </Row>
           </Col>
