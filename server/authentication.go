@@ -6,6 +6,7 @@ import (
 	d "forum/database"
 	u "forum/server/utils"
 	"net/http"
+	"regexp"
 	"time"
 
 	"golang.org/x/crypto/bcrypt"
@@ -109,11 +110,17 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	w.Write(b)
 }
 
+type SignupResult struct {
+	Success bool     `json:"success"`
+	Wrong   []string `json:"wrong"`
+}
+
 var success = false
 
 func Signup(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println("signing up")
+	var res SignupResult
 
 	// Getting login info
 	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000/signup")
@@ -135,8 +142,31 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 	}
 
 	user_exists, _ := d.UserAuth(Database, LUser.Username, LUser.Password, w)
+	if user_exists {
+		res.Wrong = append(res.Wrong, "exist")
+	}
 
-	if !user_exists /* && other conditions */ {
+	emailMatch, _ := regexp.MatchString(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`, LUser.Email)
+	if emailMatch {
+		fmt.Println("Valid email address")
+	} else {
+		fmt.Println("Invalid email address")
+		res.Wrong = append(res.Wrong, "email")
+	}
+
+	UsernameMatch, _ := regexp.MatchString("^[a-zA-Z0-9_]+$", LUser.Username)
+	if UsernameMatch {
+		fmt.Println("Valid username")
+	} else {
+		fmt.Println("Invalid username")
+		res.Wrong = append(res.Wrong, "username")
+	}
+
+	if len(LUser.Password) < 4 {
+		res.Wrong = append(res.Wrong, "password")
+	}
+
+	if !user_exists && emailMatch && UsernameMatch && len(LUser.Password) > 3 /* && other conditions */ {
 		fmt.Println("User doesn't exist yet")
 		hashedPassword, err := bcrypt.GenerateFromPassword([]byte(LUser.Password), bcrypt.DefaultCost)
 		if err != nil {
@@ -145,11 +175,11 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 		}
 		if d.InsertInUsers(Database, LUser.Username, LUser.Email, string(hashedPassword), LUser.Email) {
 			fmt.Println("Successfully added user to database.")
-			success = true
+			res.Success = true
 		}
 	}
 
-	b, err := json.Marshal(success)
+	b, err := json.Marshal(res)
 	if err != nil {
 		fmt.Println(err)
 		return

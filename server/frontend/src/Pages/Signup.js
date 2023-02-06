@@ -50,11 +50,19 @@ function Signup () {
       .then(res => res.json())
       .then(json => {
         console.log(json)
-        if (json === true) {
+        if (json.success === true) {
           navigate('/', { replace: true })
           console.log('Signup successful')
         } else {
-          setMessage('Something went wrong')
+          if (json.wrong.includes('username')) {
+            setMessage(`Username must only include alphanumericals and '_'.`)
+          }
+          if (json.wrong.includes('password')) {
+            setMessage('Password must be at least 4 characters long.')
+          }
+          if (json.wrong.includes('email')) {
+            setMessage('Invalid e-mail.')
+          }
           console.log('Something went wrong')
         }
       })
