@@ -2,7 +2,13 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import TopNav from '../Components/TopNav'
 import Login from './LogIn'
-//import '../Components/css/CreatePost.css';
+
+
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+
 
 async function getCookie (name) {
   var value = '; ' + document.cookie
@@ -94,8 +100,8 @@ function CreatePost () {
     <Login />
   ) : (
     <div>
-      <TopNav />
-      <div className='main'>
+      
+      {/* <div className='main'>
         <h1 className='headertitle'>Create a post</h1>
         <div className='contentArea'>
           <div className='titleArea'>
@@ -139,13 +145,41 @@ function CreatePost () {
           </div>
           <div className='message'>{message ? <p>{message}</p> : null}</div>
         </div>
-      </div>
+      </div> */}
+
+<Row>
+          <Col lg={2} md={1} className="d-none d-lg-block d-md-block"></Col>
+          
+          <Col lg={8} md={10} xs={12}>
+            <TopNav />
+            <Form className='mt-5'>
+              <Form.Group className="mb-3" controlId="postForm.ControlInput">
+              <Form.Label className='fs-3'>Recipe Title</Form.Label>
+              <Form.Control size="lg" type="title" placeholder="Write a title" />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="postForm.ControlTextarea">
+              <Form.Label className='fs-3'>Recipe Content</Form.Label>
+              <Form.Control size="lg" as="textarea" rows={5} placeholder="Write a recipe..."/>
+              </Form.Group>
+            <div className='d-flex flex-row justify-content-end'>
+            <Button variant='outline-primary' type='submit' className='me-2'>
+              Post
+            </Button>
+            <Button variant='outline-danger' onClick={Cancel}>
+              Cancel
+            </Button>
+            </div>
+            </Form>
+          </Col>
+
+          <Col lg={2} md={1} className="d-none d-lg-block d-md-block"></Col>
+        </Row>
     </div>
   )
 }
 
 export default CreatePost
 
-function DiscardBtn () {
-  return <button className='discardBtn'>Discard</button>
+function Cancel () {
+  window.location.href = '/'
 }
