@@ -13,7 +13,7 @@ class AccountSettings extends Component {
   render() {
     return (
           <div>
-              <div className="main">
+              {/* <div className="main">
                 <h1 className="headertitle">Account Settings</h1>
                 <div className="settings-flex-container">
                   <div className="settings-column">
@@ -41,7 +41,7 @@ class AccountSettings extends Component {
 
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
       );
     }

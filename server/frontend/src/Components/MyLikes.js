@@ -60,7 +60,7 @@ class MyLikedPost extends Component {
   render() {
     return (
           <div>
-            <div className="main">
+            {/* <div className="main">
               <h1 className="headertitle">My Liked Post</h1>
               {postsWithIds.map((post) => 
                   <div className="mylikedpost-flex-container">
@@ -77,7 +77,7 @@ class MyLikedPost extends Component {
                  </div>      
                   </div>
              )}
-                </div>
+                </div> */}
           </div>
     );
   }

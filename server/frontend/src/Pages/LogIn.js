@@ -33,6 +33,40 @@ async function checkSession () {
   return false
 }
 
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+
+const styles = {
+  back: {
+    backgroundColor: 'white',
+    width: '100%',
+    position: 'absolute',
+    top: 0,
+    bottom: 0
+  },
+  divCenter: {
+    width: 400,
+    height: 400,
+    backgroundColor: '#fff',
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    margin: 'auto',
+    maxWidth: '100%',
+    maxHeight: '100%',
+    overflow: 'auto', 
+    padding: '1em 2em',
+    borderBottom: '2px solid #ccc',
+    display: 'table'
+  },
+  divContent: {
+    display: 'table-cell',
+    verticalAlign: 'middle'
+  }
+
+}
 function Login () {
   const [username, setName] = useState('')
   const [password, setPassword] = useState('')
@@ -88,50 +122,75 @@ function Login () {
   return isLoggedIn ? (
     <Home />
   ) : (
-    <div>
-      <div className='login-flex-container'>
-        <div className='login-column' id='right'>
-          <img alt='forum img' className='forumImg' src={forumImg} />
-        </div>
-        <div className='login-column' id='left'>
-          <div className='heading'>
-            <h1 className='heading-title' id='heading-title-login'>
-              Login
-            </h1>
-          </div>
-          <div className='form-area'>
-            <form onSubmit={HandleSubmit}>
-              <h3 className='username-title'>Username</h3>
-              <input
-                type='text'
-                value={username}
-                onChange={e => setName(e.target.value)}
-              />
-              <h3 className='password-title'>Password</h3>
-              <input
-                id='password1'
-                type='password'
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-              />
-              <div className='btn-area'>
-                <button className='loginpageBtn' type='submit'>
-                  Login
-                </button>
-              </div>
-              <div>
-                <h5>Not a member?</h5>
-                <a href='/signup'>
-                  <h5>Sign Up</h5>
-                </a>
-              </div>
+    // <div>
+    //   <div className='login-flex-container'>
+    //     <div className='login-column' id='right'>
+    //       <img alt='forum img' className='forumImg' src={forumImg} />
+    //     </div>
+    //     <div className='login-column' id='left'>
+    //       <div className='heading'>
+    //         <h1 className='heading-title' id='heading-title-login'>
+    //           Login
+    //         </h1>
+    //       </div>
+    //       <div className='form-area'>
+    //         <form onSubmit={HandleSubmit}>
+    //           <h3 className='username-title'>Username</h3>
+    //           <input
+    //             type='text'
+    //             value={username}
+    //             onChange={e => setName(e.target.value)}
+    //           />
+    //           <h3 className='password-title'>Password</h3>
+    //           <input
+    //             id='password1'
+    //             type='password'
+    //             value={password}
+    //             onChange={e => setPassword(e.target.value)}
+    //           />
+    //           <div className='btn-area'>
+    //             <button className='loginpageBtn' type='submit'>
+    //               Login
+    //             </button>
+    //           </div>
+    //           <div>
+    //             <h5>Not a member?</h5>
+    //             <a href='/signup'>
+    //               <h5>Sign Up</h5>
+    //             </a>
+    //           </div>
 
-              <div className='message'>{message ? <p>{message}</p> : null}</div>
-            </form>
-          </div>
+    //           <div className='message'>{message ? <p>{message}</p> : null}</div>
+    //         </form>
+    //       </div>
+    //     </div>
+    //   </div>
+    // </div>
+    <div style={styles.back}>
+      <div style={styles.divCenter} className="border border-light shadow bg-white rounded">
+        <div style={styles.divContent}>
+          <Form>
+            <Form.Group className="mb-3" controlId="formBasicUsername">
+            <Form.Label className="fs-4">Username</Form.Label>
+            <Form.Control type="email" placeholder="Enter username" />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Label className="fs-4">Password</Form.Label>
+            <Form.Control type="password" placeholder="Password" />
+            </Form.Group>
+            
+            <Button variant="outline-primary" type="submit" className="me-2">
+            Login
+            </Button>
+            <Button variant="outline-danger" type="submit">
+            Cancel
+            </Button>
+          </Form>
         </div>
       </div>
     </div>
+    
   )
 }
 

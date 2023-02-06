@@ -1,38 +1,61 @@
-import React, { Component } from 'react'
-import '../Components/css/Buttons.scss'
-import '../Components/css/Nav.scss'
+import React, { Component } from "react";
+import Container from 'react-bootstrap/Container';
+import Navbar from 'react-bootstrap/Navbar';
+import Button from 'react-bootstrap/Button';
+import Nav from 'react-bootstrap/Nav';
+
+import '../Components/css/Buttons.scss';
+import '../Components/css/Nav.scss';
+
 import logoImg from '../Components/img/logo6.png'
 import profileImg from '../Components/img/settings.png'
 
+const BlogHeaderLogo = {fontFamily: "Playfair Display, Georgia, Times New Roman, serif", fontSize: "1.25rem", textDecoration: "underline"}
+
 class TopNav extends Component {
-  render () {
-    let isLogged = this.props.isLoggedIn
-    console.log('topnav', isLogged)
-    console.log('after', document.cookie)
-    return (
-      <div className='navbar'>
-        <div className='navbarLogo'>
-          <img alt='logo' className='LogoImg' src={logoImg} />
-          <h1 className='navbarTitle'>Food Forum</h1>
-        </div>
-        <div className='navbarBtn'>
-          {isLogged && (
-            <div>
-              <CreatePostBtn />
-              <LogoutBtn />
-              <img alt='prof' className='ProfileImg' src={profileImg} />
-            </div>
-          )}
-          {!isLogged && (
-            <div>
-              <LoginBtn />
-              <SignupBtn />
-            </div>
-          )}
-        </div>
-      </div>
-    )
-  }
+ 
+    render() { 
+      let isLogged = sessionStorage.getItem("loggedIn")
+        //console.log(isLogged)
+        return (
+            // <div className="navbar">
+            //     <div className="navbarLogo" >
+            //         <img alt="logo" className="LogoImg" src={logoImg} />
+            //         <h1 className="navbarTitle">Food Forum</h1> 
+            //     </div>
+            //     <div className="navbarBtn">
+            //         {isLogged && (
+            //             <div>
+            //                 <CreatePostBtn />
+            //                 <LogoutBtn />
+            //                 <img alt="prof" className="ProfileImg" src={profileImg} />
+            //             </div>
+            //         )}
+            //         {!isLogged && (
+            //             <div >
+            //                 <LoginBtn />
+            //                 <SignupBtn />
+            //             </div>
+            //         )}
+            //     </div>
+            // </div>
+            <Navbar expand="lg" className="mt-3 mb-4">
+              <Container>
+              <Navbar.Brand style={BlogHeaderLogo} href="#home">Food Recipes Blog</Navbar.Brand>
+                
+                <Navbar.Toggle />
+                <Navbar.Collapse className="justify-content-end">
+                  <Nav>
+                  <Button variant="outline-dark" className="me-2">Log In</Button>
+                  <Button variant="outline-secondary" className="me-2">Sign Up</Button>
+                  <Button variant="outline-dark" className="me-2">Profile</Button>
+                  <Button variant="outline-danger">Log Out</Button>
+                  </Nav>
+                </Navbar.Collapse>
+              </Container>
+            </Navbar>
+          );
+    }
 }
 export default TopNav
 
