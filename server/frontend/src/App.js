@@ -13,6 +13,7 @@ import Article from './Pages/Article';
 //import MyPosts from './Pages/MyPosts';
 //import SinglePost from './Pages/SinglePost';
 
+const categories = ['Apetizer', 'Beverage', 'Breakfast', 'Comfort food', 'Lunch', 'Salad', 'Smothie', 'Snack', 'Soup', 'Vegan', 'Savoury', 'Sweet'];
 
 
 class App extends Component {
@@ -21,10 +22,10 @@ class App extends Component {
       <Router>
         <Routes>
           <Route exact path='/signup' element={<Signup />} /> 
-          <Route exact path='/' element={<Home/>} />
+          <Route exact path='/' element={<Home categories={categories}/>} />
           <Route exact path='/account' element={<MyAccountPage/>} />
           <Route exact path='/login' element={<LogIn/>} />
-          <Route exact path='/create-post' element={<CreatePost/>} />
+          <Route exact path='/create-post' element={<CreatePost categories={categories}/>} />
           <Route exact path='/article' element={<Article/>} />
           
         </Routes>
