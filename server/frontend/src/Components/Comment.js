@@ -13,8 +13,8 @@ render() {
         <Card className='mb-3'>
             <Card.Body>
                 <div className='d-flex mb-3'>
-                <Card.Img style={image} src="http://bootdey.com/img/Content/user_1.jpg"  alt="user profile image" className='me-2' />
-                <Card.Text className='d-inline-flex'><p className="fw-bold me-2">Ali</p><p className='fw-light'> made a post</p></Card.Text>
+                  <Card.Img style={image} src="http://bootdey.com/img/Content/user_1.jpg"  alt="user profile image" className='me-2' />
+                  <Card.Text className='d-inline-flex'><span className="fw-bold me-2">Ali</span><span className='fw-light'> made a post</span></Card.Text>
                 </div>
                 <Card.Text>This is great recipe. I will make it today.</Card.Text>
                 <div className='d-flex flex-row-reverse'>
