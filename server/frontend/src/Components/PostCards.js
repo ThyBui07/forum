@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
-import { HandThumbsUp, HandThumbsDown, Chat } from 'react-bootstrap-icons'
+import { HandThumbsUp, HandThumbsDown, Chat, ArrowRight } from 'react-bootstrap-icons'
 
 const PostCards = props => {
   const [items, setItems] = useState([])
@@ -121,6 +121,9 @@ const PostCards = props => {
                     <Chat /> 10 Comments
                   </Card.Text>
                 </div>
+                <div className='d-flex justify-content-end' type='button' onClick={() => getArticle(item.id)}>
+                  <p className='fw-bold'> ...Read more <ArrowRight /></p>
+                </div>
               </Card.Body>
               <Card.Footer>
                 <small className='text-muted'>{item.categories}</small>
@@ -150,4 +153,9 @@ function getNLikes (i) {
   } else {
     return i.length
   }
+}
+
+function getArticle(id) {
+  console.log("getArticle")
+  window.location.href = '/articles/' + id
 }
