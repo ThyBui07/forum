@@ -11,9 +11,6 @@ import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import { PlusLg } from 'react-bootstrap-icons'
 
-/* import { useState, useEffect } from "react";
- */
-
 class Home extends Component {
   constructor (props) {
     super(props)
@@ -45,7 +42,6 @@ class Home extends Component {
 
   async checkSession () {
     let sessionID = await this.getCookie('sessionID')
-    console.log('Getting cookie')
     console.log('sessionID', sessionID)
     if (sessionID === undefined) {
       fetch('http://localhost:8080/login', {
@@ -60,8 +56,6 @@ class Home extends Component {
           if (data.success === true) {
             this.setState({ isLoggedIn: true })
           }
-          console.log('aaaa1', data)
-          console.log('aaa2', document.cookie)
         })
         .catch(error => {
           // Handle any errors
@@ -78,17 +72,13 @@ class Home extends Component {
         body: JSON.stringify({ sessionID })
       })
       const data = await res.json()
-      console.log(data.status)
       if (data.status === 'success') {
         this.setState({ isLoggedIn: true })
       }
     }
-    console.log(this.state.isLoggedIn)
   }
 
   render () {
-    console.log('render', document.cookie)
-
     const { isLoggedIn } = this.state
     return (
       <Container fluid>

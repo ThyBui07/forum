@@ -1,110 +1,101 @@
-import { Component } from 'react'
+import { useState, useEffect } from 'react'
 import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import { HandThumbsUp, HandThumbsDown, Chat } from 'react-bootstrap-icons'
 
-class PostCards extends Component {
-  constructor (props) {
-    super(props)
+const PostCards = props => {
+  const [items, setItems] = useState([])
+  const [DataisLoaded, setDataisLoaded] = useState(false)
 
-    this.state = {
-      items: [],
-      DataisLoaded: false
-    }
-  }
-  componentDidMount () {
+  useEffect(() => {
     fetch('http://localhost:8080')
       .then(res => res.json())
       .then(json => {
-        this.setState({
-          items: json.posts,
-          DataisLoaded: true
-        })
+        setItems(json.posts)
+        setDataisLoaded(true)
       })
+  }, [items])
+
+  let isLoggedIn = props.isLoggedIn
+
+  function getCookie (name) {
+    var value = document.cookie
+    var parts = value.split('=')
+    if (parts.length === 2) return parts[1]
   }
-  render () {
-    // when :8080 works then use this posts fetch from api
-    let isLoggedIn = this.props.isLoggedIn
-    const { items } = this.state
-    console.log(items)
 
-    function getCookie (name) {
-      var value = document.cookie
-      var parts = value.split('=')
-      if (parts.length === 2) return parts[1]
-    }
-
-    function AddLike (postID, isLoggedIn) {
-      console.log('heya', postID)
-      if (isLoggedIn) {
-        try {
-          fetch('http://localhost:8080/add-reaction', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              likeOrDislike: 1,
-              session: getCookie('sessionID'),
-              postID: postID,
-              commentID: 0
-            })
+  function AddLike (postID, isLoggedIn) {
+    if (isLoggedIn) {
+      try {
+        fetch('http://localhost:8080/add-reaction', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            likeOrDislike: 1,
+            session: getCookie('sessionID'),
+            postID: postID,
+            commentID: 0
           })
-            .then(response => response.text())
-            .then(text => {
-              console.log(text)
-              if (text === 'true') {
-                console.log('Like successful')
-              } else {
-                console.log('Error with like.')
-              }
-            })
-        } catch (err) {
-          console.log(err)
-        }
-      } else {
-        alert('Login to leave a like.')
-      }
-    }
-
-    function AddDislike (postID, isLoggedIn) {
-      if (isLoggedIn) {
-        try {
-          fetch('http://localhost:8080/add-reaction', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              likeOrDislike: -1,
-              session: getCookie('sessionID'),
-              postID: postID,
-              commentID: 0
-            })
+        })
+          .then(response => response.text())
+          .then(text => {
+            if (text === 'true') {
+              console.log('Like successful')
+            } else {
+              console.log('Error with like.')
+            }
           })
-            .then(response => response.text())
-            .then(text => {
-              if (text === 'true') {
-                console.log('Dislike successful')
-              } else {
-                console.log('Error with dislike.')
-              }
-            })
-        } catch (err) {
-          console.log(err)
-        }
-      } else {
-        alert('Login to leave a dislike.')
+      } catch (err) {
+        console.log(err)
       }
+    } else {
+      alert('Login to leave a like.')
     }
+  }
 
-    function Comment () {
-      window.location.href = '/single-post'
+  function AddDislike (postID, isLoggedIn) {
+    if (isLoggedIn) {
+      try {
+        fetch('http://localhost:8080/add-reaction', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            likeOrDislike: -1,
+            session: getCookie('sessionID'),
+            postID: postID,
+            commentID: 0
+          })
+        })
+          .then(response => response.text())
+          .then(text => {
+            if (text === 'true') {
+              console.log('Dislike successful')
+            } else {
+              console.log('Error with dislike.')
+            }
+          })
+      } catch (err) {
+        console.log(err)
+      }
+    } else {
+      alert('Login to leave a dislike.')
     }
-    return items ? (
-      <Row xs={1} md={1} lg={1} className='g-4'>
-        {items.map(item => (
+  }
+
+  function Comment () {
+    window.location.href = '/single-post'
+  }
+  return items ? (
+    <Row xs={1} md={1} lg={1} className='g-4'>
+      {items
+        .slice()
+        .reverse()
+        .map(item => (
           <Col key={item.id}>
             <Card>
               <Card.Body>
@@ -137,11 +128,10 @@ class PostCards extends Component {
             </Card>
           </Col>
         ))}
-      </Row>
-    ) : (
-      <div>Nothing to see here</div>
-    )
-  }
+    </Row>
+  ) : (
+    <div>Nothing to see here</div>
+  )
 }
 
 export default PostCards

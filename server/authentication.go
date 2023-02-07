@@ -58,7 +58,6 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		} else {
 			logged.Success = false
 		}
-		fmt.Println(log_success)
 
 		b, err = json.Marshal(logged)
 		if err != nil {
@@ -87,7 +86,6 @@ func Login(w http.ResponseWriter, r *http.Request) {
 			fmt.Println("Session ID (cookie):", uuid.String())
 			fmt.Println("Sesh to insert in Database:", sesh)
 			d.InsertSession(Database, sesh)
-			fmt.Println("cooookieeees")
 		}
 
 	} else {
@@ -135,7 +133,6 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 		err := json.NewDecoder(r.Body).Decode(&LUser)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
-			fmt.Println("herrr")
 			return
 		}
 		fmt.Println("received:", LUser)
@@ -184,8 +181,6 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 		return
 	}
-
-	fmt.Println(string(b))
 
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")

@@ -3,12 +3,10 @@ import { useNavigate } from 'react-router-dom'
 import TopNav from '../Components/TopNav'
 import Login from './LogIn'
 
-
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
 
 async function getCookie (name) {
   var value = '; ' + document.cookie
@@ -30,7 +28,6 @@ async function checkSession () {
     })
 
     const data = await res.json()
-    console.log(data.status)
     if (data.status === 'success') {
       return true
     }
@@ -41,7 +38,7 @@ async function checkSession () {
 function CreatePost () {
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
-  const [categories, setCategory] = useState([])
+  const [categories, setCategory] = useState('')
   const [message, setMessage] = useState('')
   const [cats, setCats] = useState([])
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -58,15 +55,13 @@ function CreatePost () {
   }, [navigate])
   //////////////////////
 
-  fetch('http://localhost:8080/')
-    .then(function (u) {
-      return u.json()
-    })
-    .then(function (json) {
-      setCats(json)
-    })
+  function getCookie (name) {
+    var value = document.cookie
+    var parts = value.split('=')
+    if (parts.length === 2) return parts[1]
+  }
 
-  let HandleSubmit = async e => {
+  let handleSubmit = async e => {
     e.preventDefault()
     try {
       await fetch('http://localhost:8080/create-post', {
@@ -78,12 +73,12 @@ function CreatePost () {
           title: title,
           content: content,
           categories: categories,
-          session: document.cookie
+          session: getCookie('sessionID')
         })
       })
-        .then(response => response.json())
-        .then(json => {
-          if (json === true) {
+        .then(response => response.text())
+        .then(text => {
+          if (text === 'true') {
             navigate('/', { replace: true })
             console.log('Post successful')
           } else {
@@ -97,10 +92,7 @@ function CreatePost () {
   }
 
   return isLoggedIn ? (
-    <Login />
-  ) : (
     <div>
-      
       {/* <div className='main'>
         <h1 className='headertitle'>Create a post</h1>
         <div className='contentArea'>
@@ -147,34 +139,53 @@ function CreatePost () {
         </div>
       </div> */}
 
-<Row>
-          <Col lg={2} md={1} className="d-none d-lg-block d-md-block"></Col>
-          
-          <Col lg={8} md={10} xs={12}>
-            <TopNav />
-            <Form className='mt-5'>
-              <Form.Group className="mb-3" controlId="postForm.ControlInput">
-              <Form.Label className='fs-3'>Recipe Title</Form.Label>
-              <Form.Control size="lg" type="title" placeholder="Write a title" />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="postForm.ControlTextarea">
-              <Form.Label className='fs-3'>Recipe Content</Form.Label>
-              <Form.Control size="lg" as="textarea" rows={5} placeholder="Write a recipe..."/>
-              </Form.Group>
-            <div className='d-flex flex-row justify-content-end'>
-            <Button variant='outline-primary' type='submit' className='me-2'>
-              Post
-            </Button>
-            <Button variant='outline-danger' onClick={Cancel}>
-              Cancel
-            </Button>
-            </div>
-            </Form>
-          </Col>
+      <Row>
+        <Col lg={2} md={1} className='d-none d-lg-block d-md-block'></Col>
 
-          <Col lg={2} md={1} className="d-none d-lg-block d-md-block"></Col>
-        </Row>
+        <Col lg={8} md={10} xs={12}>
+          <TopNav isLoggedIn={isLoggedIn} />
+          <Form className='mt-5'>
+            <Form.Group className='mb-3' controlId='postForm.ControlInput'>
+              <Form.Label className='fs-3'>Recipe Title</Form.Label>
+              <Form.Control
+                size='lg'
+                type='title'
+                placeholder='Write a title'
+                onChange={e => setTitle(e.target.value)}
+              />
+            </Form.Group>
+            <Form.Group className='mb-3' controlId='postForm.ControlTextarea'>
+              <Form.Label className='fs-3'>Recipe Content</Form.Label>
+              <Form.Control
+                size='lg'
+                as='textarea'
+                rows={5}
+                placeholder='Write a recipe...'
+                onChange={e => setContent(e.target.value)}
+              />
+            </Form.Group>
+            <div>{message}</div>
+            <div className='d-flex flex-row justify-content-end'>
+              <Button
+                variant='outline-primary'
+                type='submit'
+                className='me-2'
+                onClick={handleSubmit}
+              >
+                Post
+              </Button>
+              <Button variant='outline-danger' onClick={Cancel}>
+                Cancel
+              </Button>
+            </div>
+          </Form>
+        </Col>
+
+        <Col lg={2} md={1} className='d-none d-lg-block d-md-block'></Col>
+      </Row>
     </div>
+  ) : (
+    <Login />
   )
 }
 
