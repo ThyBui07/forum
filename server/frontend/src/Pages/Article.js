@@ -1,9 +1,11 @@
 // pagge for one single full post + comment
 
 import React, { Component } from 'react'
+import { useParams } from 'react-router-dom';
 import TopNav from '../Components/TopNav'
 import Votes from '../Components/Votes'
 import Comment from '../Components/Comment'
+
 
 
 import Card from 'react-bootstrap/Card';
@@ -11,22 +13,27 @@ import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
+import { ArrowLeft } from 'react-bootstrap-icons';
 
 const image = {
   width: '5%',
   height: '4vw',
   objectFit: 'cover'
 }
-
-class Article extends Component {
-    render() {
+// function hook() {
+//   const { name } = useParams();
+//   console.log(name)
+// }
+const Article = () => {
+  let { id } = useParams();
+  console.log(id)
         return (
         <Row>
           <Col lg={2} md={1} className="d-none d-lg-block d-md-block"></Col>
           
           <Col lg={8} md={10} xs={12}>
             <TopNav />
-            <article >
+            <div >
               <h2 className="mb-1">New feature</h2>
               <p className="">December 14, 2020 by <a href="#">Chris</a></p>
 
@@ -38,14 +45,14 @@ class Article extends Component {
               </ul>
               <p>This is some additional paragraph placeholder content. It's a slightly shorter version of the other highly repetitive body text used throughout.</p>
               <Votes />
-            </article>
+            </div>
             <hr />
             <Card className='mb-3'>
               <Card.Body>
                 <div className='d-flex mb-3'>
                 <Card.Img style={image} src="http://bootdey.com/img/Content/user_1.jpg"  alt="user profile image" className='me-2' />
-                <div class="input-group">
-                  <textarea class="form-control" aria-label="With textarea"></textarea>
+                <div className="input-group">
+                  <textarea className="form-control" aria-label="With textarea"></textarea>
                 </div>
                 </div>
                 <div className='d-flex flex-row-reverse'>
@@ -56,14 +63,20 @@ class Article extends Component {
             <Comment />
             <Comment />
             <Comment />
-
-
+            <div className='d-flex' type='button' onClick={() => getBack()}>
+                  <p className='fw-bold'><ArrowLeft /> Back</p>
+                </div>
           </Col>
 
           <Col lg={2} md={1} className="d-none d-lg-block d-md-block"></Col>
         </Row>
         )
-    }
+    // }
 }
 
 export default Article
+
+
+function getBack() {
+  window.location.href = '/'
+}
