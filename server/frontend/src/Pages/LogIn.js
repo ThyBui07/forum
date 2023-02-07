@@ -1,7 +1,4 @@
 import { useState, useEffect } from 'react'
-import '../Components/css/LoginSignup.scss'
-import '../Components/css/Buttons.scss'
-import forumImg from '../Components/img/signin.png'
 import { useNavigate } from 'react-router-dom'
 import Home from './Home'
 
