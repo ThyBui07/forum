@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, useState } from 'react'
 import TopNav from '../Components/TopNav'
 import Toggles from '../Components/Toggles'
 import PostCards from '../Components/PostCards'
@@ -12,6 +12,13 @@ import Form from 'react-bootstrap/Form'
 import { PlusLg } from 'react-bootstrap-icons'
 
 class Home extends Component {
+  state = {
+    dataFromChild: ""
+  };
+
+  receiveDataFromChild = (data) => {
+    this.setState({ dataFromChild: data });
+  };
   constructor (props) {
     super(props)
 
@@ -85,8 +92,9 @@ class Home extends Component {
         <Row>
           <Col lg={2} md={1} className='d-none d-lg-block d-md-block'></Col>
           <Col lg={8} md={10} xs={12}>
+          {this.state.dataFromChild}
             <TopNav isLoggedIn={isLoggedIn} />
-            <Toggles />
+            <Toggles categories={this.props.categories} sendData={this.receiveDataFromChild}/>
             {isLoggedIn && (
               <div className='text-end mb-4'>
                 <Button variant='outline-primary' onClick={CreatePost}>
