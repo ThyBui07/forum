@@ -121,7 +121,7 @@ const Home = () => {
         <Col lg={2} md={1} className='d-none d-lg-block d-md-block'></Col>
         <Col lg={8} md={10} xs={12}>
           {dataFromChild}
-          <TopNav isLoggedIn={isLoggedIn} />
+          <TopNav isLoggedIn={isLoggedIn} userInfo={activeUser} />
           <Toggles sendData={receiveDataFromChild} />
           {isLoggedIn && (
             <div className='text-end mb-4'>
@@ -163,7 +163,11 @@ const Home = () => {
             </Col>
             <Col lg={9} xs={12} md={12}>
               {items ? (
-                <PostCards isLoggedIn={isLoggedIn} items={items.posts} />
+                <PostCards
+                  isLoggedIn={isLoggedIn}
+                  items={items.posts}
+                  userInfo={activeUser}
+                />
               ) : (
                 <div>Nothing to see here</div>
               )}

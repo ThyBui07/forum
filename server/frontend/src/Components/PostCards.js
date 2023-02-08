@@ -11,6 +11,7 @@ import {
 const PostCards = props => {
   let isLoggedIn = props.isLoggedIn
   let items = props.items
+  let userInfo = props.userInfo
 
   function getCookie (name) {
     var value = document.cookie

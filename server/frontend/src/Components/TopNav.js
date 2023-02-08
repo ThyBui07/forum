@@ -19,29 +19,8 @@ const BlogHeaderLogo = {
 class TopNav extends Component {
   render () {
     let isLogged = this.props.isLoggedIn
-    //console.log(isLogged)
+    let useInfo = this.props.userInfo
     return (
-      // <div className="navbar">
-      //     <div className="navbarLogo" >
-      //         <img alt="logo" className="LogoImg" src={logoImg} />
-      //         <h1 className="navbarTitle">Food Forum</h1>
-      //     </div>
-      //     <div className="navbarBtn">
-      //         {isLogged && (
-      //             <div>
-      //                 <CreatePostBtn />
-      //                 <LogoutBtn />
-      //                 <img alt="prof" className="ProfileImg" src={profileImg} />
-      //             </div>
-      //         )}
-      //         {!isLogged && (
-      //             <div >
-      //                 <LoginBtn />
-      //                 <SignupBtn />
-      //             </div>
-      //         )}
-      //     </div>
-      // </div>
       <Navbar expand='lg' className='mt-3 mb-4'>
         <Container>
           <Navbar.Brand style={BlogHeaderLogo} href='#home'>
@@ -55,7 +34,7 @@ class TopNav extends Component {
                 <Button
                   variant='outline-dark'
                   className='me-2'
-                  onClick={Profile}
+                  onClick={() => Profile(useInfo)}
                 >
                   Profile
                 </Button>
@@ -112,6 +91,8 @@ function Signup () {
   window.location.href = '/signup'
 }
 
-function Profile () {
-  window.location.href = '/account'
+function Profile (ui) {
+  window.location.href = `/account?user=${encodeURIComponent(
+    JSON.stringify(ui)
+  )}`
 }
