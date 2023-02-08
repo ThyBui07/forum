@@ -9,9 +9,7 @@ const image = {
 }
 const Comment = props => {
   let coms = props.coms
-  if (coms === undefined) {
-    coms = []
-  }
+
   let postID = props.postID
   let isLoggedIn = props.isLoggedIn
 
@@ -83,7 +81,7 @@ const Comment = props => {
     }
   }
 
-  return (
+  return coms ? (
     <div>
       {coms.map(com => (
         <Col key={com.id}>
@@ -123,6 +121,8 @@ const Comment = props => {
         </Col>
       ))}
     </div>
+  ) : (
+    <div>No comments.</div>
   )
 }
 

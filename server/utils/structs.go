@@ -6,12 +6,15 @@ import (
 
 // User :)
 type User struct {
-	ID       int    `json:"id"`
-	Username string `json:"username"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
-	Mobile   string `json:"mobile"`
-	Logout   bool   `json:"logout"`
+	ID              int    `json:"id"`
+	Username        string `json:"username"`
+	Email           string `json:"email"`
+	Password        string `json:"password"`
+	Mobile          string `json:"mobile"`
+	Logout          bool   `json:"logout"`
+	ReactedPosts    []Post `json:"reactedPosts"`
+	CommmentedPosts []Post `json:"commentedPosts"`
+	CreatedPosts    []Post `json:"createdPosts"`
 }
 
 // Category :O

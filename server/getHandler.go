@@ -66,6 +66,10 @@ func GetRequest(w http.ResponseWriter, r *http.Request) {
 	for i := 0; i < len(Posts); i++ {
 		Posts[i].Author = d.GetUserByID(Database, Posts[i].AuthorID).Username
 		Posts[i].Comments = d.GetComs(Database, Posts[i].ID)
+		//Load comments authors
+		for a := 0; a < len(Posts[i].Comments); a++ {
+			Posts[i].Comments[a].Author = d.GetUserByID(Database, Posts[i].Comments[a].AuthorID).Username
+		}
 		//Load comments likes and dislikes
 		for j := 0; j < len(Posts[i].Comments); j++ {
 			Posts[i].Comments[j].Likes = d.GetReacsCom(Database, 1, Posts[i].ID, Posts[i].Comments[j].ID)

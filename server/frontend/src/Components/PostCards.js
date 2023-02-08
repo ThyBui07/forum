@@ -112,7 +112,7 @@ const PostCards = props => {
                     {getN(item.Dislikes)} Dislikes
                   </Card.Text>
                   <Card.Text className='me-3' onClick={Comment}>
-                    <Chat /> {getN(item.Comments)} Comments
+                    <Chat /> {getN(item.comments)} Comments
                   </Card.Text>
                 </div>
                 <div
