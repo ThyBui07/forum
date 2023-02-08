@@ -57,8 +57,7 @@ const Home = () => {
           // Handle any errors
           console.error(error)
         })
-    }
-    if (sessionID !== undefined) {
+    } else if (sessionID !== undefined) {
       const res = await fetch('http://localhost:8080/check-session', {
         method: 'POST',
         headers: {
@@ -87,30 +86,11 @@ const Home = () => {
     getData()
   }, [])
 
-  /*   const [likeCount, setLikeCount] = useState(0)
-  const [dislikeCount, setDislikeCount] = useState(0) */
-
   useEffect(() => {
     fetch('http://localhost:8080')
       .then(res => res.json())
       .then(json => {
         setItems(json)
-
-        /* // Keep track of the total number of likes
-        let totalLikes = 0
-        json.posts.forEach(post => {
-          totalLikes += post.likes
-        })
-
-        setLikeCount(totalLikes)
-
-        // Keep track of the total number of likes
-        let totalDislikes = 0
-        json.posts.forEach(post => {
-          totalDislikes += post.likes
-        })
-
-        setDislikeCount(totalDislikes) */
       })
     checkSession()
   }, [items])
