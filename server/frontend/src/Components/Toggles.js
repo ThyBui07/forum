@@ -38,6 +38,7 @@ const Toggles = props => {
   }
   return (
     <>
+    <div className="d-flex flex-wrap no-gutters mb-4 pr-0 pl-0">
       {categories.map((item, index) => (
         <Form key={index} className='me-2'>
           <Form.Check
@@ -49,6 +50,7 @@ const Toggles = props => {
           />
         </Form>
       ))}
+      </div>
     </>
   )
 }
