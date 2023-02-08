@@ -22,7 +22,6 @@ var sesh u.Session
 
 func Login(w http.ResponseWriter, r *http.Request) {
 
-	fmt.Println("loginrediret0")
 	var logged Logged
 
 	// Getting login info
@@ -47,7 +46,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 	sessionID, err := r.Cookie("sessionID")
 	if err != nil {
-		fmt.Println("Cookie not found.")
+		//fmt.Println("Cookie not found -> fetching cookie")
 		// Checking if credentials correct from database
 		log_success, uuid := d.UserAuth(Database, LUser.Username, LUser.Password, w)
 		LUser.ID = d.GetUserByUsername(Database, LUser.Username).ID

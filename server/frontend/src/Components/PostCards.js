@@ -102,17 +102,17 @@ const PostCards = props => {
                       type='button'
                       onClick={() => AddLike(item.id, isLoggedIn)}
                     />{' '}
-                    {getNLikes(item.Likes)} Likes
+                    {getN(item.Likes)} Likes
                   </Card.Text>
                   <Card.Text className='me-3'>
                     <HandThumbsDown
                       type='button'
                       onClick={() => AddDislike(item.id, isLoggedIn)}
                     />{' '}
-                    {getNDislikes(item.Dislikes)} Dislikes
+                    {getN(item.Dislikes)} Dislikes
                   </Card.Text>
                   <Card.Text className='me-3' onClick={Comment}>
-                    <Chat /> 10 Comments
+                    <Chat /> {getN(item.Comments)} Comments
                   </Card.Text>
                 </div>
                 <div
@@ -140,16 +140,8 @@ const PostCards = props => {
 
 export default PostCards
 
-function getNDislikes (i) {
-  if (i === null) {
-    return 0
-  } else {
-    return i.length
-  }
-}
-
-function getNLikes (i) {
-  if (i === null) {
+function getN (i) {
+  if (i === null || i === undefined) {
     return 0
   } else {
     return i.length

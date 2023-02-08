@@ -55,10 +55,8 @@ func GetRequest(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	id, err := uuid.FromString(cookie.Value)
-	if err != nil {
-		fmt.Println("uuid parsing error in gethandler")
-	}
+	id, _ := uuid.FromString(cookie.Value)
+
 	activeUserID := d.GetUserIDBySesh(Database, id)
 	activeUser := d.GetUserByID(Database, activeUserID)
 
@@ -70,7 +68,7 @@ func GetRequest(w http.ResponseWriter, r *http.Request) {
 		Posts[i].Comments = d.GetComs(Database, Posts[i].ID)
 		//Load comments likes and dislikes
 		for j := 0; j < len(Posts[i].Comments); j++ {
-			Posts[i].Comments[j].Likes = d.GetReacsCom(Database, 1, Posts[i].Comments[j].ID)
+			Posts[i].Comments[j].Likes = d.GetReacsCom(Database, 1, Posts[i].ID, Posts[i].Comments[j].ID)
 			//Marking the comments liked by active user
 			for _, cl := range Posts[i].Comments[j].Likes {
 				if cl.Author == activeUser.Username {
@@ -78,7 +76,7 @@ func GetRequest(w http.ResponseWriter, r *http.Request) {
 				}
 			}
 
-			Posts[i].Comments[j].Dislikes = d.GetReacsCom(Database, -1, Posts[i].Comments[j].ID)
+			Posts[i].Comments[j].Dislikes = d.GetReacsCom(Database, -1, Posts[i].ID, Posts[i].Comments[j].ID)
 			//Marking the comments disliked by active user
 			for _, cl := range Posts[i].Comments[j].Dislikes {
 				if cl.Author == activeUser.Username {
@@ -180,6 +178,7 @@ func CreateComment(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		err := json.NewDecoder(r.Body).Decode(&NCom)
 		if err != nil {
+			fmt.Println("OH NO :((((((", NCom)
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
@@ -233,17 +232,30 @@ func AddReaction(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("received reaction:", NReac)
 	}
 	//If it's post
-	if NReac.PostID != 0 {
+	if NReac.PostID != 0 && NReac.CommentID == 0 {
+		fmt.Println("commentID is 0")
 		NReac.CommentID = 0
-	}
-	//If it's comment
-	if NReac.CommentID != 0 {
-		NReac.PostID = 0
 	}
 
 	var allReacs []u.Reac
 
-	if NReac.PostID != 0 {
+	if NReac.CommentID != 0 {
+		fmt.Println("comment reac")
+		already := false
+		allReacs = d.GetReacsCom(Database, NReac.LorD, NReac.PostID, NReac.CommentID)
+		for _, r := range allReacs {
+			if r.AuthorID == NReac.AuthorID {
+				already = true
+				//REMOVE REAC FROM DATABASE
+				d.DeleteReaction(Database, NReac)
+				break
+			}
+		}
+		if !already {
+			// ADDING TO DATABASE IF DOESN'T EXIST
+			d.InsertReac(Database, NReac)
+		}
+	} else if NReac.PostID != 0 && NReac.CommentID == 0 {
 		already := false
 		allReacs = d.GetReacsPost(Database, NReac.LorD, NReac.PostID)
 		allOppositeReacs := d.GetReacsPost(Database, -NReac.LorD, NReac.PostID)
@@ -266,23 +278,6 @@ func AddReaction(w http.ResponseWriter, r *http.Request) {
 		if !already {
 			// ADDING TO DATABASE IF DOESN'T EXIST
 			fmt.Println("adding reac")
-			d.InsertReac(Database, NReac)
-		}
-	}
-
-	if NReac.CommentID != 0 {
-		already := false
-		allReacs = d.GetReacsPost(Database, NReac.LorD, NReac.CommentID)
-		for _, r := range allReacs {
-			if r.AuthorID == NReac.AuthorID {
-				already = true
-				//REMOVE REAC FROM DATABASE
-				d.DeleteReaction(Database, NReac)
-				break
-			}
-		}
-		if !already {
-			// ADDING TO DATABASE IF DOESN'T EXIST
 			d.InsertReac(Database, NReac)
 		}
 	}

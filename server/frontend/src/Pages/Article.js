@@ -1,82 +1,207 @@
 // pagge for one single full post + comment
 
 import React, { Component } from 'react'
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom'
 import TopNav from '../Components/TopNav'
 import Votes from '../Components/Votes'
 import Comment from '../Components/Comment'
+import { useEffect, useState } from 'react'
 
-
-
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
-import { ArrowLeft } from 'react-bootstrap-icons';
+import Card from 'react-bootstrap/Card'
+import Button from 'react-bootstrap/Button'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Form from 'react-bootstrap/Form'
+import { ArrowLeft } from 'react-bootstrap-icons'
 
 const image = {
   width: '5%',
   height: '4vw',
   objectFit: 'cover'
 }
-// function hook() {
-//   const { name } = useParams();
-//   console.log(name)
-// }
+
 const Article = () => {
-  let { id } = useParams();
-  console.log(id)
-        return (
-        <Row>
-          <Col lg={2} md={1} className="d-none d-lg-block d-md-block"></Col>
-          
-          <Col lg={8} md={10} xs={12}>
-            <TopNav />
-            <div >
-              <h2 className="mb-1">New feature</h2>
-              <p className="">December 14, 2020 by <a href="#">Chris</a></p>
+  let { id } = useParams()
 
-              <p>This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.</p>
-              <ul>
-              <li>First list item</li>
-              <li>Second list item with a longer description</li>
-              <li>Third list item to close it out</li>
-              </ul>
-              <p>This is some additional paragraph placeholder content. It's a slightly shorter version of the other highly repetitive body text used throughout.</p>
-              <Votes />
-            </div>
-            <hr />
-            <Card className='mb-3'>
-              <Card.Body>
-                <div className='d-flex mb-3'>
-                <Card.Img style={image} src="http://bootdey.com/img/Content/user_1.jpg"  alt="user profile image" className='me-2' />
-                <div className="input-group">
-                  <textarea className="form-control" aria-label="With textarea"></textarea>
-                </div>
-                </div>
-                <div className='d-flex flex-row-reverse'>
-                  <Button variant="outline-dark">Comment</Button>
-                </div>
-              </Card.Body>
-            </Card>
-            <Comment />
-            <Comment />
-            <Comment />
-            <div className='d-flex' type='button' onClick={() => getBack()}>
-                  <p className='fw-bold'><ArrowLeft /> Back</p>
-                </div>
-          </Col>
+  const [items, setItems] = useState([])
+  const [thisPost, setPost] = useState({})
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [activeUser, setActiveUser] = useState({})
+  const [content, setContent] = useState('')
+  const [message, setMessage] = useState('')
 
-          <Col lg={2} md={1} className="d-none d-lg-block d-md-block"></Col>
-        </Row>
-        )
-    // }
+  function getCookie (name) {
+    var value = document.cookie
+    var parts = value.split('=')
+    if (parts.length === 2) return parts[1]
+  }
+
+  const checkSession = async () => {
+    let sessionID = getCookie('sessionID')
+    if (sessionID === undefined) {
+      await fetch('http://localhost:8080/login', {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success === true) {
+            setIsLoggedIn(true)
+            setActiveUser(data.user)
+          }
+        })
+        .catch(error => {
+          // Handle any errors
+          console.error(error)
+        })
+    } else if (sessionID !== undefined) {
+      const res = await fetch('http://localhost:8080/check-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          mode: 'cors'
+        },
+        body: JSON.stringify({ sessionID })
+      })
+      const data = await res.json()
+      if (data.status === 'success') {
+        setIsLoggedIn(true)
+        setActiveUser(data.user)
+      }
+    }
+  }
+
+  let handleSubmit = async e => {
+    e.preventDefault()
+    try {
+      await fetch('http://localhost:8080/add-comment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          content: content,
+          postID: Number(id),
+          session: getCookie('sessionID')
+        })
+      })
+        .then(response => response.text())
+        .then(text => {
+          if (text === 'true') {
+            console.log('comment successful')
+          } else {
+            setMessage('Invalid comment')
+            console.log('Error with posting comment.')
+          }
+        })
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  async function getData () {
+    await fetch('http://localhost:8080')
+      .then(res => res.json())
+      .then(json => json.posts)
+      .then(posts => {
+        if (posts !== undefined) {
+          for (let i = 0; i < posts.length; i++) {
+            if (posts[i].id === Number(id)) {
+              setPost(posts[i])
+              break
+            }
+          }
+        }
+      })
+  }
+
+  useEffect(() => {
+    checkSession()
+    getData()
+  }, [])
+
+  useEffect(() => {
+    fetch('http://localhost:8080')
+      .then(res => res.json())
+      .then(json => json.posts)
+      .then(posts => {
+        if (posts !== undefined) {
+          for (let i = 0; i < posts.length; i++) {
+            if (posts[i].id === Number(id)) {
+              setPost(posts[i])
+              break
+            }
+          }
+        }
+      })
+  }, [thisPost, thisPost.comments])
+
+  return (
+    <Row>
+      <Col lg={2} md={1} className='d-none d-lg-block d-md-block'></Col>
+
+      <Col lg={8} md={10} xs={12}>
+        <TopNav isLoggedIn={isLoggedIn} />
+        <div>
+          <h2 className='mb-1'>{thisPost.title}</h2>
+          <p className=''>
+            {thisPost.date}by <a href='#'>{thisPost.author}</a>
+          </p>
+
+          <p>{thisPost.content}</p>
+          <Votes isLoggedIn={isLoggedIn} post={thisPost} />
+        </div>
+        <hr />
+        {isLoggedIn && (
+          <Card className='mb-3'>
+            <Card.Body>
+              <div className='d-flex mb-3'>
+                <Card.Img
+                  style={image}
+                  src='http://bootdey.com/img/Content/user_1.jpg'
+                  alt='user profile image'
+                  className='me-2'
+                />
+                <div className='input-group'>
+                  <textarea
+                    className='form-control'
+                    aria-label='With textarea'
+                    onChange={e => setContent(e.target.value)}
+                  ></textarea>
+                </div>
+              </div>
+              <div className='d-flex flex-row-reverse'>
+                <Button variant='outline-dark' onClick={handleSubmit}>
+                  Comment
+                </Button>
+              </div>
+              {message}
+            </Card.Body>
+          </Card>
+        )}
+        <Comment
+          coms={thisPost.comments}
+          isLoggedIn={isLoggedIn}
+          postID={Number(id)}
+        />
+        <div className='d-flex' type='button' onClick={() => getBack()}>
+          <p className='fw-bold'>
+            <ArrowLeft /> Back
+          </p>
+        </div>
+      </Col>
+
+      <Col lg={2} md={1} className='d-none d-lg-block d-md-block'></Col>
+    </Row>
+  )
+  // }
 }
 
 export default Article
 
-
-function getBack() {
+function getBack () {
   window.location.href = '/'
 }

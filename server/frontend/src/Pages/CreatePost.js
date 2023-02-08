@@ -44,11 +44,13 @@ function CreatePost () {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const navigate = useNavigate()
 
-  //CHECKING IF ALREADY LOGGED IN --> THEN REDIRECT TO HOME
+  //CHECKING NOT LOGGED --> THEN REDIRECT TO HOME
   useEffect(() => {
     async function checkSessionAndNavigate () {
       if (await checkSession()) {
         setIsLoggedIn(true)
+      } else {
+        //NAVIGATE TO LOGIN PAGE
       }
     }
     checkSessionAndNavigate()
@@ -76,6 +78,7 @@ function CreatePost () {
           session: getCookie('sessionID')
         })
       })
+        .then(console.log(getCookie('sessionID')))
         .then(response => response.text())
         .then(text => {
           if (text === 'true') {
@@ -93,52 +96,6 @@ function CreatePost () {
 
   return isLoggedIn ? (
     <div>
-      {/* <div className='main'>
-        <h1 className='headertitle'>Create a post</h1>
-        <div className='contentArea'>
-          <div className='titleArea'>
-            Title:{' '}
-            <input
-              value={title}
-              className='titleTextArea'
-              id='postTitle'
-              onChange={e => setTitle(e.target.value)}
-            ></input>
-          </div>
-          <div className='categoryArea'>
-            Category:{' '}
-            <div>
-              {cats.map(item => (
-                <div key={item.id}>
-                  <input
-                    value={categories}
-                    type='checkbox'
-                    onChange={e => setCategory(e.target.value)}
-                  />
-                  <span>{item.title}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className='textarea'>
-            <textarea
-              value={content}
-              className='myTextarea'
-              id='myTextarea'
-              placeholder='Type something'
-              onChange={e => setContent(e.target.value)}
-            ></textarea>
-          </div>
-          <div className='buttonarea'>
-            <DiscardBtn />
-            <button className='postBtn' onClick={HandleSubmit}>
-              Post
-            </button>
-          </div>
-          <div className='message'>{message ? <p>{message}</p> : null}</div>
-        </div>
-      </div> */}
-
       <Row>
         <Col lg={2} md={1} className='d-none d-lg-block d-md-block'></Col>
 

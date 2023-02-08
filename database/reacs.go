@@ -54,14 +54,14 @@ func CountReacsCom(db *sql.DB, lord int, id int) int {
 
 // Insert reaction
 func InsertReac(db *sql.DB, r u.Reac) {
-	if r.PostID == 0 {
-		statement, err := db.Prepare(`INSERT OR IGNORE INTO Reacs (AuthorID, LorD, CommentID) VALUES (?, ?, ?)`)
+	if r.CommentID != 0 {
+		statement, err := db.Prepare(`INSERT OR IGNORE INTO Reacs (AuthorID, LorD, CommentID, PostID) VALUES (?, ?, ?, ?)`)
 		if err != nil {
 			fmt.Println("Insert reac com Prepare error:", err)
 			return
 		}
 		defer statement.Close()
-		_, err = statement.Exec(r.AuthorID, r.LorD, r.CommentID)
+		_, err = statement.Exec(r.AuthorID, r.LorD, r.CommentID, r.PostID)
 		if err != nil {
 			fmt.Println("Insert reac com Exec error:", err)
 			return
@@ -83,7 +83,7 @@ func InsertReac(db *sql.DB, r u.Reac) {
 
 // Get reacs (lord) of post (id)
 func GetReacsPost(db *sql.DB, lord int, id int) []u.Reac {
-	rows, err := db.Query(`SELECT ID, LorD, AuthorID, PostID FROM Reacs WHERE PostID = ? AND LorD = ?`, id, lord)
+	rows, err := db.Query(`SELECT ID, LorD, AuthorID, PostID FROM Reacs WHERE PostID = ? AND LorD = ? AND CommentID is NULL`, id, lord)
 	if err != nil {
 		fmt.Println("Get reacs post Query error:", err)
 		return nil
@@ -110,8 +110,8 @@ func GetReacsPost(db *sql.DB, lord int, id int) []u.Reac {
 }
 
 // Get reacs (lord) of comment (id)
-func GetReacsCom(db *sql.DB, lord int, id int) []u.Reac {
-	rows, err := db.Query(`SELECT ID, LorD, AuthorID, PostID, CommentID FROM Reacs WHERE CommentID = ? AND LorD = ?`, id, lord)
+func GetReacsCom(db *sql.DB, lord int, postId int, comId int) []u.Reac {
+	rows, err := db.Query(`SELECT ID, LorD, AuthorID, PostID, CommentID FROM Reacs WHERE CommentID = ? AND PostID = ? AND LorD = ?`, comId, postId, lord)
 	if err != nil {
 		fmt.Println("Get reacs com Query error:", err)
 		return nil
@@ -122,7 +122,7 @@ func GetReacsCom(db *sql.DB, lord int, id int) []u.Reac {
 
 	for rows.Next() {
 		var c u.Reac
-		err = rows.Scan(&c.ID, &c.LorD, &c.AuthorID, &c.PostID)
+		err = rows.Scan(&c.ID, &c.LorD, &c.AuthorID, &c.PostID, &c.CommentID)
 		if err != nil {
 			fmt.Println("Get reacs com Scan error:", err)
 			continue

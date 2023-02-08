@@ -83,6 +83,7 @@ const Home = () => {
   }
 
   useEffect(() => {
+    checkSession()
     getData()
   }, [])
 
@@ -92,7 +93,6 @@ const Home = () => {
       .then(json => {
         setItems(json)
       })
-    checkSession()
   }, [items])
 
   return (
