@@ -100,14 +100,12 @@ function Login () {
       })
         .then(res => res.json())
         .then(data => {
-          console.log(data)
+          console.log('here', data)
           if (data.success === true) {
-            sessionStorage.setItem('loggedIn', true)
             console.log(document.cookie)
             navigate('/', { replace: true })
             console.log('Login successful')
           } else {
-            sessionStorage.setItem('loggedIn', false)
             setMessage('Username or password incorrect')
             console.log('U or P incorrect')
           }

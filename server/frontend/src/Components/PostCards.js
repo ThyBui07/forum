@@ -1,23 +1,16 @@
-import { useState, useEffect } from 'react'
 import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
-import { HandThumbsUp, HandThumbsDown, Chat, ArrowRight } from 'react-bootstrap-icons'
+import {
+  HandThumbsUp,
+  HandThumbsDown,
+  Chat,
+  ArrowRight
+} from 'react-bootstrap-icons'
 
 const PostCards = props => {
-  const [items, setItems] = useState([])
-  const [DataisLoaded, setDataisLoaded] = useState(false)
-
-  useEffect(() => {
-    fetch('http://localhost:8080')
-      .then(res => res.json())
-      .then(json => {
-        setItems(json.posts)
-        setDataisLoaded(true)
-      })
-  }, [items])
-
   let isLoggedIn = props.isLoggedIn
+  let items = props.items
 
   function getCookie (name) {
     var value = document.cookie
@@ -121,8 +114,15 @@ const PostCards = props => {
                     <Chat /> 10 Comments
                   </Card.Text>
                 </div>
-                <div className='d-flex justify-content-end' type='button' onClick={() => getArticle(item.id)}>
-                  <p className='fw-bold'> ...Read more <ArrowRight /></p>
+                <div
+                  className='d-flex justify-content-end'
+                  type='button'
+                  onClick={() => getArticle(item.id)}
+                >
+                  <p className='fw-bold'>
+                    {' '}
+                    ...Read more <ArrowRight />
+                  </p>
                 </div>
               </Card.Body>
               <Card.Footer>
@@ -155,7 +155,7 @@ function getNLikes (i) {
   }
 }
 
-function getArticle(id) {
-  console.log("getArticle")
+function getArticle (id) {
+  console.log('getArticle')
   window.location.href = '/articles/' + id
 }

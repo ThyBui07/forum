@@ -13,11 +13,12 @@ import (
 )
 
 type ActiveSession struct {
-	Status string `json:"status"`
+	Status     string `json:"status"`
+	ActiveUser u.User `json:"user"`
 }
 
 type Session struct {
-	SessionIDstr string `json:"SessionID"`
+	SessionIDstr string `json:"sessionID"`
 }
 
 func CheckSession(w http.ResponseWriter, r *http.Request) {
@@ -36,6 +37,7 @@ func CheckSession(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		err := json.NewDecoder(r.Body).Decode(&temp)
 		if err != nil {
+			fmt.Println("Problem with getting existing session")
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
@@ -71,6 +73,8 @@ func CheckSession(w http.ResponseWriter, r *http.Request) {
 		w.Header().Add("Set-Cookie", cookie.String())
 		http.SetCookie(w, cookie)
 		a.Status = "success"
+		a.ActiveUser.ID = d.GetUserIDBySesh(Database, sesh.UUID)
+		a.ActiveUser = d.GetUserByID(Database, a.ActiveUser.ID)
 	}
 	b, err := json.Marshal(a)
 	if err != nil {
