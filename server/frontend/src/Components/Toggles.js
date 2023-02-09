@@ -23,15 +23,15 @@ const Toggles = props => {
   }
   const [switchState, setSwitchState] = useState(false)
   const handleChange = function (e, item) {
-    // console.log(item)
     let data = {condition: e.target.checked, value: item}
     console.log('data in toggle: ', data)
 
-    if (e.target.checked === true) {
-      sendDataBacktoHome(data)
-    } else {
-      sendDataBacktoHome(data)
-    }
+    // if (e.target.checked === true) {
+    //   sendDataBacktoHome(data)
+    // } else {
+    //   sendDataBacktoHome(data)
+    // }
+    sendDataBacktoHome(data)
     setSwitchState(!switchState)
   }
   return (

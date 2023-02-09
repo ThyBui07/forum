@@ -8,12 +8,35 @@ import Toggles from '../Components/Toggles'
 import PostCards from '../Components/PostCards'
 
 
-const Home = ({ receivedLoggedIn }) => {
+const Home = () => {
   const [categories, setDataFromToggle] = useState([])
+  const [postTypes, setPostTypes] = useState([])
+  //console.log('postTypes: ', postTypes)
+  const reactCommentedPosts = {reactedPosts: [], commentedPosts: []}
   const [items, setItems] = useState([])
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   //console.log('isLoggedIn home.js: ', isLoggedIn)
   const [activeUser, setActiveUser] = useState({})
+  const [switchReactToogle, setSwitchState] = useState(false)
+
+//console.log('activeUser home.js: ', activeUser)
+if (activeUser !== undefined) {
+  if (activeUser.reactedPosts !== undefined) {
+    reactCommentedPosts.reactedPosts = activeUser.reactedPosts.map(item => item.id);
+  }
+  if (activeUser.commentedPosts !== undefined) {
+    reactCommentedPosts.commentedPosts = activeUser.commentedPosts.map(item => item.id)
+  }
+}
+
+  const handleChange = function (e, value) {
+    if (e.target.checked === true) {
+      setPostTypes([...postTypes, value])
+    } else {
+      setPostTypes(postTypes.filter(item => item !== value))
+    }
+    setSwitchState(!switchReactToogle)
+  }
 
   const receiveCategoryFromToggle = data => {
     if (data.condition === true) {
@@ -128,12 +151,16 @@ const Home = ({ receivedLoggedIn }) => {
                       <Form.Check
                         type='switch'
                         id='custom-switch'
-                        label='My Liked Posts'
+                        label='My React Posts'
+                        defaultChecked={switchReactToogle}
+                        onChange={e => handleChange(e, 'ReactedPosts')}
                       />
                       <Form.Check
                         type='switch'
                         id='custom-switch'
                         label='My Commented Posts'
+                        defaultChecked={switchReactToogle}
+                        onChange={e => handleChange(e, 'CommentedPosts')}
                       />
                     </Form>
                   </Card.Body>
@@ -147,6 +174,8 @@ const Home = ({ receivedLoggedIn }) => {
                   items={items.posts}
                   userInfo={activeUser}
                   categoriesFromToggle={categories}
+                  postTypesFromToggle={postTypes}
+                  reactCommentedPosts={reactCommentedPosts}
                 />
               ) : (
                 <Spinner animation='border' role='status'>

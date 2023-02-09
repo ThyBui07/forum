@@ -12,22 +12,53 @@ const PostCards = props => {
   let isLoggedIn = props.isLoggedIn
   let items = props.items
 
-  //console.log('items in PostCards: ', items)
   let userInfo = props.userInfo
   let categories = props.categoriesFromToggle
+  let postTypes = props.postTypesFromToggle
+  //console.log('postTypes: ', postTypes)
+  let reactCommentedPosts = props.reactCommentedPosts
+  //console.log('reactCommentedPosts: ', reactCommentedPosts)
+//   commentedPosts
+// : 
+// [41]
+// reactedPosts
+// : 
+// (6) [42, 44, 51, 53, 55, 56]
 
   if (items !== undefined) {
     //console.log('item not undefined')
-    items = items.filter(item => {
-      if (categories.length == 0) {
-        return item
-      } else {
-        let found = categories.some(category => item.categories.includes(category));
-          if (found) {
-            return item
+    if (categories.length == 0 && postTypes.length == 0) {
+      items = items
+    } else {
+      items = items.filter(item => {
+        if (categories.length > 0 && postTypes.length == 0) {
+          let found = categories.some(category => item.categories.includes(category));
+              if (found) {
+                return item
+              }
+        } else if (categories.length == 0 && postTypes.length > 0) {
+          if (postTypes.length == 1) {
+            if (postTypes[0] == 'ReactedPosts') {
+              return reactCommentedPosts.reactedPosts.includes(item.id);
+            } else if (postTypes[0] == 'CommentedPosts') {
+              return reactCommentedPosts.commentedPosts.includes(item.id);
+            }
+          } else if (postTypes.length == 2) {
+  
           }
+      } else if (categories.length > 0 && postTypes.length > 0) {
+        console.log(4)
+  
       }
-    })
+        // } else {
+        //   let found = categories.some(category => item.categories.includes(category));
+        //     if (found) {
+        //       return item
+        //     }
+        // }
+      })
+    }
+    
   }
 
   function getCookie (name) {
@@ -108,7 +139,9 @@ const PostCards = props => {
         .reverse()
         .map(item => (
           <Col key={item.id}>
+            
             <Card>
+            {item.id}
               <Card.Body>
                 <Card.Title>{item.title}</Card.Title>
                 <small className='text-muted'>Posted by: {item.author}</small>
