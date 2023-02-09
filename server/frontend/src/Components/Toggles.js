@@ -20,19 +20,20 @@ const categories = [
 ]
 
 const Toggles = props => {
-  const [toggle, setToggle] = useState('')
-  const sendDataBack = item => {
-    console.log(item)
-    props.sendData(item)
+  
+  const sendDataBacktoHome = data => {
+    props.sendData(data)
   }
   const [switchState, setSwitchState] = useState(false)
   const handleChange = function (e, item) {
     // console.log(item)
-    console.log(e.target.checked)
+    let data = {condition: e.target.checked, value: item}
+    console.log('data in toggle: ', data)
+
     if (e.target.checked === true) {
-      sendDataBack(item)
+      sendDataBacktoHome(data)
     } else {
-      sendDataBack('')
+      sendDataBacktoHome(data)
     }
     setSwitchState(!switchState)
   }

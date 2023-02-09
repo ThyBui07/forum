@@ -1,6 +1,10 @@
+import React, { useState, useEffect } from 'react'
+
 import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
+import Spinner from 'react-bootstrap/Spinner'
+
 import {
   HandThumbsUp,
   HandThumbsDown,
@@ -11,7 +15,24 @@ import {
 const PostCards = props => {
   let isLoggedIn = props.isLoggedIn
   let items = props.items
+
+  //console.log('items in PostCards: ', items)
   let userInfo = props.userInfo
+  let categories = props.categoriesFromToggle
+
+  if (items !== undefined) {
+    //console.log('item not undefined')
+    items = items.filter(item => {
+      if (categories.length == 0) {
+        return item
+      } else {
+        let found = categories.some(category => item.categories.includes(category));
+          if (found) {
+            return item
+          }
+      }
+    })
+  }
 
   function getCookie (name) {
     var value = document.cookie
@@ -134,7 +155,9 @@ const PostCards = props => {
         ))}
     </Row>
   ) : (
-    <div>Nothing to see here</div>
+    <Spinner animation="border" role="status">
+      <span className="visually-hidden">Loading...</span>
+    </Spinner>
   )
 }
 

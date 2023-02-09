@@ -9,10 +9,10 @@ import (
 func PostTemp() {
 	var Post u.Post
 
-	Post.Author = "Ali"
+	Post.Author = "gin"
 	Post.AuthorID = 1
-	Post.Categories = "Sweet, Savoury"
-	Post.Content = "This is sweet and savoury recipe"
+	Post.Categories = "Sweet, Salad, Breakfast"
+	Post.Content = "This is sweet and savoury recijgfdkhjghfgjghgdfjgfhgdpe"
 
 	var Comment1 u.Comment
 
@@ -45,7 +45,7 @@ func PostTemp() {
 	t := time.Now()
 	Post.Date = t.Unix()
 
-	Post.Title = "Outerspace recipe"
+	Post.Title = "tesssststtst"
 
 	d.InsertPost(Database, Post)
 }

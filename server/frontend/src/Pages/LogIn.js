@@ -63,23 +63,27 @@ const styles = {
     verticalAlign: 'middle'
   }
 }
-function Login () {
+function Login ({receivedLoggedIn}) {
   const [username, setName] = useState('')
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState('')
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const navigate = useNavigate()
-
+  const updateLoggedIntoHome = data => {
+    receivedLoggedIn(data)
+  }
   //CHECKING IF ALREADY LOGGED IN --> THEN REDIRECT TO HOME
   useEffect(() => {
     async function checkSessionAndNavigate () {
       if (await checkSession()) {
         setIsLoggedIn(true)
+        
       }
     }
     checkSessionAndNavigate()
   }, [navigate])
   //////////////////////
+  
 
   let HandleSubmit = async e => {
     e.preventDefault()
@@ -103,6 +107,7 @@ function Login () {
           console.log('here', data)
           if (data.success === true) {
             console.log(document.cookie)
+            updateLoggedIntoHome(document.cookie)
             navigate('/', { replace: true })
             console.log('Login successful')
           } else {

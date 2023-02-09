@@ -1,33 +1,23 @@
 import TopNav from '../Components/TopNav'
 import Toggles from '../Components/Toggles'
 import PostCards from '../Components/PostCards'
-import { Container, Row, Col, Card, Button, Form } from 'react-bootstrap'
+import { Container, Row, Col, Card, Button, Form, Spinner } from 'react-bootstrap'
 import { PlusLg } from 'react-bootstrap-icons'
 import React, { useState, useEffect } from 'react'
 
-const categories = [
-  'Apetizer',
-  'Beverage',
-  'Breakfast',
-  'Comfort food',
-  'Lunch',
-  'Salad',
-  'Smothie',
-  'Snack',
-  'Soup',
-  'Vegan',
-  'Savoury',
-  'Sweet'
-]
-
-const Home = () => {
-  const [dataFromChild, setDataFromChild] = useState('')
+const Home = ({receivedLoggedIn}) => {
+  const [categories, setDataFromToggle] = useState([])
   const [items, setItems] = useState([])
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  //console.log('isLoggedIn home.js: ', isLoggedIn)
   const [activeUser, setActiveUser] = useState({})
 
-  const receiveDataFromChild = data => {
-    setDataFromChild(data)
+  const receiveCategoryFromToggle = data => {
+    if (data.condition === true) {
+      setDataFromToggle([...categories, data.value])
+    } else {
+      setDataFromToggle(categories.filter(item => item !== data.value))
+    }
   }
 
   const getCookie = async name => {
@@ -87,6 +77,8 @@ const Home = () => {
     getData()
   }, [])
 
+  
+  
   useEffect(() => {
     fetch('http://localhost:8080')
       .then(res => res.json())
@@ -94,15 +86,13 @@ const Home = () => {
         setItems(json)
       })
   }, [items])
-
   return (
     <Container fluid>
       <Row>
         <Col lg={2} md={1} className='d-none d-lg-block d-md-block'></Col>
         <Col lg={8} md={10} xs={12}>
-          {dataFromChild}
           <TopNav isLoggedIn={isLoggedIn} userInfo={activeUser} />
-          <Toggles sendData={receiveDataFromChild} />
+          <Toggles sendData={receiveCategoryFromToggle} />
           {isLoggedIn && (
             <div className='text-end mb-4'>
               <Button variant='outline-primary' onClick={CreatePost}>
@@ -147,9 +137,12 @@ const Home = () => {
                   isLoggedIn={isLoggedIn}
                   items={items.posts}
                   userInfo={activeUser}
+                  categoriesFromToggle={categories}
                 />
               ) : (
-                <div>Nothing to see here</div>
+                <Spinner animation="border" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </Spinner>
               )}
             </Col>
           </Row>

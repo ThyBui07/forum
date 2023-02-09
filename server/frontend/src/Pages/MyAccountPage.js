@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
 import TopNav from '../Components/TopNav'
-import AccountSettings from '../Components/MyAccountSettings'
+
 
 import { useLocation } from 'react-router-dom'
 import Col from 'react-bootstrap/Col'
 import Nav from 'react-bootstrap/Nav'
 import Row from 'react-bootstrap/Row'
 import Tab from 'react-bootstrap/Tab'
+import Card from 'react-bootstrap/Card'
+import Form from 'react-bootstrap/Form';
+
 import PostCard from '../Components/PostCard'
 
 //import { useState, useEffect } from "react";
@@ -14,13 +17,13 @@ import PostCard from '../Components/PostCard'
 function MyAccountPage () {
   const location = useLocation()
   const userInfo = JSON.parse(decodeURIComponent(location.search.split('=')[1]))
-
+  console.log(userInfo)
   return (
     <Row>
       <Col lg={2} md={1} className='d-none d-lg-block d-md-block'></Col>
 
       <Col lg={8} md={10} xs={12}>
-        <TopNav isLoggedIn={true} />
+        <TopNav  />
         <Tab.Container id='left-tabs-example' defaultActiveKey='myAccount'>
           <Row>
             <Col sm={3}>
@@ -56,7 +59,20 @@ function MyAccountPage () {
             <Col sm={9}>
               <Tab.Content>
                 <Tab.Pane eventKey='myAccount'>
-                  <p>myAccount content</p>
+                  <Card>
+                  <Card.Body>
+                    <Form>
+                      <Form.Group className="mb-3">
+                        <Form.Label>Email</Form.Label>
+                        <Form.Control placeholder={userInfo.email} disabled />
+                      </Form.Group>
+                      <Form.Group className="mb-3">
+                        <Form.Label>Username</Form.Label>
+                        <Form.Control placeholder={userInfo.username} disabled />
+                      </Form.Group>
+                    </Form>
+                  </Card.Body>
+                  </Card>
                 </Tab.Pane>
                 <Tab.Pane eventKey='myPosts'>
                   <p>myPosts content</p>

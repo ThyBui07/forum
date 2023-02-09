@@ -19,11 +19,12 @@ const BlogHeaderLogo = {
 class TopNav extends Component {
   render () {
     let isLogged = this.props.isLoggedIn
+    //console.log('isLogged in topNav: ', isLogged)
     let useInfo = this.props.userInfo
     return (
       <Navbar expand='lg' className='mt-3 mb-4'>
         <Container>
-          <Navbar.Brand style={BlogHeaderLogo} href='#home'>
+          <Navbar.Brand style={BlogHeaderLogo} href='/'>
             Food Recipes Blog
           </Navbar.Brand>
 
@@ -92,7 +93,33 @@ function Signup () {
 }
 
 function Profile (ui) {
+  const modifyUser = {
+    email: ui.email,
+    username: ui.mobile,
+    myLikedPosts: ['later'],
+    myLikedPosts: ['later'],
+    myCommentedPosts: ['later']
+  }
+//   email
+// : 
+// "test@test.com"
+// id
+// : 
+// 1
+// logout
+// : 
+// false
+// mobile
+// : 
+// ""
+// password
+// : 
+// "$2a$10$cFmP4rYCH3kyvxixOHv0iuRJtRx7vSPusOf5vfwlDcCeL244PIgtG"
+// username
+// : 
+// "test"
+// window.location.href = '/account'
   window.location.href = `/account?user=${encodeURIComponent(
-    JSON.stringify(ui)
+    JSON.stringify(modifyUser)
   )}`
 }
