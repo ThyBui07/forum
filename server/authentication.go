@@ -65,11 +65,14 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		//Sending reacted posts
 		var rp []u.Post
 		for _, p := range allPosts {
+			p.Likes = d.GetReacsPost(Database, 1, p.ID)
 			for _, lp := range p.Likes {
 				if lp.AuthorID == LUser.ID {
 					rp = append(rp, p)
 				}
 			}
+
+			p.Dislikes = d.GetReacsPost(Database, -1, p.ID)
 			for _, dp := range p.Dislikes {
 				if dp.AuthorID == LUser.ID {
 					rp = append(rp, p)
