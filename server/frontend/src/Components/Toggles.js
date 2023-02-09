@@ -1,7 +1,4 @@
-import { Component, useState } from 'react'
-import Container from 'react-bootstrap/esm/Container'
-import Row from 'react-bootstrap/esm/Container'
-
+import { useState } from 'react'
 import Form from 'react-bootstrap/Form'
 
 const categories = [

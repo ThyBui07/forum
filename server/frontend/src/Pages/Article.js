@@ -1,18 +1,12 @@
-// pagge for one single full post + comment
-
-import React, { Component } from 'react'
+import React, { useEffect, useState  } from 'react'
 import { useParams } from 'react-router-dom'
+
+import { Card, Button, Row, Col } from 'react-bootstrap'
+import { ArrowLeft } from 'react-bootstrap-icons'
+
 import TopNav from '../Components/TopNav'
 import Votes from '../Components/Votes'
 import Comment from '../Components/Comment'
-import { useEffect, useState } from 'react'
-
-import Card from 'react-bootstrap/Card'
-import Button from 'react-bootstrap/Button'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
-import Form from 'react-bootstrap/Form'
-import { ArrowLeft } from 'react-bootstrap-icons'
 
 const image = {
   width: '5%',

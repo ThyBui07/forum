@@ -1,17 +1,10 @@
-import React, { Component } from 'react'
-import TopNav from '../Components/TopNav'
-
+import React from 'react'
 import { useLocation } from 'react-router-dom'
-import Col from 'react-bootstrap/Col'
-import Nav from 'react-bootstrap/Nav'
-import Row from 'react-bootstrap/Row'
-import Tab from 'react-bootstrap/Tab'
-import Card from 'react-bootstrap/Card'
-import Form from 'react-bootstrap/Form'
+
+import { Row, Col, Nav, Tab, Card, Form } from 'react-bootstrap'
 
 import PostCard from '../Components/PostCard'
-
-//import { useState, useEffect } from "react";
+import TopNav from '../Components/TopNav'
 
 function MyAccountPage () {
   const userInfo = JSON.parse(sessionStorage.getItem('userInfo'))

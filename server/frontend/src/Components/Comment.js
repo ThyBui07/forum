@@ -1,4 +1,3 @@
-import { Component } from 'react'
 import { Card, Col } from 'react-bootstrap'
 import { HandThumbsUp, HandThumbsDown } from 'react-bootstrap-icons'
 

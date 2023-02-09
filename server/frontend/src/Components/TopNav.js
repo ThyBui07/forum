@@ -1,14 +1,6 @@
 import React, { Component } from 'react'
-import Container from 'react-bootstrap/Container'
-import Navbar from 'react-bootstrap/Navbar'
-import Button from 'react-bootstrap/Button'
-import Nav from 'react-bootstrap/Nav'
+import { Container, Navbar, Button, Nav } from 'react-bootstrap'
 
-import '../Components/css/Buttons.scss'
-import '../Components/css/Nav.scss'
-
-import logoImg from '../Components/img/logo6.png'
-import profileImg from '../Components/img/settings.png'
 
 const BlogHeaderLogo = {
   fontFamily: 'Playfair Display, Georgia, Times New Roman, serif',

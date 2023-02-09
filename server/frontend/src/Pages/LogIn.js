@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+
+import { Form, Button } from 'react-bootstrap'
+
 import Home from './Home'
 
-import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
 
 async function getCookie (name) {
   var value = '; ' + document.cookie

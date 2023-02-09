@@ -1,17 +1,12 @@
+import React, { useState, useEffect } from 'react'
+
+import { Container,Row, Col, Card,Button, Form, Spinner } from 'react-bootstrap'
+import { PlusLg } from 'react-bootstrap-icons'
+
 import TopNav from '../Components/TopNav'
 import Toggles from '../Components/Toggles'
 import PostCards from '../Components/PostCards'
-import {
-  Container,
-  Row,
-  Col,
-  Card,
-  Button,
-  Form,
-  Spinner
-} from 'react-bootstrap'
-import { PlusLg } from 'react-bootstrap-icons'
-import React, { useState, useEffect } from 'react'
+
 
 const Home = ({ receivedLoggedIn }) => {
   const [categories, setDataFromToggle] = useState([])

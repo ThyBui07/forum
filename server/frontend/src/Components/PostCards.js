@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from 'react'
-
-import Card from 'react-bootstrap/Card'
-import Col from 'react-bootstrap/Col'
-import Row from 'react-bootstrap/Row'
-import Spinner from 'react-bootstrap/Spinner'
+import { Card, Col, Row, Spinner } from 'react-bootstrap'
 
 import {
   HandThumbsUp,
