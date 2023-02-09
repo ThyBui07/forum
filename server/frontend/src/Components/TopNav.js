@@ -93,12 +93,13 @@ function Signup () {
 }
 
 function Profile (ui) {
+  console.log('ui', ui)
   const modifyUser = {
     email: ui.email,
     username: ui.mobile,
-    myLikedPosts: ['later'],
-    myLikedPosts: ['later'],
-    myCommentedPosts: ['later']
+    myPosts: ui.createdPosts,
+    myReactedPosts: ui.reactedPosts,
+    myCommentedPosts: ui.commentedPosts
   }
 //   email
 // : 
