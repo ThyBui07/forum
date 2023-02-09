@@ -48,14 +48,12 @@ func CheckSession(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		fmt.Println("seshID check:", sessionID)
 	}
 
 	sesh := d.GetSession(Database, sessionID)
 
 	var a ActiveSession
 	a.Status = "failed"
-	fmt.Println("Sesh found in database:", sesh)
 
 	//Check if session not empty (i.e. it was found in the DB)
 	if sesh != (u.Session{}) {

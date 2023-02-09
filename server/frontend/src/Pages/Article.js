@@ -51,6 +51,7 @@ const Article = () => {
           if (data.success === true) {
             setIsLoggedIn(true)
             setActiveUser(data.user)
+            sessionStorage.setItem('isLoggedIn', true)
           }
         })
         .catch(error => {
@@ -70,6 +71,7 @@ const Article = () => {
       if (data.status === 'success') {
         setIsLoggedIn(true)
         setActiveUser(data.user)
+        sessionStorage.setItem('isLoggedIn', true)
       }
     }
   }
@@ -121,6 +123,9 @@ const Article = () => {
   useEffect(() => {
     checkSession()
     getData()
+    if (!isLoggedIn) {
+      sessionStorage.setItem('isLoggedIn', false)
+    }
   }, [])
 
   useEffect(() => {

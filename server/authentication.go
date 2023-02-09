@@ -123,8 +123,6 @@ func Login(w http.ResponseWriter, r *http.Request) {
 			sesh.UserID = LUser.ID
 			sesh.ExpDate = expiration.Unix()
 
-			fmt.Println("Session ID (cookie):", uuid.String())
-			fmt.Println("Sesh to insert in Database:", sesh)
 			d.InsertSession(Database, sesh)
 		}
 
@@ -175,7 +173,7 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
-		fmt.Println("received:", LUser)
+		fmt.Println("received:", LUser.Username)
 	}
 
 	user_exists, _ := d.UserAuth(Database, LUser.Username, LUser.Password, w)

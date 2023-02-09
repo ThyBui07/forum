@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import './App.css'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import { Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom'
 
 import Home from './Pages/Home'
 import MyAccountPage from './Pages/MyAccountPage'
@@ -11,39 +11,36 @@ import LogIn from './Pages/LogIn'
 import Signup from './Pages/Signup'
 import Article from './Pages/Article'
 
-const App = () =>  {
-  
-  const [isLoggedIn, setIsLoggedIn] = useState(null)
-  console.log('isLoggedIn app.js: ', isLoggedIn)
-  const receivedLoggedIn = (statement) => {
-    console.log('receivedLoggedIn in app: ', statement)
-    setIsLoggedIn(statement)
-  }
+const App = () => {
+  return (
+    <Router>
+      <Routes>
+        <Route exact path='/signup' element={<Signup />} />
+        <Route exact path='/' element={<Home />} />
+        {/* route /account is protected. If user is not logged in, they will be redirected to /login */}
+        {/* <Route exact path='/account' element={<div>{accountPage}</div>} /> */}
+        <Route
+          exact
+          path='/account'
+          element={
+            sessionStorage.getItem('isLoggedIn') ? (
+              <MyAccountPage />
+            ) : (
+              <Navigate to='/login' />
+            )
+          }
+        />
 
-  //const accountPage = useMemo(() => (isLoggedIn ? <MyAccountPage /> : <Navigate to="/" />), [isLoggedIn]);
-  useEffect(() => {
-    console.log('App component rendered, isLoggedIn: ', isLoggedIn);
-  }, [isLoggedIn]);
+        {/* <Route exact path='/account' element={<MyAccountPage />} /> */}
+        <Route exact path='/login' element={<LogIn />} />
+        <Route exact path='/create-post' element={<CreatePost />} />
 
-    return (
-      <Router>
-        <Routes>
-          <Route exact path='/signup' element={<Signup />} />
-          <Route exact path='/' element={<Home />}  />
-          {/* route /account is protected. If user is not logged in, they will be redirected to /login */}
-          {/* <Route exact path='/account' element={<div>{accountPage}</div>} /> */}
-          <Route exact path="/account" element={isLoggedIn ? <MyAccountPage /> : <Navigate to="/login" />} />
-
-          {/* <Route exact path='/account' element={<MyAccountPage />} /> */}
-          <Route exact path='/login' element={<LogIn receivedLoggedIn={receivedLoggedIn} />} />
-          <Route exact path='/create-post' element={<CreatePost />} />
-
-          {/* route /create-post is protected. If user is not logged in, they will be redirected to /login */}
-          {/* <Route exact path="/create-post" element={isLoggedIn ? <CreatePost />: <Navigate to="/login" />} /> */}
-          <Route exact path='/articles/:id' element={<Article />}  />
-        </Routes>
-      </Router>
-    )
+        {/* route /create-post is protected. If user is not logged in, they will be redirected to /login */}
+        {/* <Route exact path="/create-post" element={isLoggedIn ? <CreatePost />: <Navigate to="/login" />} /> */}
+        <Route exact path='/articles/:id' element={<Article />} />
+      </Routes>
+    </Router>
+  )
 }
 
 export default App

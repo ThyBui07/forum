@@ -1,11 +1,19 @@
 import TopNav from '../Components/TopNav'
 import Toggles from '../Components/Toggles'
 import PostCards from '../Components/PostCards'
-import { Container, Row, Col, Card, Button, Form, Spinner } from 'react-bootstrap'
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  Button,
+  Form,
+  Spinner
+} from 'react-bootstrap'
 import { PlusLg } from 'react-bootstrap-icons'
 import React, { useState, useEffect } from 'react'
 
-const Home = ({receivedLoggedIn}) => {
+const Home = ({ receivedLoggedIn }) => {
   const [categories, setDataFromToggle] = useState([])
   const [items, setItems] = useState([])
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -41,6 +49,7 @@ const Home = ({receivedLoggedIn}) => {
           if (data.success === true) {
             setIsLoggedIn(true)
             setActiveUser(data.user)
+            sessionStorage.setItem('isLoggedIn', true)
           }
         })
         .catch(error => {
@@ -60,6 +69,7 @@ const Home = ({receivedLoggedIn}) => {
       if (data.status === 'success') {
         setIsLoggedIn(true)
         setActiveUser(data.user)
+        sessionStorage.setItem('isLoggedIn', true)
       }
     }
   }
@@ -75,10 +85,11 @@ const Home = ({receivedLoggedIn}) => {
   useEffect(() => {
     checkSession()
     getData()
+    if (!isLoggedIn) {
+      sessionStorage.setItem('isLoggedIn', false)
+    }
   }, [])
 
-  
-  
   useEffect(() => {
     fetch('http://localhost:8080')
       .then(res => res.json())
@@ -140,8 +151,8 @@ const Home = ({receivedLoggedIn}) => {
                   categoriesFromToggle={categories}
                 />
               ) : (
-                <Spinner animation="border" role="status">
-                  <span className="visually-hidden">Loading...</span>
+                <Spinner animation='border' role='status'>
+                  <span className='visually-hidden'>Loading...</span>
                 </Spinner>
               )}
             </Col>
