@@ -73,7 +73,51 @@ func CheckSession(w http.ResponseWriter, r *http.Request) {
 		a.Status = "success"
 		a.ActiveUser.ID = d.GetUserIDBySesh(Database, sesh.UUID)
 		a.ActiveUser = d.GetUserByID(Database, a.ActiveUser.ID)
+
+		//Sending additional user info
+		allPosts := d.GetPosts(Database)
+
+		//Sending created posts
+		var cp []u.Post
+		for _, p := range allPosts {
+			if p.AuthorID == a.ActiveUser.ID {
+				cp = append(cp, p)
+			}
+		}
+		a.ActiveUser.CreatedPosts = cp
+
+		//Sending reacted posts
+		var rp []u.Post
+		for _, p := range allPosts {
+			p.Likes = d.GetReacsPost(Database, 1, p.ID)
+			for _, lp := range p.Likes {
+				if lp.AuthorID == a.ActiveUser.ID {
+					rp = append(rp, p)
+				}
+			}
+			p.Dislikes = d.GetReacsPost(Database, -1, p.ID)
+			for _, dp := range p.Dislikes {
+				if dp.AuthorID == a.ActiveUser.ID {
+					rp = append(rp, p)
+				}
+			}
+		}
+		a.ActiveUser.ReactedPosts = rp
+
+		//Sending commented posts
+		var cmp []u.Post
+		for _, p := range allPosts {
+			postComs := d.GetComs(Database, p.ID)
+			for _, c := range postComs {
+				if c.AuthorID == a.ActiveUser.ID {
+					cmp = append(cmp, p)
+					break
+				}
+			}
+		}
+		a.ActiveUser.CommmentedPosts = cmp
 	}
+
 	b, err := json.Marshal(a)
 	if err != nil {
 		fmt.Println(err)

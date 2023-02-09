@@ -24,7 +24,6 @@ func InsertSession(db *sql.DB, sesh u.Session) uuid.UUID {
 		fmt.Println("Insert session Exec error:", err)
 		return sesh.UUID
 	}
-	fmt.Println("Inserted in database the session:", sesh)
 	return sesh.UUID
 }
 
