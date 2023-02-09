@@ -49,7 +49,7 @@ const Home = ({ receivedLoggedIn }) => {
           if (data.success === true) {
             setIsLoggedIn(true)
             setActiveUser(data.user)
-            console.log('OIOIO', data)
+            sessionStorage.setItem('userInfo', JSON.stringify(data.user))
             sessionStorage.setItem('isLoggedIn', true)
           }
         })
@@ -70,8 +70,7 @@ const Home = ({ receivedLoggedIn }) => {
       if (data.status === 'success') {
         setIsLoggedIn(true)
         setActiveUser(data.user)
-        console.log('OIOIO', data)
-
+        sessionStorage.setItem('userInfo', JSON.stringify(data.user))
         sessionStorage.setItem('isLoggedIn', true)
       }
     }
@@ -90,6 +89,7 @@ const Home = ({ receivedLoggedIn }) => {
     getData()
     if (!isLoggedIn) {
       sessionStorage.setItem('isLoggedIn', false)
+      sessionStorage.setItem('userInfo', null)
     }
   }, [])
 

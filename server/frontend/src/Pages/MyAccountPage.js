@@ -14,13 +14,7 @@ import PostCard from '../Components/PostCard'
 //import { useState, useEffect } from "react";
 
 function MyAccountPage () {
-  const location = useLocation()
-  const toParse = decodeURIComponent(location.search.split('=')[1])
-  console.log(toParse)
-  let userInfo = null
-  if (toParse !== undefined && toParse !== null && toParse !== 'undefined') {
-    userInfo = JSON.parse(toParse)
-  }
+  const userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
 
   console.log(userInfo)
   return userInfo ? (

@@ -78,6 +78,7 @@ function Login () {
         sessionStorage.setItem('isLoggedIn', true)
       } else {
         sessionStorage.setItem('isLoggedIn', false)
+        sessionStorage.setItem('userInfo', null)
       }
     }
     checkSessionAndNavigate()
@@ -106,6 +107,7 @@ function Login () {
           console.log('here', data)
           if (data.success === true) {
             sessionStorage.setItem('isLoggedIn', true)
+            sessionStorage.setItem('userInfo', JSON.stringify(data.user))
             navigate('/', { replace: true })
             console.log('Login successful')
           } else {

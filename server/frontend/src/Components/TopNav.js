@@ -93,34 +93,5 @@ function Signup () {
 }
 
 function Profile (ui) {
-  console.log('ui', ui)
-  const modifyUser = {
-    email: ui.email,
-    username: ui.mobile,
-    myPosts: ui.createdPosts,
-    myReactedPosts: ui.reactedPosts,
-    myCommentedPosts: ui.commentedPosts
-  }
-//   email
-// : 
-// "test@test.com"
-// id
-// : 
-// 1
-// logout
-// : 
-// false
-// mobile
-// : 
-// ""
-// password
-// : 
-// "$2a$10$cFmP4rYCH3kyvxixOHv0iuRJtRx7vSPusOf5vfwlDcCeL244PIgtG"
-// username
-// : 
-// "test"
-// window.location.href = '/account'
-  window.location.href = `/account?user=${encodeURIComponent(
-    JSON.stringify(modifyUser)
-  )}`
+  window.location.href = `/account`
 }
