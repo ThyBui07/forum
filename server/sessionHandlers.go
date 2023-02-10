@@ -108,6 +108,7 @@ func CheckSession(w http.ResponseWriter, r *http.Request) {
 		var cmp []u.Post
 		for _, p := range allPosts {
 			postComs := d.GetComs(Database, p.ID)
+			p.Comments = postComs
 			for _, c := range postComs {
 				if c.AuthorID == a.ActiveUser.ID {
 					cmp = append(cmp, p)
