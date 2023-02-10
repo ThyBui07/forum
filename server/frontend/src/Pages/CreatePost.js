@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-
 import { Row, Col, Form, Button } from 'react-bootstrap'
-
+import Toggles from '../Components/Toggles'
 import TopNav from '../Components/TopNav'
 import Login from './LogIn'
 
@@ -14,7 +13,6 @@ async function getCookie (name) {
 
 async function checkSession () {
   const sessionID = await getCookie('sessionID')
-  console.log('sessionID', sessionID)
   if (sessionID !== undefined) {
     const res = await fetch('http://localhost:8080/check-session', {
       method: 'POST',
@@ -24,7 +22,11 @@ async function checkSession () {
       },
       body: JSON.stringify({ sessionID })
     })
-
+    if (res.status === 400) {
+      window.location.href = '/bad-request'
+    } else if (res.status === 500) {
+      window.location.href = '/internal-server-error'
+    }
     const data = await res.json()
     if (data.status === 'success') {
       return true
@@ -36,9 +38,8 @@ async function checkSession () {
 function CreatePost () {
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
-  const [categories, setCategory] = useState('')
+  const [categories, setDataFromToggle] = useState('')
   const [message, setMessage] = useState('')
-  const [cats, setCats] = useState([])
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const navigate = useNavigate()
 
@@ -76,8 +77,14 @@ function CreatePost () {
           session: getCookie('sessionID')
         })
       })
-        .then(console.log(getCookie('sessionID')))
-        .then(response => response.text())
+        .then(response => {
+          if (response.status === 400) {
+            window.location.href = '/bad-request'
+          } else if (response.status === 500) {
+            window.location.href = '/internal-server-error'
+          }
+          return response.text()
+        })
         .then(text => {
           if (text === 'true') {
             navigate('/', { replace: true })
@@ -92,6 +99,19 @@ function CreatePost () {
     }
   }
 
+  const receiveCategoryFromToggle = data => {
+    let newCategories = categories
+    if (data.condition === true) {
+      newCategories = categories ? categories + ', ' + data.value : data.value
+    } else {
+      newCategories = categories
+        .split(', ')
+        .filter(item => item !== data.value)
+        .join(', ')
+    }
+    setDataFromToggle(newCategories)
+  }
+
   return isLoggedIn ? (
     <div>
       <Row>
@@ -99,6 +119,11 @@ function CreatePost () {
 
         <Col lg={8} md={10} xs={12}>
           <TopNav isLoggedIn={isLoggedIn} />
+          <br></br>
+          <div className='mb-3'>
+            <Form.Label className='fs-3'>Recipe Categories</Form.Label>
+            <Toggles sendData={receiveCategoryFromToggle} />
+          </div>
           <Form className='mt-5'>
             <Form.Group className='mb-3' controlId='postForm.ControlInput'>
               <Form.Label className='fs-3'>Recipe Title</Form.Label>

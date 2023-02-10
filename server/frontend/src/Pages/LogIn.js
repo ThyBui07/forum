@@ -5,7 +5,6 @@ import { Form, Button } from 'react-bootstrap'
 
 import Home from './Home'
 
-
 async function getCookie (name) {
   var value = '; ' + document.cookie
   var parts = value.split('; ' + name + '=')
@@ -103,7 +102,14 @@ function Login () {
           logout: false
         })
       })
-        .then(res => res.json())
+        .then(res => {
+          if (res.status === 400) {
+            window.location.href = '/bad-request'
+          } else if (res.status === 500) {
+            window.location.href = '/internal-server-error'
+          }
+          return res.json()
+        })
         .then(data => {
           console.log('here', data)
           if (data.success === true) {

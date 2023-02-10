@@ -50,49 +50,6 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		// Checking if credentials correct from database
 		log_success, uuid := d.UserAuth(Database, LUser.Username, LUser.Password, w)
 		LUser.ID = d.GetUserByUsername(Database, LUser.Username).ID
-		//Sending additional user info
-		allPosts := d.GetPosts(Database)
-
-		//Sending created posts
-		var cp []u.Post
-		for _, p := range allPosts {
-			if p.AuthorID == LUser.ID {
-				cp = append(cp, p)
-			}
-		}
-		LUser.CreatedPosts = cp
-
-		//Sending reacted posts
-		var rp []u.Post
-		for _, p := range allPosts {
-			p.Likes = d.GetReacsPost(Database, 1, p.ID)
-			for _, lp := range p.Likes {
-				if lp.AuthorID == LUser.ID {
-					rp = append(rp, p)
-				}
-			}
-
-			p.Dislikes = d.GetReacsPost(Database, -1, p.ID)
-			for _, dp := range p.Dislikes {
-				if dp.AuthorID == LUser.ID {
-					rp = append(rp, p)
-				}
-			}
-		}
-		LUser.ReactedPosts = rp
-
-		//Sending commented posts
-		var cmp []u.Post
-		for _, p := range allPosts {
-			postComs := d.GetComs(Database, p.ID)
-			for _, c := range postComs {
-				if c.AuthorID == LUser.ID {
-					cmp = append(cmp, p)
-					break
-				}
-			}
-		}
-		LUser.CommmentedPosts = cmp
 
 		if log_success {
 			logged.Success = true

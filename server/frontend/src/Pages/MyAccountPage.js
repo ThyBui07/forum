@@ -1,15 +1,11 @@
 import React from 'react'
-import { useLocation } from 'react-router-dom'
-
-import { Row, Col, Nav, Tab, Card, Form } from 'react-bootstrap'
-
-import PostCard from '../Components/PostCard'
+import { Row, Col, Nav, Tab, Card, Form, Button } from 'react-bootstrap'
 import TopNav from '../Components/TopNav'
+import PostCards from '../Components/PostCards'
 
 function MyAccountPage () {
   const userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
 
-  console.log(userInfo)
   return userInfo ? (
     <Row>
       <Col lg={2} md={1} className='d-none d-lg-block d-md-block'></Col>
@@ -33,9 +29,9 @@ function MyAccountPage () {
                 <Nav.Item>
                   <Nav.Link
                     className='bg-light text-dark'
-                    eventKey='myLikedPosts'
+                    eventKey='myReactedPosts'
                   >
-                    My Liked Posts
+                    My Reacted Posts
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
@@ -70,36 +66,21 @@ function MyAccountPage () {
                   </Card>
                 </Tab.Pane>
                 <Tab.Pane eventKey='myPosts'>
-                  <p>myPosts content</p>
+                  <h1>My Posts</h1>
                   {/* items range later here */}
-                  <PostCard
-                    id='1'
-                    title='hello'
-                    content='world'
-                    author='gin'
-                    categories='Sweet, Savoury'
-                  />
+                  <PostCards isLoggedIn={true} items={userInfo.createdPosts} />
                 </Tab.Pane>
-                <Tab.Pane eventKey='myLikedPosts'>
-                  <p>myLikedPosts content</p>
+                <Tab.Pane eventKey='myReactedPosts'>
+                  <h1>My Reacted Posts</h1>
                   {/* items range later here */}
-                  <PostCard
-                    id='1'
-                    title='hello'
-                    content='world'
-                    author='gin'
-                    categories='Sweet, Savoury'
-                  />
+                  <PostCards isLoggedIn={true} items={userInfo.reactedPosts} />
                 </Tab.Pane>
                 <Tab.Pane eventKey='MyCommentedPosts'>
-                  <p>MyCommentedPosts content</p>
+                  <h1>My Commented Posts</h1>
                   {/* items range later here */}
-                  <PostCard
-                    id='1'
-                    title='hello'
-                    content='world'
-                    author='gin'
-                    categories='Sweet, Savoury'
+                  <PostCards
+                    isLoggedIn={true}
+                    items={userInfo.commentedPosts}
                   />
                 </Tab.Pane>
               </Tab.Content>
@@ -111,7 +92,12 @@ function MyAccountPage () {
       <Col lg={2} md={1} className='d-none d-lg-block d-md-block'></Col>
     </Row>
   ) : (
-    <div>Insert bad request page here</div>
+    <div>
+      <h1>Not logged in</h1>
+      <Button href='/login' variant='primary'>
+        Go to Login page
+      </Button>
+    </div>
   )
 }
 

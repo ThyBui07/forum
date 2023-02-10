@@ -1,4 +1,4 @@
-import React, { useEffect, useState  } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { Card, Button, Row, Col } from 'react-bootstrap'
@@ -17,10 +17,8 @@ const image = {
 const Article = () => {
   let { id } = useParams()
 
-  const [items, setItems] = useState([])
   const [thisPost, setPost] = useState({})
   const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [activeUser, setActiveUser] = useState({})
   const [content, setContent] = useState('')
   const [message, setMessage] = useState('')
 
@@ -40,11 +38,17 @@ const Article = () => {
           'Content-Type': 'application/json'
         }
       })
-        .then(response => response.json())
+        .then(response => {
+          if (response.status === 400) {
+            window.location.href = '/bad-request'
+          } else if (response.status === 500) {
+            window.location.href = '/internal-server-error'
+          }
+          return response.json()
+        })
         .then(data => {
           if (data.success === true) {
             setIsLoggedIn(true)
-            setActiveUser(data.user)
             sessionStorage.setItem('isLoggedIn', true)
           }
         })
@@ -61,10 +65,14 @@ const Article = () => {
         },
         body: JSON.stringify({ sessionID })
       })
+      if (res.status === 400) {
+        window.location.href = '/bad-request'
+      } else if (res.status === 500) {
+        window.location.href = '/internal-server-error'
+      }
       const data = await res.json()
       if (data.status === 'success') {
         setIsLoggedIn(true)
-        setActiveUser(data.user)
         sessionStorage.setItem('isLoggedIn', true)
       }
     }
@@ -84,7 +92,14 @@ const Article = () => {
           session: getCookie('sessionID')
         })
       })
-        .then(response => response.text())
+        .then(response => {
+          if (response.status === 400) {
+            window.location.href = '/bad-request'
+          } else if (response.status === 500) {
+            window.location.href = '/internal-server-error'
+          }
+          return response.text()
+        })
         .then(text => {
           if (text === 'true') {
             console.log('comment successful')
@@ -100,7 +115,14 @@ const Article = () => {
 
   async function getData () {
     await fetch('http://localhost:8080')
-      .then(res => res.json())
+      .then(res => {
+        if (res.status === 400) {
+          window.location.href = '/bad-request'
+        } else if (res.status === 500) {
+          window.location.href = '/internal-server-error'
+        }
+        return res.json()
+      })
       .then(json => json.posts)
       .then(posts => {
         if (posts !== undefined) {
@@ -124,7 +146,14 @@ const Article = () => {
 
   useEffect(() => {
     fetch('http://localhost:8080')
-      .then(res => res.json())
+      .then(res => {
+        if (res.status === 400) {
+          window.location.href = '/bad-request'
+        } else if (res.status === 500) {
+          window.location.href = '/internal-server-error'
+        }
+        return res.json()
+      })
       .then(json => json.posts)
       .then(posts => {
         if (posts !== undefined) {

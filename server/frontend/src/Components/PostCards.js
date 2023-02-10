@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react'
 import { Card, Col, Row, Spinner } from 'react-bootstrap'
 
 import {
@@ -12,53 +11,57 @@ const PostCards = props => {
   let isLoggedIn = props.isLoggedIn
   let items = props.items
 
-  let userInfo = props.userInfo
   let categories = props.categoriesFromToggle
   let postTypes = props.postTypesFromToggle
-  //console.log('postTypes: ', postTypes)
   let reactCommentedPosts = props.reactCommentedPosts
-  //console.log('reactCommentedPosts: ', reactCommentedPosts)
-//   commentedPosts
-// : 
-// [41]
-// reactedPosts
-// : 
-// (6) [42, 44, 51, 53, 55, 56]
 
-  if (items !== undefined) {
-    //console.log('item not undefined')
-    if (categories.length == 0 && postTypes.length == 0) {
-      items = items
+  if (items !== undefined && categories !== undefined) {
+    if (categories.length === 0 && postTypes.length === 0) {
     } else {
       items = items.filter(item => {
-        if (categories.length > 0 && postTypes.length == 0) {
-          let found = categories.some(category => item.categories.includes(category));
-              if (found) {
-                return item
-              }
-        } else if (categories.length == 0 && postTypes.length > 0) {
-          if (postTypes.length == 1) {
-            if (postTypes[0] == 'ReactedPosts') {
-              return reactCommentedPosts.reactedPosts.includes(item.id);
-            } else if (postTypes[0] == 'CommentedPosts') {
-              return reactCommentedPosts.commentedPosts.includes(item.id);
-            }
-          } else if (postTypes.length == 2) {
-  
+        if (categories.length > 0 && postTypes.length === 0) {
+          let found = categories.some(category =>
+            item.categories.includes(category)
+          )
+          if (found) {
+            return item
           }
-      } else if (categories.length > 0 && postTypes.length > 0) {
-        console.log(4)
-  
-      }
-        // } else {
-        //   let found = categories.some(category => item.categories.includes(category));
-        //     if (found) {
-        //       return item
-        //     }
-        // }
+        } else if (categories.length === 0 && postTypes.length > 0) {
+          if (postTypes.length === 1) {
+            if (postTypes[0] === 'ReactedPosts') {
+              return reactCommentedPosts.reactedPosts.includes(item.id)
+            } else if (postTypes[0] === 'CommentedPosts') {
+              return reactCommentedPosts.commentedPosts.includes(item.id)
+            }
+          } else if (postTypes.length === 2) {
+            return (
+              reactCommentedPosts.reactedPosts.includes(item.id) &&
+              reactCommentedPosts.commentedPosts.includes(item.id)
+            )
+          }
+        } else if (categories.length > 0 && postTypes.length > 0) {
+          let found = categories.some(category =>
+            item.categories.includes(category)
+          )
+          if (found) {
+            if (postTypes.length === 1) {
+              if (postTypes[0] === 'ReactedPosts') {
+                return reactCommentedPosts.reactedPosts.includes(item.id)
+              } else if (postTypes[0] === 'CommentedPosts') {
+                return reactCommentedPosts.commentedPosts.includes(item.id)
+              }
+            } else if (postTypes.length === 2) {
+              return (
+                reactCommentedPosts.reactedPosts.includes(item.id) &&
+                reactCommentedPosts.commentedPosts.includes(item.id)
+              )
+            }
+          } else {
+            return
+          }
+        }
       })
     }
-    
   }
 
   function getCookie (name) {
@@ -82,7 +85,14 @@ const PostCards = props => {
             commentID: 0
           })
         })
-          .then(response => response.text())
+          .then(response => {
+            if (response.status === 400) {
+              window.location.href = '/bad-request'
+            } else if (response.status === 500) {
+              window.location.href = '/internal-server-error'
+            }
+            return response.text()
+          })
           .then(text => {
             if (text === 'true') {
               console.log('Like successful')
@@ -113,7 +123,14 @@ const PostCards = props => {
             commentID: 0
           })
         })
-          .then(response => response.text())
+          .then(response => {
+            if (response.status === 400) {
+              window.location.href = '/bad-request'
+            } else if (response.status === 500) {
+              window.location.href = '/internal-server-error'
+            }
+            return response.text()
+          })
           .then(text => {
             if (text === 'true') {
               console.log('Dislike successful')
@@ -139,9 +156,7 @@ const PostCards = props => {
         .reverse()
         .map(item => (
           <Col key={item.id}>
-            
             <Card>
-            {item.id}
               <Card.Body>
                 <Card.Title>{item.title}</Card.Title>
                 <small className='text-muted'>Posted by: {item.author}</small>
@@ -184,8 +199,8 @@ const PostCards = props => {
         ))}
     </Row>
   ) : (
-    <Spinner animation="border" role="status">
-      <span className="visually-hidden">Loading...</span>
+    <Spinner animation='border' role='status'>
+      <span className='visually-hidden'>Loading...</span>
     </Spinner>
   )
 }

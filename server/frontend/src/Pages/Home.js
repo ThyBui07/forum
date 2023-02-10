@@ -1,33 +1,41 @@
 import React, { useState, useEffect } from 'react'
 
-import { Container,Row, Col, Card,Button, Form, Spinner } from 'react-bootstrap'
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  Button,
+  Form,
+  Spinner
+} from 'react-bootstrap'
 import { PlusLg } from 'react-bootstrap-icons'
 
 import TopNav from '../Components/TopNav'
 import Toggles from '../Components/Toggles'
 import PostCards from '../Components/PostCards'
 
-
 const Home = () => {
   const [categories, setDataFromToggle] = useState([])
   const [postTypes, setPostTypes] = useState([])
-  //console.log('postTypes: ', postTypes)
-  const reactCommentedPosts = {reactedPosts: [], commentedPosts: []}
+  const reactCommentedPosts = { reactedPosts: [], commentedPosts: [] }
   const [items, setItems] = useState([])
   const [isLoggedIn, setIsLoggedIn] = useState(false)
-  //console.log('isLoggedIn home.js: ', isLoggedIn)
   const [activeUser, setActiveUser] = useState({})
   const [switchReactToogle, setSwitchState] = useState(false)
 
-//console.log('activeUser home.js: ', activeUser)
-if (activeUser !== undefined) {
-  if (activeUser.reactedPosts !== undefined) {
-    reactCommentedPosts.reactedPosts = activeUser.reactedPosts.map(item => item.id);
+  if (activeUser !== undefined) {
+    if (activeUser.reactedPosts !== undefined) {
+      reactCommentedPosts.reactedPosts = activeUser.reactedPosts.map(
+        item => item.id
+      )
+    }
+    if (activeUser.commentedPosts !== undefined) {
+      reactCommentedPosts.commentedPosts = activeUser.commentedPosts.map(
+        item => item.id
+      )
+    }
   }
-  if (activeUser.commentedPosts !== undefined) {
-    reactCommentedPosts.commentedPosts = activeUser.commentedPosts.map(item => item.id)
-  }
-}
 
   const handleChange = function (e, value) {
     if (e.target.checked === true) {
@@ -62,7 +70,14 @@ if (activeUser !== undefined) {
           'Content-Type': 'application/json'
         }
       })
-        .then(response => response.json())
+        .then(response => {
+          if (response.status === 400) {
+            window.location.href = '/bad-request'
+          } else if (response.status === 500) {
+            window.location.href = '/internal-server-error'
+          }
+          return response.json()
+        })
         .then(data => {
           if (data.success === true) {
             setIsLoggedIn(true)
@@ -84,6 +99,11 @@ if (activeUser !== undefined) {
         },
         body: JSON.stringify({ sessionID })
       })
+      if (res.status === 400) {
+        window.location.href = '/bad-request'
+      } else if (res.status === 500) {
+        window.location.href = '/internal-server-error'
+      }
       const data = await res.json()
       if (data.status === 'success') {
         setIsLoggedIn(true)
@@ -96,7 +116,14 @@ if (activeUser !== undefined) {
 
   function getData () {
     fetch('http://localhost:8080')
-      .then(res => res.json())
+      .then(res => {
+        if (res.status === 400) {
+          window.location.href = '/bad-request'
+        } else if (res.status === 500) {
+          window.location.href = '/internal-server-error'
+        }
+        return res.json()
+      })
       .then(json => {
         setItems(json)
       })
@@ -113,11 +140,19 @@ if (activeUser !== undefined) {
 
   useEffect(() => {
     fetch('http://localhost:8080')
-      .then(res => res.json())
+      .then(res => {
+        if (res.status === 400) {
+          window.location.href = '/bad-request'
+        } else if (res.status === 500) {
+          window.location.href = '/internal-server-error'
+        }
+        return res.json()
+      })
       .then(json => {
         setItems(json)
       })
   }, [items])
+
   return (
     <Container fluid>
       <Row>
