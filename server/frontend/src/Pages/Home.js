@@ -25,12 +25,18 @@ const Home = () => {
   const [switchReactToogle, setSwitchState] = useState(false)
 
   if (activeUser !== undefined) {
-    if (activeUser.reactedPosts !== undefined) {
+    if (
+      activeUser.reactedPosts !== undefined &&
+      activeUser.reactedPosts !== null
+    ) {
       reactCommentedPosts.reactedPosts = activeUser.reactedPosts.map(
         item => item.id
       )
     }
-    if (activeUser.commentedPosts !== undefined) {
+    if (
+      activeUser.commentedPosts !== undefined &&
+      activeUser.commentedPosts !== null
+    ) {
       reactCommentedPosts.commentedPosts = activeUser.commentedPosts.map(
         item => item.id
       )

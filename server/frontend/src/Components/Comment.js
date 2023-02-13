@@ -95,7 +95,7 @@ const Comment = props => {
                 />
                 <Card.Text className='d-inline-flex'>
                   <span className='fw-bold me-2'>{com.author}</span>
-                  <span className='fw-light'> made a post</span>
+                  <span className='fw-light'> made a comment</span>
                 </Card.Text>
               </div>
               <Card.Text>{com.content}</Card.Text>

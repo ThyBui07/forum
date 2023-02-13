@@ -156,7 +156,10 @@ function Login () {
               />
             </Form.Group>
 
-            <Form.Text>{message}</Form.Text>
+            <Form.Text>
+              {message}
+              <br></br>
+            </Form.Text>
 
             <Button variant='outline-primary' type='submit' className='me-2'>
               Login

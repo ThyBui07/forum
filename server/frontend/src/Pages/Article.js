@@ -103,6 +103,9 @@ const Article = () => {
         .then(text => {
           if (text === 'true') {
             console.log('comment successful')
+            //reset e.target.value
+            setContent('')
+            setMessage('Comment posted!')
           } else {
             setMessage('Invalid comment')
             console.log('Error with posting comment.')
@@ -197,6 +200,8 @@ const Article = () => {
                   <textarea
                     className='form-control'
                     aria-label='With textarea'
+                    placeholder='Write a comment...'
+                    value={content}
                     onChange={e => setContent(e.target.value)}
                   ></textarea>
                 </div>

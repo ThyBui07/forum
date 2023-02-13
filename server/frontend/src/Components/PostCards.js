@@ -15,6 +15,8 @@ const PostCards = props => {
   let postTypes = props.postTypesFromToggle
   let reactCommentedPosts = props.reactCommentedPosts
 
+  let currentPage = document.URL.split('/')[document.URL.split('/').length - 1]
+
   if (items !== undefined && categories !== undefined) {
     if (categories.length === 0 && postTypes.length === 0) {
     } else {
@@ -198,10 +200,12 @@ const PostCards = props => {
           </Col>
         ))}
     </Row>
-  ) : (
+  ) : currentPage !== 'account' ? (
     <Spinner animation='border' role='status'>
       <span className='visually-hidden'>Loading...</span>
     </Spinner>
+  ) : (
+    <div>Nothing yet!</div>
   )
 }
 
