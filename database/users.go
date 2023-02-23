@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"fmt"
 	u "forum/server/utils"
-	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -14,21 +13,15 @@ import (
 )
 
 // Checks if username and password match an entry in the database
-func UserAuth(db *sql.DB, username string, password string, w http.ResponseWriter) (bool, uuid.UUID) {
+func UserAuth(tx *sql.Tx, username string, password string, w http.ResponseWriter) (bool, uuid.UUID) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 
-	// Start a new transaction
-	tx, err := db.Begin()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return false, uuid.Nil
-	}
 	// Check the credentials
 	var un string
 	var ui int
 	var p []byte
 
-	err = tx.QueryRow("SELECT ID, username, password FROM users WHERE username = ?", username).Scan(&ui, &un, &p)
+	err := tx.QueryRow("SELECT ID, username, password FROM users WHERE username = ?", username).Scan(&ui, &un, &p)
 	if err != nil {
 		tx.Rollback()
 		return false, uuid.Nil
@@ -44,6 +37,16 @@ func UserAuth(db *sql.DB, username string, password string, w http.ResponseWrite
 
 	var sesh u.Session
 
+	db, err := sql.Open("sqlite3", "forum.db")
+	u.CheckErr(err)
+
+	// Check if user has active session
+	if UserIDHasSession(db, ui, tx) {
+		sesh = GetSessionByUserID(ui, tx)
+		// Delete session
+		DeleteSession(tx, sesh.UUID)
+	}
+	// Make new session
 	sesh.UserID = ui
 	sesh.UUID, err = uuid.NewV4()
 	if err != nil {
@@ -54,27 +57,19 @@ func UserAuth(db *sql.DB, username string, password string, w http.ResponseWrite
 	expiration := time.Now().Add(time.Minute * 20)
 	sesh.ExpDate = expiration.Unix()
 
-	//Check if user already in sessions database
-	if UserIDHasSession(db, ui, tx) {
-		UpdateSessionTime(db, sesh, tx)
-	} else {
-		statement, err := tx.Prepare(`INSERT INTO Sessions (UserID, UUID, ExpDate) VALUES (?, ?, ?)`)
-		if err != nil {
-			fmt.Println("Insert session Prepare error:", err)
-			return true, sesh.UUID
-		}
-		defer statement.Close()
-
-		_, err = statement.Exec(sesh.UserID, sesh.UUID, sesh.ExpDate)
-		if err != nil {
-			fmt.Println("Insert session Exec error:", err)
-			return true, sesh.UUID
-		}
-	}
-
-	err = tx.Commit()
+	statement, err := tx.Prepare(`INSERT INTO Sessions (UserID, UUID, ExpDate) VALUES (?, ?, ?)`)
 	if err != nil {
-		log.Fatal(err)
+		tx.Rollback()
+		fmt.Println("Insert session Prepare error:", err)
+		return true, sesh.UUID
+	}
+	defer statement.Close()
+
+	_, err = statement.Exec(sesh.UserID, sesh.UUID, sesh.ExpDate)
+	if err != nil {
+		tx.Rollback()
+		fmt.Println("Insert session Exec error:", err)
+		return true, sesh.UUID
 	}
 
 	return true, sesh.UUID

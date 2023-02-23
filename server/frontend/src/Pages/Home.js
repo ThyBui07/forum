@@ -68,42 +68,11 @@ const Home = () => {
 
   const checkSession = async () => {
     let sessionID = await getCookie('sessionID')
-    if (sessionID === undefined) {
-      fetch('http://localhost:8080/login', {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(response => {
-          if (response.status === 400) {
-            window.location.href = '/bad-request'
-          } else if (response.status === 500) {
-            window.location.href = '/internal-server-error'
-          }
-          return response.json()
-        })
-        .then(data => {
-          if (data.success === true) {
-            setIsLoggedIn(true)
-            setActiveUser(data.user)
-            sessionStorage.setItem('userInfo', JSON.stringify(data.user))
-            sessionStorage.setItem('isLoggedIn', true)
-          }
-        })
-        .catch(error => {
-          // Handle any errors
-          console.error(error)
-        })
-    } else if (sessionID !== undefined) {
+    console.log('sessionID', sessionID)
+    if (sessionID !== undefined) {
       const res = await fetch('http://localhost:8080/check-session', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          mode: 'cors'
-        },
-        body: JSON.stringify({ sessionID })
+        method: 'GET',
+        credentials: 'include'
       })
       if (res.status === 400) {
         window.location.href = '/bad-request'
@@ -111,6 +80,7 @@ const Home = () => {
         window.location.href = '/internal-server-error'
       }
       const data = await res.json()
+      console.log(data.status)
       if (data.status === 'success') {
         setIsLoggedIn(true)
         setActiveUser(data.user)

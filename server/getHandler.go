@@ -6,7 +6,6 @@ import (
 	d "forum/database"
 	u "forum/server/utils"
 	"net/http"
-	"strings"
 
 	"github.com/gofrs/uuid"
 )
@@ -23,42 +22,25 @@ var Send Data
 
 func GetRequest(w http.ResponseWriter, r *http.Request) {
 
-	//Getting session info
-	// Make a GET request to the /login endpoint to retrieve the cookie
-	resp, err := http.Get("http://localhost:8080/login")
-	if err != nil {
-		fmt.Println("WHOOPS")
-	}
-	defer resp.Body.Close()
-
-	var cookieStr string
-
-	// Retrieve the cookie from the response
-	if len(resp.Cookies()) > 0 {
-		httpcookie := resp.Cookies()[0]
-		cookieStr = httpcookie.String()
-	}
-
-	cookie := &http.Cookie{}
-
-	// Split the cookie string into separate key-value pairs
-	for _, pair := range strings.Split(cookieStr, ";") {
-		parts := strings.Split(pair, "=")
-		if len(parts) != 2 {
-			continue
-		}
-
-		switch strings.TrimSpace(parts[0]) {
-		case "sessionID":
-			cookie.Name = parts[0]
-			cookie.Value = parts[1]
+	//Get cookie
+	cookie, noCookie := r.Cookie("sessionID")
+	var sesh u.Session
+	var id uuid.UUID
+	if noCookie == nil {
+		id, err := uuid.FromString(cookie.Value)
+		if err == nil {
+			sesh = d.GetSession(Database, id)
 		}
 	}
 
-	id, _ := uuid.FromString(cookie.Value)
+	var activeUser u.User
+	active := false
+	if (!d.IsExpired(Database, sesh) && sesh != u.Session{}) {
 
-	activeUserID := d.GetUserIDBySesh(Database, id)
-	activeUser := d.GetUserByID(Database, activeUserID)
+		activeUserID := d.GetUserIDBySesh(Database, id)
+		activeUser = d.GetUserByID(Database, activeUserID)
+		active = true
+	}
 
 	Categories := d.GetCategories(Database)
 	Posts := d.GetPosts(Database)
@@ -73,34 +55,39 @@ func GetRequest(w http.ResponseWriter, r *http.Request) {
 		//Load comments likes and dislikes
 		for j := 0; j < len(Posts[i].Comments); j++ {
 			Posts[i].Comments[j].Likes = d.GetReacsCom(Database, 1, Posts[i].ID, Posts[i].Comments[j].ID)
-			//Marking the comments liked by active user
-			for _, cl := range Posts[i].Comments[j].Likes {
-				if cl.Author == activeUser.Username {
-					Posts[i].Liked = true
+			if active {
+				//Marking the comments liked by active user
+				for _, cl := range Posts[i].Comments[j].Likes {
+					if cl.Author == activeUser.Username {
+						Posts[i].Liked = true
+					}
 				}
 			}
 
 			Posts[i].Comments[j].Dislikes = d.GetReacsCom(Database, -1, Posts[i].ID, Posts[i].Comments[j].ID)
-			//Marking the comments disliked by active user
-			for _, cl := range Posts[i].Comments[j].Dislikes {
-				if cl.Author == activeUser.Username {
-					Posts[i].Disliked = true
+			if active { //Marking the comments disliked by active user
+				for _, cl := range Posts[i].Comments[j].Dislikes {
+					if cl.Author == activeUser.Username {
+						Posts[i].Disliked = true
+					}
 				}
 			}
+
 		}
 		//Load post likes and dislikes
 		Posts[i].Likes = d.GetReacsPost(Database, 1, Posts[i].ID)
 
-		//Marking the posts liked by active user
-		for _, pl := range Posts[i].Likes {
-			if pl.Author == activeUser.Username {
-				Posts[i].Liked = true
+		if active { //Marking the posts liked by active user
+			for _, pl := range Posts[i].Likes {
+				if pl.Author == activeUser.Username {
+					Posts[i].Liked = true
+				}
 			}
-		}
-		//Marking the posts disliked by active user
-		for _, pd := range Posts[i].Dislikes {
-			if pd.Author == activeUser.Username {
-				Posts[i].Disliked = true
+			//Marking the posts disliked by active user
+			for _, pd := range Posts[i].Dislikes {
+				if pd.Author == activeUser.Username {
+					Posts[i].Disliked = true
+				}
 			}
 		}
 		Posts[i].Dislikes = d.GetReacsPost(Database, -1, Posts[i].ID)

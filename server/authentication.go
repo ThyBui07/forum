@@ -5,10 +5,12 @@ import (
 	"fmt"
 	d "forum/database"
 	u "forum/server/utils"
+	"log"
 	"net/http"
 	"regexp"
 	"time"
 
+	uuid "github.com/gofrs/uuid"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -23,7 +25,13 @@ var sesh u.Session
 func Login(w http.ResponseWriter, r *http.Request) {
 
 	var logged Logged
-
+	// begin new transaction
+	fmt.Println("Begin transaction in login")
+	tx, err := Database.Begin()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer tx.Commit()
 	// Getting login info
 
 	if r.Method == "POST" {
@@ -37,26 +45,39 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		if LUser.Logout {
 			LUser.Username = ""
 			deleteCookie(w, "sessionID")
+			cookie, err := r.Cookie("sessionID")
+			if err == nil {
+				id, err := uuid.FromString(cookie.Value)
+				if err != nil {
+					d.DeleteSession(tx, id)
+				}
+			}
+
 			fmt.Println("Deleted cookie and loggedout")
-			return
+			/* 			err = tx.Commit()
+			   			if err != nil {
+			   				log.Fatal(err)
+			   			}
+			   			return */
 		}
 	}
 
 	var b []byte
 
+	// Checking if credentials correct from database
+	log_success, freshUuid := d.UserAuth(tx, LUser.Username, LUser.Password, w)
+	LUser.ID = d.GetUserByUsername(Database, LUser.Username).ID
+
+	if log_success {
+		logged.Success = true
+		logged.User = LUser
+	} else {
+		logged.Success = false
+	}
+
 	sessionID, err := r.Cookie("sessionID")
 	if err != nil {
 		//fmt.Println("Cookie not found -> fetching cookie")
-		// Checking if credentials correct from database
-		log_success, uuid := d.UserAuth(Database, LUser.Username, LUser.Password, w)
-		LUser.ID = d.GetUserByUsername(Database, LUser.Username).ID
-
-		if log_success {
-			logged.Success = true
-			logged.User = LUser
-		} else {
-			logged.Success = false
-		}
 
 		if log_success {
 			// Set the cookie with the session ID and expiration date
@@ -64,7 +85,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 			cookie := &http.Cookie{
 				Name:     "sessionID",
-				Value:    uuid.String(),
+				Value:    freshUuid.String(),
 				Expires:  expiration,
 				SameSite: http.SameSiteStrictMode,
 				Secure:   false,
@@ -73,16 +94,26 @@ func Login(w http.ResponseWriter, r *http.Request) {
 			w.Header().Add("Set-Cookie", cookie.String())
 			http.SetCookie(w, cookie)
 
-			sesh.UUID = uuid
+			sesh.UUID = freshUuid
 			sesh.UserID = LUser.ID
 			sesh.ExpDate = expiration.Unix()
 
-			d.InsertSession(Database, sesh)
 		}
 
 	} else {
-		http.SetCookie(w, sessionID)
-		fmt.Println("Session ID:", sessionID.Value)
+		fmt.Println("There is already an active session, session ID:", sessionID.Value)
+		// Update session
+		newUuid, err := uuid.FromString(sessionID.Value)
+		if err != nil {
+			log.Fatalf("failed to parse UUID %q: %v", sessionID, err)
+		}
+		sesh = d.GetSession(Database, newUuid)
+		if sesh != (u.Session{}) {
+			d.UpdateSession(sesh, tx)
+			http.SetCookie(w, sessionID)
+		} else {
+			deleteCookie(w, "sessionID")
+		}
 	}
 
 	b, err = json.Marshal(logged)
@@ -98,6 +129,12 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 	// Write to the client the status of login success
 	w.Write(b)
+
+	/* 	err = tx.Commit()
+	   	if err != nil {
+	   		log.Fatal(err)
+	   	} */
+
 }
 
 type SignupResult struct {
@@ -108,6 +145,11 @@ type SignupResult struct {
 var success = false
 
 func Signup(w http.ResponseWriter, r *http.Request) {
+	// begin new transaction
+	tx, err := Database.Begin()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	fmt.Println("signing up")
 	var res SignupResult
@@ -130,7 +172,7 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("received:", LUser.Username)
 	}
 
-	user_exists, _ := d.UserAuth(Database, LUser.Username, LUser.Password, w)
+	user_exists, _ := d.UserAuth(tx, LUser.Username, LUser.Password, w)
 	if user_exists {
 		res.Wrong = append(res.Wrong, "exist")
 	}
@@ -172,6 +214,11 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println(err)
 		return
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	w.Header().Set("Access-Control-Allow-Origin", "*")
