@@ -32,6 +32,7 @@ func Start() error {
 	log.Println("Starting server port 8080 (http://localhost:8080/)")
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
+
 		return err
 	}
 	return nil

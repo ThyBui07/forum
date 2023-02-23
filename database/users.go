@@ -23,12 +23,18 @@ func UserAuth(tx *sql.Tx, username string, password string, w http.ResponseWrite
 
 	err := tx.QueryRow("SELECT ID, username, password FROM users WHERE username = ?", username).Scan(&ui, &un, &p)
 	if err != nil {
+		//Internal server error to header
+		w.WriteHeader(http.StatusInternalServerError)
+
 		tx.Rollback()
 		return false, uuid.Nil
 	}
 	err = bcrypt.CompareHashAndPassword(p, []byte(password))
 
 	if err != nil {
+		//Internal server error to header
+		w.WriteHeader(http.StatusInternalServerError)
+
 		tx.Rollback()
 		return false, uuid.Nil
 	}
@@ -50,6 +56,7 @@ func UserAuth(tx *sql.Tx, username string, password string, w http.ResponseWrite
 	sesh.UserID = ui
 	sesh.UUID, err = uuid.NewV4()
 	if err != nil {
+
 		fmt.Println("Insert sesh uuid.NewV4 error:", err)
 		return true, sesh.UUID
 	}
@@ -59,6 +66,8 @@ func UserAuth(tx *sql.Tx, username string, password string, w http.ResponseWrite
 
 	statement, err := tx.Prepare(`INSERT INTO Sessions (UserID, UUID, ExpDate) VALUES (?, ?, ?)`)
 	if err != nil {
+		//Internal server error to header
+		w.WriteHeader(http.StatusInternalServerError)
 		tx.Rollback()
 		fmt.Println("Insert session Prepare error:", err)
 		return true, sesh.UUID
@@ -67,6 +76,8 @@ func UserAuth(tx *sql.Tx, username string, password string, w http.ResponseWrite
 
 	_, err = statement.Exec(sesh.UserID, sesh.UUID, sesh.ExpDate)
 	if err != nil {
+		//Internal server error to header
+		w.WriteHeader(http.StatusInternalServerError)
 		tx.Rollback()
 		fmt.Println("Insert session Exec error:", err)
 		return true, sesh.UUID

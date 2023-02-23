@@ -99,6 +99,8 @@ func GetRequest(w http.ResponseWriter, r *http.Request) {
 
 	b, err := json.Marshal(data)
 	if err != nil {
+		//Internal server error to header
+		w.WriteHeader(http.StatusInternalServerError)
 		fmt.Println(err)
 		return
 	}
@@ -142,6 +144,8 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 
 	b, err := json.Marshal(valid_post)
 	if err != nil {
+		//Internal server error to header
+		w.WriteHeader(http.StatusInternalServerError)
 		fmt.Println(err)
 		return
 	}
@@ -169,7 +173,6 @@ func CreateComment(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		err := json.NewDecoder(r.Body).Decode(&NCom)
 		if err != nil {
-			fmt.Println("OH NO :((((((", NCom)
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
@@ -188,6 +191,8 @@ func CreateComment(w http.ResponseWriter, r *http.Request) {
 
 	b, err := json.Marshal(valid_com)
 	if err != nil {
+		//Internal server error to header
+		w.WriteHeader(http.StatusInternalServerError)
 		fmt.Println(err)
 		return
 	}
@@ -283,6 +288,8 @@ func AddReaction(w http.ResponseWriter, r *http.Request) {
 
 	b, err := json.Marshal(true)
 	if err != nil {
+		//Internal server error to header
+		w.WriteHeader(http.StatusInternalServerError)
 		fmt.Println(err)
 		return
 	}
@@ -350,6 +357,8 @@ func MyAccount(w http.ResponseWriter, r *http.Request) {
 	//Sending user info
 	b, err := json.Marshal(user)
 	if err != nil {
+		//Internal server error to header
+		w.WriteHeader(http.StatusInternalServerError)
 		fmt.Println(err)
 		return
 	}

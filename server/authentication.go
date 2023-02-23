@@ -101,7 +101,6 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		}
 
 	} else {
-		fmt.Println("There is already an active session, session ID:", sessionID.Value)
 		// Update session
 		newUuid, err := uuid.FromString(sessionID.Value)
 		if err != nil {
@@ -118,6 +117,8 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 	b, err = json.Marshal(logged)
 	if err != nil {
+		//Internal server error to header
+		w.WriteHeader(http.StatusInternalServerError)
 		fmt.Println(err)
 		return
 	}
@@ -212,12 +213,16 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 
 	b, err := json.Marshal(res)
 	if err != nil {
+		//Internal server error to header
+		w.WriteHeader(http.StatusInternalServerError)
 		fmt.Println(err)
 		return
 	}
 
 	err = tx.Commit()
 	if err != nil {
+		//Internal server error to header
+		w.WriteHeader(http.StatusInternalServerError)
 		log.Fatal(err)
 	}
 
