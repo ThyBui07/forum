@@ -78,6 +78,9 @@ function Signup () {
         if (json.wrong.includes('email')) {
           setMessage('Invalid e-mail.')
         }
+        if (json.wrong.includes('exists')) {
+          setMessage('Username is taken.')
+        }
       }
     } catch (err) {
       console.log(err)

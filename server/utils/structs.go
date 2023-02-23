@@ -28,7 +28,7 @@ type Category struct {
 // Post :D
 type Post struct {
 	ID          int       `json:"id"`
-	AuthorID    int       `json:"author id"`
+	AuthorID    int       `json:"authorId"`
 	Author      string    `json:"author"`
 	Session     uuid.UUID `json:"session"`
 	Liked       bool      `json:"liked"`

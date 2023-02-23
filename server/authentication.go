@@ -172,9 +172,9 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("received:", LUser.Username)
 	}
 
-	user_exists, _ := d.UserAuth(tx, LUser.Username, LUser.Password, w)
+	user_exists := d.UserExists(Database, LUser.Username)
 	if user_exists {
-		res.Wrong = append(res.Wrong, "exist")
+		res.Wrong = append(res.Wrong, "exists")
 	}
 
 	emailMatch, _ := regexp.MatchString(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`, LUser.Email)

@@ -234,11 +234,19 @@ func AddReaction(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("comment reac")
 		already := false
 		allReacs = d.GetReacsCom(Database, NReac.LorD, NReac.PostID, NReac.CommentID)
+		allOppositeReacs := d.GetReacsCom(Database, -NReac.LorD, NReac.PostID, NReac.CommentID)
 		for _, r := range allReacs {
 			if r.AuthorID == NReac.AuthorID {
 				already = true
 				//REMOVE REAC FROM DATABASE
 				d.DeleteReaction(Database, NReac)
+				break
+			}
+		}
+		//If there is an opposite reaction you can't unless you remove the other first
+		for _, r := range allOppositeReacs {
+			if r.AuthorID == NReac.AuthorID {
+				already = true
 				break
 			}
 		}
@@ -282,6 +290,69 @@ func AddReaction(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+
+	w.Write(b)
+}
+
+func MyAccount(w http.ResponseWriter, r *http.Request) {
+
+	w.Header().Set("Access-Control-Allow-Origin", r.Header.Get("Origin"))
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Credentials", "true")
+
+	cookie, err := r.Cookie("sessionID")
+	if err != nil {
+		return
+	}
+	//Getting user info
+	id, err := uuid.FromString(cookie.Value)
+	if err != nil {
+		return
+	}
+
+	userID := d.GetUserIDBySesh(Database, id)
+	user := d.GetUserByID(Database, userID)
+	// Get all posts
+	allPosts := d.GetPosts(Database)
+	for _, p := range allPosts {
+		var temp = p
+		temp.Comments = d.GetComs(Database, p.ID)
+		temp.Likes = d.GetReacsPost(Database, 1, p.ID)
+		temp.Dislikes = d.GetReacsPost(Database, -1, p.ID)
+		if p.AuthorID == userID {
+			user.CreatedPosts = append(user.CreatedPosts, temp)
+		}
+		pcs := d.GetComs(Database, p.ID)
+		for _, pc := range pcs {
+			if pc.AuthorID == userID {
+				user.CommmentedPosts = append(user.CommmentedPosts, temp)
+				break
+			}
+		}
+		pls := d.GetReacsPost(Database, 1, p.ID)
+		for _, pl := range pls {
+			if pl.AuthorID == userID {
+				user.ReactedPosts = append(user.ReactedPosts, temp)
+				break
+			}
+		}
+		pds := d.GetReacsPost(Database, -1, p.ID)
+		for _, pd := range pds {
+			if pd.AuthorID == userID {
+				user.ReactedPosts = append(user.ReactedPosts, temp)
+				break
+			}
+		}
+
+	}
+
+	//Sending user info
+	b, err := json.Marshal(user)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
 	w.Write(b)
 }
