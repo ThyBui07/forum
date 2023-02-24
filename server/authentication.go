@@ -35,7 +35,6 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	// Getting login info
 
 	if r.Method == "POST" {
-		w.Header().Set("Access-Control-Allow-Origin", "*")
 		err := json.NewDecoder(r.Body).Decode(&LUser)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
@@ -54,11 +53,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 			}
 
 			fmt.Println("Deleted cookie and loggedout")
-			/* 			err = tx.Commit()
-			   			if err != nil {
-			   				log.Fatal(err)
-			   			}
-			   			return */
+			return
 		}
 	}
 
@@ -122,19 +117,8 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 		return
 	}
-
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-	w.Header().Set("Access-Control-Allow-Credentials", "true")
-
 	// Write to the client the status of login success
 	w.Write(b)
-
-	/* 	err = tx.Commit()
-	   	if err != nil {
-	   		log.Fatal(err)
-	   	} */
 
 }
 
@@ -156,13 +140,6 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 	var res SignupResult
 
 	// Getting login info
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000/signup")
-	switch r.Method {
-	case "OPTIONS":
-		w.Header().Set("Access-Control-Allow-Headers", "*")
-		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-		return
-	}
 	if r.Method == "POST" {
 		fmt.Println("received sign up info")
 		err := json.NewDecoder(r.Body).Decode(&LUser)
@@ -205,7 +182,7 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 			fmt.Println("Error hashing the password:", err)
 			return
 		}
-		if d.InsertInUsers(Database, LUser.Username, LUser.Email, string(hashedPassword), LUser.Email) {
+		if d.InsertInUsers(Database, tx, LUser.Username, LUser.Email, string(hashedPassword), LUser.Email) {
 			fmt.Println("Successfully added user to database.")
 			res.Success = true
 		}
@@ -225,11 +202,6 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Fatal(err)
 	}
-
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-
 	w.Write(b)
 }
 

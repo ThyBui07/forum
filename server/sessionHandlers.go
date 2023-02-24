@@ -25,11 +25,6 @@ func CheckSession(w http.ResponseWriter, r *http.Request) {
 
 	var sessionID uuid.UUID
 
-	w.Header().Set("Access-Control-Allow-Origin", r.Header.Get("Origin"))
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, mode")
-	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-	w.Header().Set("Access-Control-Allow-Credentials", "true")
-
 	cookie, err := r.Cookie("sessionID")
 	if err == nil {
 		sessionID, err = uuid.FromString(cookie.Value)

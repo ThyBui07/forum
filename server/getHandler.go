@@ -104,11 +104,6 @@ func GetRequest(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 		return
 	}
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-	w.Header().Set("Access-Control-Allow-Credentials", "true")
-
 	w.Write(b)
 }
 
@@ -116,13 +111,6 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("creating post")
 
 	// Getting login info
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	switch r.Method {
-	case "OPTIONS":
-		w.Header().Set("Access-Control-Allow-Headers", "*")
-		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-		return
-	}
 	if r.Method == "POST" {
 		err := json.NewDecoder(r.Body).Decode(&NPost)
 		if err != nil {
@@ -150,10 +138,6 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-
 	w.Write(b)
 }
 
@@ -163,13 +147,6 @@ func CreateComment(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("creating comment")
 
 	// Getting login info
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	switch r.Method {
-	case "OPTIONS":
-		w.Header().Set("Access-Control-Allow-Headers", "*")
-		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-		return
-	}
 	if r.Method == "POST" {
 		err := json.NewDecoder(r.Body).Decode(&NCom)
 		if err != nil {
@@ -196,11 +173,6 @@ func CreateComment(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 		return
 	}
-
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-
 	w.Write(b)
 }
 
@@ -210,13 +182,6 @@ func AddReaction(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("adding reaction")
 
 	// Getting login info
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	switch r.Method {
-	case "OPTIONS":
-		w.Header().Set("Access-Control-Allow-Headers", "*")
-		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-		return
-	}
 	if r.Method == "POST" {
 		err := json.NewDecoder(r.Body).Decode(&NReac)
 		if err != nil {
@@ -294,19 +259,10 @@ func AddReaction(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-
 	w.Write(b)
 }
 
 func MyAccount(w http.ResponseWriter, r *http.Request) {
-
-	w.Header().Set("Access-Control-Allow-Origin", r.Header.Get("Origin"))
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-	w.Header().Set("Access-Control-Allow-Credentials", "true")
 
 	cookie, err := r.Cookie("sessionID")
 	if err != nil {
