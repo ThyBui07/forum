@@ -14,8 +14,6 @@ import (
 
 // Checks if username and password match an entry in the database
 func UserAuth(tx *sql.Tx, username string, password string, w http.ResponseWriter) (bool, uuid.UUID) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-
 	// Check the credentials
 	var un string
 	var ui int
