@@ -106,6 +106,8 @@ const Article = () => {
             if (posts[i].id === Number(id)) {
               setPost(posts[i])
               break
+            } else {
+              console.log('no post found')
             }
           }
         }
@@ -135,8 +137,18 @@ const Article = () => {
         if (posts !== undefined) {
           for (let i = 0; i < posts.length; i++) {
             if (posts[i].id === Number(id)) {
+              console.log(posts[i])
               setPost(posts[i])
               break
+            } else {
+              const notFoundPost = {
+                date: 0,
+                author: 'NaN',
+                title: '404: Post not found',
+                content: 'Sorry, we could not find the post you were looking for.',
+              }
+              setPost(notFoundPost)
+              // window.location.href = '/not-found'
             }
           }
         }

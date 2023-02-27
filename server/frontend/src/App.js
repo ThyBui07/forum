@@ -33,6 +33,7 @@ const App = () => {
         <Route exact path='/create-post' element={<CreatePost />} />
         <Route exact path='/articles/:id' element={<Article />} />
         <Route exact path='/bad-request' element={<BadRequest />} />
+        <Route exact path='/not-found' element={<PageNotFound />} />
         <Route
           exact
           path='/internal-server-error'

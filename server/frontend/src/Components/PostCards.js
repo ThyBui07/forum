@@ -148,8 +148,12 @@ const PostCards = props => {
     }
   }
 
-  function Comment () {
-    window.location.href = '/single-post'
+  function Comment (postID,isLoggedIn) {
+    if (isLoggedIn) {
+      window.location.href = '/articles/' + postID
+    } else {
+      alert('Login to comment.')
+    }
   }
   return items ? (
     <Row xs={1} md={1} lg={1} className='g-4'>
@@ -178,14 +182,18 @@ const PostCards = props => {
                     />{' '}
                     {getN(item.Dislikes)} Dislikes
                   </Card.Text>
-                  <Card.Text className='me-3' onClick={Comment}>
-                    <Chat /> {getN(item.comments)} Comments
+                  <Card.Text className='me-3'>
+                    <Chat 
+                    type='button'
+                    onClick={() => Comment(item.id, isLoggedIn)}
+                    /> {' '}
+                    {getN(item.comments)} Comments
                   </Card.Text>
                 </div>
                 <div
                   className='d-flex justify-content-end'
                   type='button'
-                  onClick={() => getArticle(item.id, isLoggedIn)}
+                  onClick={() => getArticle(item.id)}
                 >
                   <p className='fw-bold'>
                     {' '}
@@ -219,11 +227,7 @@ function getN (i) {
   }
 }
 
-function getArticle (id, isLoggedIn) {
+function getArticle (id) {
   console.log('getArticle')
-  if (isLoggedIn) {
     window.location.href = '/articles/' + id
-  } else {
-    alert('Login to read articles.')
-  }
 }
