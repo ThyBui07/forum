@@ -13,6 +13,9 @@ Backend: Golang<br />
 Database: SQLite<br />
 Other: Docker
 
+# Tags 
+`react.js`, `javascript`, `rest api`, `sqlite`, `go`, `docker`
+
 # Authentication
 Client is able to register as a new user on the forum, by inputting credentials. There is also a login session to access the forum and be able to add posts and comments.<br />
 
